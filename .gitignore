@@ -1,0 +1,11 @@
+#Backend
+.env
+.idea
+node_modules
+package-lock.json
+
+#Frontend
+/client/node_modules
+/client/.idea
+/client/README.md
+/client/package-lock.json
