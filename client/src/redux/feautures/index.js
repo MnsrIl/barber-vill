@@ -1,3 +1,5 @@
-export const reducers = {
+import hairstylesReducer from "./hairstyles"
 
+export const reducers = {
+    hairstyles:hairstylesReducer
 }
