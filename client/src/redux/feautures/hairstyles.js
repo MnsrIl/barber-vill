@@ -14,6 +14,12 @@ const reducer = (state = initialState, action) => {
     case "hairstyles/getAllHairstyles/rejected" :
       return {...state, loading: false, error: action.error};
 
+    case "hairstyles/getOneHairstyle/pending":
+      return {...state,loading: true };
+    case "hairstyles/getOneHairstyle/fulfilled":
+      return {...state,loading: false, currentHairstyle: action.payload };
+    case "hairstyles/getOneHairstyle/rejected" :
+      return {...state, loading: false, error: action.error};
     default:
       return state;
   }
@@ -32,5 +38,19 @@ export const getAllHairstyles = () => async (dispatch) => {
     dispatch({ type: "hairstyles/getAllHairstyles/rejected", error: e.toString()});
   }
 };
+
+export const getOneHairstyle = (id) => async (dispatch) => {
+  try{
+    dispatch({type:"hairstyles/getOneHairstyle/pending"})
+
+    const response = await fetch(`/hairstyles/${id}`);
+    const json = await response.json();
+
+    dispatch({ type: "hairstyles/getOneHairstyle/fulfilled", payload: json });
+
+  } catch (e) {
+    dispatch({ type: "hairstyles/getOneHairstyle/rejected", error: e.toString()});
+  }
+}
 
 export default reducer;
