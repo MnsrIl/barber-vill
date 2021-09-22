@@ -23,7 +23,7 @@ module.exports.usersController = {
 
     signup: async (req,res) => {
         try {
-            console.log("Этап 1");
+            //console.log("Этап 1");
             const { name, login, password, role } = req.body;
 
             if (!name)
@@ -33,18 +33,18 @@ module.exports.usersController = {
             else if (!password)
                 return res.status(404).json({error: "Необходимо указать пароль"});
 
-            console.log("Этап 2");
+            //console.log("Этап 2");
             const candidate = await User.findOne({ login });
             if (candidate) {
                 return res.status(400).json({error: "Пользователь с таким логином уже существует!"});
             }
-            console.log("Этап 3");
+            //console.log("Этап 3");
 
             const hashedPassword = bcrypt.hashSync(password, Number(HASH_SALT));
-            console.log("Пре-этап");
+            //console.log("Пре-этап");
 
-            if (role === "client") {
-                console.log("Этап 4");
+            if (role === "Client") { //если пользователь регистрируется как клиент, то...
+                //console.log("Этап 4");
                 const {number} = req.body;
                 if (!number) {
                     return res.status(400).json({error: "Необходимо указать номер телефона!"});
@@ -56,12 +56,12 @@ module.exports.usersController = {
                 }
 
                 const client = await Client.create({number});
-                await User.create({name, login, password: hashedPassword, role: "Client", personal: client.id});
-                console.log("Этап 5");
+                await User.create({name, login, password: hashedPassword, role, personal: client.id});
+                //console.log("Этап 5");
             }
 
-            else if (role === "barber") {
-                console.log("Этап 6");
+            else if (role === "Barber") { //Если пользователь регистрируется как парикмахер, то...
+                //console.log("Этап 6");
 
                 const {lastname, email, telegram} = req.body;
                 const avatar = req.files?.avatar;
@@ -88,13 +88,13 @@ module.exports.usersController = {
                 }
 
                 const barber = await Barber.create({lastname, avatar: filePath, email, telegram });
-                await User.create({name, login, password: hashedPassword, role: "Barber", personal: barber.id});
+                await User.create({name, login, password: hashedPassword, role, personal: barber.id});
 
                 //Ниже всех, чтобы сохранять фотографию только тогда, когда пользователь успешно зарегистрирован
                 avatar && await avatar.mv(`./client/public${filePath}`);
-                console.log("Этап 7");
+                //console.log("Этап 7");
             }
-            console.log("ФиналОчка");
+            //console.log("Финалочка");
             res.status(200).json({success: "Пользователь успешно создан"});
         } catch (e) {
             console.log("Бум!");

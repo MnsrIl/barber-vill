@@ -9,5 +9,4 @@ router.patch('/hairstyles/:id', hairstylesController.updateHairStyle);
 router.delete('/hairstyles/:id', hairstylesController.removeHairStyle);
 router.get('/hairstyles/:id',hairstylesController.getHairStyleById);
 
-
 module.exports = router;

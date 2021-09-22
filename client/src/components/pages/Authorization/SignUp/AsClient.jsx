@@ -8,12 +8,16 @@ import {
     withStyles
 } from "@material-ui/core";
 import { register } from "../RegistrationStyles";
-import {Typography} from "@mui/material";
+import {IconButton, Snackbar, SnackbarContent, Typography} from "@mui/material";
 import {VisibilityOffTwoTone, VisibilityTwoTone} from "@material-ui/icons";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
+import {createNewUser} from "../../../../redux/feautures/auth";
+import {Close, Error} from "@mui/icons-material";
 
-const AsClient = ({classes, setUserType}) => {
+const AsClient = ({classes, setUserType, userType}) => {
+
+    const { success, error, isSigningUp } = useSelector(store => store.auth);
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -27,14 +31,10 @@ const AsClient = ({classes, setUserType}) => {
         statusMessageOpen: false
     })
 
-    const closeStatusMessage = e => {
+    const closeStatusMessage = () => {
         setState({...state, statusMessageOpen: false });
 
-        // if (success) {
-        //     dispatch({type: "auth/data/clear"});
-        //     return history.push("/sign-in")
-        // }
-        // dispatch({type: "auth/data/clear"});
+        dispatch({type: "auth/createNewUser/resetInfo"});
     };
 
     const handleChange = (name, option = "value") => e => {
@@ -50,60 +50,50 @@ const AsClient = ({classes, setUserType}) => {
     const submitRegistration = e => {
         e.preventDefault();
         const { name, number, login, password } = state;
-        const newUserCredentials = { name, number, login, password };
+        const newUserCredentials = { name, number, login, password, role: userType };
 
-        console.log(newUserCredentials);
-        //dispatch(signUp(newUserCredentials));
+        dispatch(createNewUser(newUserCredentials));
 
         setState({...state, statusMessageOpen: true});
     };
 
     return (
         <>
-            {/*{(error || success) && (*/}
-            {/*    <Snackbar*/}
-            {/*        variant={error ? "error" : "success"}*/}
-            {/*        key={error || success}*/}
-            {/*        anchorOrigin={{*/}
-            {/*            vertical: "top",*/}
-            {/*            horizontal: "center"*/}
-            {/*        }}*/}
-            {/*        anchorPosition={{top: 200}}*/}
-            {/*        open={state.statusMessageOpen}*/}
-            {/*        onClose={closeStatusMessage}*/}
-            {/*        autoHideDuration={3000}*/}
-            {/*    >*/}
-            {/*        <SnackbarContent*/}
-            {/*            className={classes.error}*/}
-            {/*            style={success && {color: "#31671a", border: `1.2px solid ${green[900]}`}}*/}
-            {/*            message={*/}
-            {/*                <div>*/}
-            {/*                    <span style={{ marginRight: "8px" }}>*/}
-            {/*                      <Error fontSize="large" color={error ? "error" : "success"} />*/}
-            {/*                    </span>*/}
-            {/*                    <span> {error || success} </span>*/}
-            {/*                </div>*/}
-            {/*            }*/}
-            {/*            action={[*/}
-            {/*                <IconButton*/}
-            {/*                    key="close"*/}
-            {/*                    aria-label="close"*/}
-            {/*                    onClick={closeStatusMessage}*/}
-            {/*                >*/}
-            {/*                    <Close color={error ? "error" : "success"} />*/}
-            {/*                </IconButton>*/}
-            {/*            ]}*/}
-            {/*        />*/}
-            {/*    </Snackbar>)}*/}
+            {(error || success) && (
+                <Snackbar
+                    variant={error ? "error" : "success"}
+                    key={error || success}
+                    anchorOrigin={{
+                        vertical: "top",
+                        horizontal: "center"
+                    }}
+                    open={state.statusMessageOpen}
+                    onClose={closeStatusMessage}
+                    autoHideDuration={3000}
+                >
+                    <SnackbarContent
+                        className={classes.error}
+                        style={success && {color: "#31671a", border: "1.2px solid #1b5e20"}}
+                        message={
+                            <div>
+                                <span style={{ marginRight: "8px" }}>
+                                  <Error fontSize="large" color={error ? "error" : "success"} />
+                                </span>
+                                <span> {error || success} </span>
+                            </div>
+                        }
+                        action={[
+                            <IconButton
+                                key="close"
+                                aria-label="close"
+                                onClick={closeStatusMessage}
+                            >
+                                <Close color={error ? "error" : "success"} />
+                            </IconButton>
+                        ]}
+                    />
+                </Snackbar>)}
 
-            {/*<FormControlLabel*/}
-            {/*    style={{marginRight: "-9px"}}*/}
-            {/*    control={*/}
-            {/*        <input name="avatar" accept="image/*" className={classes.fileInput} type="file" />*/}
-            {/*    }*/}
-            {/*    label={<SignUpAvatar classes={classes} state={state} />}*/}
-            {/*    onChange={handleChange("avatar", "files")}*/}
-            {/*/>*/}
             <Typography>Регистрация</Typography>
 
             <form
@@ -199,7 +189,7 @@ const AsClient = ({classes, setUserType}) => {
                 </Typography>
 
                 <Button
-                    //disabled={isSigningUp}
+                    disabled={isSigningUp}
                     disableRipple
                     fullWidth
                     variant="outlined"

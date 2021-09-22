@@ -23,6 +23,6 @@ const userSchema = new Schema({
         refPath: 'role',
         required: true
     }
-});
+}, {timestamps: true});
 
 module.exports.User = model("User", userSchema);

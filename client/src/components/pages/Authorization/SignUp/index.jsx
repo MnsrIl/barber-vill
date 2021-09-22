@@ -14,8 +14,8 @@ const SignUp = (props) =>  {
         <div className={classes.main}>
             <Paper className={classes.paper}>
                 {
-                    (userState === 'client') ? <AsClient userType={userState} setUserType={setUserState} /> :
-                        (userState === 'barber') ? <AsBarber setUserType={setUserState} /> :
+                    (userState === 'Client') ? <AsClient userType={userState} setUserType={setUserState} /> :
+                        (userState === 'Barber') ? <AsBarber userType={userState} setUserType={setUserState} /> :
                             <MainMenu setUserState={setUserState} />
                 }
             </Paper>
