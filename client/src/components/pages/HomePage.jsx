@@ -11,11 +11,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Box } from "@mui/system";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import hairstyles from "../../image/hairstyles1.jpg";
 import beards from "../../image/men-beards.jpg";
 import Header from "./Header";
-
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -44,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 
 function HomePage() {
   const classes = useStyles();
+  const history = useHistory();
 
   return (
     <Grid container className={classes.main}>
@@ -61,11 +61,10 @@ function HomePage() {
             </Box>
             <Button
               className={classes.btn}
-              component={Link}
-              to={""}
               size="medium"
               color="secondary"
               variant={"contained"}
+              onClick={() => history.push("/hairstyles")}
             >
               Посмотреть весь список
             </Button>
