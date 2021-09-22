@@ -84,8 +84,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
 
     return (
         <>
-            {(error || success) &&
-            <Snackbar
+            {(error || success) && <Snackbar
                 variant={error ? "error" : "success"}
                 key={error || success}
                 anchorOrigin={{
@@ -101,8 +100,8 @@ const AsBarber = ({classes, userType, setUserType}) => {
                     style={success && {color: "#31671a", border: `1.2px solid ${green[900]}`}}
                     message={
                         <div>
-                            <span style={{ marginRight: "8px" }}>
-                              <Error fontSize="large" color={error ? "error" : "success"} />
+                            <span style={{marginRight: "8px"}}>
+                              <Error fontSize="large" color={error ? "error" : "success"}/>
                             </span>
                             <span> {error || success} </span>
                         </div>
@@ -113,11 +112,13 @@ const AsBarber = ({classes, userType, setUserType}) => {
                             aria-label="close"
                             onClick={closeStatusMessage}
                         >
-                            <Close color={error ? "error" : "success"} />
+                            <Close color={error ? "error" : "success"}/>
                         </IconButton>
                     ]}
                 />
             </Snackbar>}
+
+
             <FormControlLabel
                 style={{marginRight: "-9px"}}
                 control={
@@ -126,6 +127,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
                 label={<SignUpAvatar classes={classes} state={state} />}
                 onChange={handleChange("avatar", "files")}
             />
+
             <Typography>Регистрация</Typography>
 
             <form
@@ -141,7 +143,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
                         type="text"
                         autoComplete="off"
                         className={classes.inputs}
-                        disableUnderline={true}
+                        disableUnderline
                         onChange={handleChange("name")}
                     />
                 </FormControl>
@@ -154,7 +156,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
                         type="text"
                         autoComplete="off"
                         className={classes.inputs}
-                        disableUnderline={true}
+                        disableUnderline
                         onChange={handleChange("lastname")}
                     />
                 </FormControl>
@@ -167,7 +169,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
                         type="text"
                         autoComplete="off"
                         className={classes.inputs}
-                        disableUnderline={true}
+                        disableUnderline
                         onChange={handleChange("email")}
                     />
                 </FormControl>
@@ -181,7 +183,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
                         type="text"
                         autoComplete="off"
                         className={classes.inputs}
-                        disableUnderline={true}
+                        disableUnderline
                         onChange={handleChange("login")}
                     />
                 </FormControl>
@@ -194,9 +196,9 @@ const AsBarber = ({classes, userType, setUserType}) => {
                         name="password"
                         autoComplete="off"
                         className={classes.inputs}
-                        disableUnderline={true}
+                        disableUnderline
                         onChange={handleChange("password")}
-                        type={state.hidePassword ? "password" : "input"}
+                        type={state.hidePassword ? "password" : "text"}
                         endAdornment={
                             state.hidePassword ? (
                                 <InputAdornment position="end">
@@ -230,7 +232,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
                             type="text"
                             autoComplete="off"
                             className={classes.inputs}
-                            disableUnderline={true}
+                            disableUnderline
                             onChange={handleChange("telegram")}
                         />
                     </FormControl>

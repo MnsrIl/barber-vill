@@ -11,6 +11,19 @@ const initialState = {
 const reducer = (state = initialState, action) => {
     switch (action.type) {
 
+        //Вход в аккаунт
+        case "auth/login/resetInfo" :
+            return {...state, success: null, error: null, isLoggingIn: false}
+
+        case "auth/login/pending" :
+            return {...state, success: null, error: null, isLoggingIn: true}
+        case "auth/login/rejected" :
+            return {...state, error: action.error}
+        case "auth/login/fulfilled" : {
+            const {success, data} = action.payload;
+            return {...state, success, person: data}
+        }
+
         //Регистрация нового пользователя
         case "auth/createNewUser/resetInfo" :
             return {...state, success: null, error: null, isSigningUp: false}
@@ -53,6 +66,22 @@ export const createNewUser = (data) => async (dispatch) => {
         dispatch({type: "auth/createNewUser/fulfilled", success: json.success});
     }
 
+}
+
+export const logInto = (login, password) => async (dispatch) => {
+    dispatch({type: "auth/login/pending"});
+
+    const res = await fetch("/api/login", {
+        method: "POST",
+        body: JSON.stringify({login, password})
+    });
+    const json = res.json();
+
+    if (json.error) {
+        dispatch({type: "auth/login/rejected", error: json.error});
+    } else {
+        dispatch({type: "auth/login/fulfilled", payload: {success: json.success, data: json.data}});
+    }
 }
 
 export default reducer;

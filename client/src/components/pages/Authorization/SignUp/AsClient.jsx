@@ -59,40 +59,39 @@ const AsClient = ({classes, setUserType, userType}) => {
 
     return (
         <>
-            {(error || success) && (
-                <Snackbar
-                    variant={error ? "error" : "success"}
-                    key={error || success}
-                    anchorOrigin={{
-                        vertical: "top",
-                        horizontal: "center"
-                    }}
-                    open={state.statusMessageOpen}
-                    onClose={closeStatusMessage}
-                    autoHideDuration={3000}
-                >
-                    <SnackbarContent
-                        className={classes.error}
-                        style={success && {color: "#31671a", border: "1.2px solid #1b5e20"}}
-                        message={
-                            <div>
-                                <span style={{ marginRight: "8px" }}>
-                                  <Error fontSize="large" color={error ? "error" : "success"} />
-                                </span>
-                                <span> {error || success} </span>
-                            </div>
-                        }
-                        action={[
-                            <IconButton
-                                key="close"
-                                aria-label="close"
-                                onClick={closeStatusMessage}
-                            >
-                                <Close color={error ? "error" : "success"} />
-                            </IconButton>
-                        ]}
-                    />
-                </Snackbar>)}
+            {(error || success) && <Snackbar
+                variant={error ? "error" : "success"}
+                key={error || success}
+                anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "center"
+                }}
+                open={state.statusMessageOpen}
+                onClose={closeStatusMessage}
+                autoHideDuration={3000}
+            >
+                <SnackbarContent
+                    className={classes.error}
+                    style={success && {color: "#31671a", border: "1.2px solid #1b5e20"}}
+                    message={
+                        <div>
+                            <span style={{marginRight: "8px"}}>
+                              <Error fontSize="large" color={error ? "error" : "success"}/>
+                            </span>
+                            <span> {error || success} </span>
+                        </div>
+                    }
+                    action={[
+                        <IconButton
+                            key="close"
+                            aria-label="close"
+                            onClick={closeStatusMessage}
+                        >
+                            <Close color={error ? "error" : "success"}/>
+                        </IconButton>
+                    ]}
+                />
+            </Snackbar>}
 
             <Typography>Регистрация</Typography>
 
@@ -109,7 +108,7 @@ const AsClient = ({classes, setUserType, userType}) => {
                         type="text"
                         autoComplete="off"
                         className={classes.inputs}
-                        disableUnderline={true}
+                        disableUnderline
                         onChange={handleChange("name")}
                     />
                 </FormControl>
@@ -122,7 +121,7 @@ const AsClient = ({classes, setUserType, userType}) => {
                         type="text"
                         autoComplete="off"
                         className={classes.inputs}
-                        disableUnderline={true}
+                        disableUnderline
                         onChange={handleChange("number")}
                     />
                 </FormControl>
@@ -136,7 +135,7 @@ const AsClient = ({classes, setUserType, userType}) => {
                         type="text"
                         autoComplete="off"
                         className={classes.inputs}
-                        disableUnderline={true}
+                        disableUnderline
                         onChange={handleChange("login")}
                     />
                 </FormControl>
@@ -148,7 +147,7 @@ const AsClient = ({classes, setUserType, userType}) => {
                         name="password"
                         autoComplete="off"
                         className={classes.inputs}
-                        disableUnderline={true}
+                        disableUnderline
                         onChange={handleChange("password")}
                         type={state.hidePassword ? "password" : "input"}
                         endAdornment={
