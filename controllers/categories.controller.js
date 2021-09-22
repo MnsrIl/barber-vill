@@ -12,10 +12,9 @@ module.exports.categoriesController = {
     }
   },
   getCategories: async (req, res) => {
-    const { name, type, gender } = req.body
     try {
-      const data = await Category.create({ name, type, gender })
-      return res.status(200).json(data)
+      const data = await Category.find();
+      return res.status(200).json(data);
     } catch (e) {
       console.log(e)
       return res.status(400).json(`error while getting categories: ${e.toString()}`)
