@@ -23,6 +23,14 @@ module.exports.hairstylesController = {
       return res.status(400).json(`error while getting hairstyles: ${e.toString()}`)
     }
   },
+  getHairStyleById: async (req, res) => {
+    try {
+      const data = await Hairstyle.findById(req.params.id)
+      return res.status(200).json(data)
+    }catch (e) {
+      return res.status(400).json(`error while getting hairstyles: ${e.toString()}`)
+    }
+  },
   updateHairStyle: async (req, res) => {
     const { name, image, gender, price, categoryId} = req.body
     try {

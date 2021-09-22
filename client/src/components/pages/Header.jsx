@@ -3,6 +3,7 @@ import { Box } from "@mui/system";
 import React from "react";
 import profileIcon from "../../image/icons-login.png";
 import GitHubIcon from "@material-ui/icons/GitHub";
+import {useHistory} from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   iconProfile: {
@@ -13,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Header() {
   const classes = useStyles();
+  const history = useHistory();
   return (
     <Grid xs={12}>
       <Box display="flex" height={52} mx="150px" mt="58px" alignItems="center">
@@ -29,15 +31,15 @@ function Header() {
           <Box>Парикмахеры </Box>
           <Box>О сервисе </Box>
           <Box>
-            <IconButton>
+            <a href={"https://github.com/TheZiggie/barber-vill"}>
               <GitHubIcon />
-            </IconButton>
+            </a>
           </Box>
         </Box>
         <Grid item xs={12} sm={3}>
           <Box textAlign="center">
-            <Tooltip>
-              <IconButton>
+            <Tooltip title={"Мой профиль"}>
+              <IconButton onClick={() => history.push("/signup")}>
                 <img
                   src={profileIcon}
                   alt="profile"

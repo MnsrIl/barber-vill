@@ -10,5 +10,4 @@ router.use(require("./reviews.route"));
 router.use(require("./requests.route"));
 router.use(require("./hairstyles.route"));
 
-
 module.exports = router;
