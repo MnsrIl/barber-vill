@@ -15,9 +15,14 @@ const userSchema = new Schema({
         required: true
     },
     role: {
+        type: String,
+        required: true
+    },
+    personal: {
         type: Schema.Types.ObjectId,
-        required: true,
+        refPath: 'role',
+        required: true
     }
 });
 
-module.exports = model("User", userSchema);
+module.exports.User = model("User", userSchema);

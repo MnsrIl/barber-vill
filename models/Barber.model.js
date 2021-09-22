@@ -18,4 +18,4 @@ const barberSchema = new Schema({
     },
 });
 
-module.exports = model("Barber", barberSchema);
+module.exports.Barber = model("Barber", barberSchema);
