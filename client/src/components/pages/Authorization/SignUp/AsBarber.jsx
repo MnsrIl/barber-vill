@@ -32,18 +32,22 @@ const AsBarber = ({classes, setUserType}) => {
     const history = useHistory();
 
     const [state, setState] = useState({
-        login: "",
-        password: "",
+        name: null,
+        lastname: null,
+        email: null,
+        login: null,
+        password: null,
         telegram: "",
-        avatar: "",
+        avatar: null,
         hidePassword: true,
         statusMessageOpen: false
     })
 
-    const [checked, setChecked] = useState(false);
+    const [hasTelegram, setHasTelegram] = useState(false);
 
     const handleChangeChecked = (event) => {
-        setChecked(event.target.checked);
+        setHasTelegram(event.target.checked);
+        hasTelegram && closeTelegram()
     };
 
     const closeStatusMessage = e => {
@@ -62,17 +66,22 @@ const AsBarber = ({classes, setUserType}) => {
         });
     };
 
-
-
     const showPassword = () => {
         setState({...state, hidePassword: !state.hidePassword });
     };
 
+    const closeTelegram = () => {
+        setState({...state, telegram: ""});
+    }
+
     const submitRegistration = e => {
         e.preventDefault();
         const newUserCredentials = {
-            avatar_URI: state.avatar,
-            telegram_URI: state.telegram,
+            name: state.name,
+            lastname: state.lastname,
+            avatar: state.avatar,
+            telegram: state.telegram,
+            email: state.email,
             login: state.login,
             password: state.password,
         };
@@ -220,12 +229,14 @@ const AsBarber = ({classes, setUserType}) => {
                         }
                     />
                 </FormControl>
-                <Collapse in={checked}>
+
+                <Collapse in={hasTelegram}>
                     <FormControl fullWidth margin="normal">
                         <InputLabel htmlFor="telegram" className={classes.labels}>
                             телеграмм
                         </InputLabel>
                         <Input
+                            value={state.telegram}
                             name="telegram"
                             type="text"
                             autoComplete="off"
@@ -235,25 +246,28 @@ const AsBarber = ({classes, setUserType}) => {
                         />
                     </FormControl>
                 </Collapse>
-                <FormControlLabel label={!checked && "Есть телеграмм?"} style={{marginLeft: 0}} control={
+
+                <FormControlLabel label={!hasTelegram && "Есть телеграмм?"} style={{marginLeft: 0}} control={
                     <Checkbox
-                        style={{color: "rgba(206,212,218, .993)",/* borderRadius: 10*/}}
+                        style={{color: "rgba(206,212,218, .993)"}}
                         className={classes.telegramCheckbox}
                         icon={<Telegram />}
                         checkedIcon={<Telegram sx={{color: blue[500]}} />}
-                        checked={checked}
+                        checked={hasTelegram}
                         onChange={handleChangeChecked}
                         inputProps={{ 'aria-label': 'controlled' }}
                     />
                 } />
 
                 <div /> <br />
+
                 <Typography
                     className={classes.haveAccount}
                     onClick={() => history.push("/signin")}
                 >
                     Уже есть аккаунт?
                 </Typography>
+
                 <Typography
                     className={classes.haveAccount}
                     onClick={() => setUserType('')}
