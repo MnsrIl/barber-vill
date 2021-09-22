@@ -1,28 +1,17 @@
 import {useState} from 'react';
 import {
-    Avatar,
     Button,
     FormControl,
-    FormControlLabel,
     Input,
     InputAdornment,
     InputLabel,
     withStyles
 } from "@material-ui/core";
 import { register } from "../RegistrationStyles";
-import {Checkbox, Collapse, Typography} from "@mui/material";
-import {PeopleAlt, VisibilityOffTwoTone, VisibilityTwoTone} from "@material-ui/icons";
-import {Telegram} from "@mui/icons-material";
-import {blue} from "@mui/material/colors";
+import {Typography} from "@mui/material";
+import {VisibilityOffTwoTone, VisibilityTwoTone} from "@material-ui/icons";
 import {useDispatch} from "react-redux";
 import {useHistory} from "react-router-dom";
-
-// const SignUpAvatar = ({classes, state}) => (
-//     <Avatar className={`${classes.avatar} ${classes.signup}`}
-//             style={state.avatar ? {backgroundColor: "#344892"} : null}>
-//         <PeopleAlt className={classes.icon} /> {/*Если пользователь выбрал аватарку, то фон меняется */}
-//     </Avatar>
-// );
 
 const AsClient = ({classes, setUserType}) => {
 
@@ -32,16 +21,11 @@ const AsClient = ({classes, setUserType}) => {
     const [state, setState] = useState({
         login: "",
         password: "",
-        telegram: "",
+        name: "",
+        number: "",
         hidePassword: true,
         statusMessageOpen: false
     })
-
-    const [checked, setChecked] = useState(false);
-
-    const handleChangeChecked = (event) => {
-        setChecked(event.target.checked);
-    };
 
     const closeStatusMessage = e => {
         setState({...state, statusMessageOpen: false });
@@ -59,20 +43,15 @@ const AsClient = ({classes, setUserType}) => {
         });
     };
 
-
-
     const showPassword = () => {
         setState({...state, hidePassword: !state.hidePassword });
     };
 
     const submitRegistration = e => {
         e.preventDefault();
-        const newUserCredentials = {
-            avatar_URI: state.avatar,
-            telegram_URI: state.telegram,
-            login: state.login,
-            password: state.password,
-        };
+        const { name, number, login, password } = state;
+        const newUserCredentials = { name, number, login, password };
+
         console.log(newUserCredentials);
         //dispatch(signUp(newUserCredentials));
 
@@ -145,16 +124,16 @@ const AsClient = ({classes, setUserType}) => {
                     />
                 </FormControl>
                 <FormControl required fullWidth margin="normal">
-                    <InputLabel htmlFor="login" className={classes.labels}>
+                    <InputLabel htmlFor="number" className={classes.labels}>
                         телефон
                     </InputLabel>
                     <Input
-                        name="login"
+                        name="number"
                         type="text"
                         autoComplete="off"
                         className={classes.inputs}
                         disableUnderline={true}
-                        onChange={handleChange("phoneNumber")}
+                        onChange={handleChange("number")}
                     />
                 </FormControl>
 
@@ -204,34 +183,8 @@ const AsClient = ({classes, setUserType}) => {
                     />
                 </FormControl>
 
-                {/*<Collapse in={checked}>*/}
-                {/*    <FormControl fullWidth margin="normal">*/}
-                {/*        <InputLabel htmlFor="telegram" className={classes.labels}>*/}
-                {/*            номер*/}
-                {/*        </InputLabel>*/}
-                {/*        <Input*/}
-                {/*            name="telegram"*/}
-                {/*            type="text"*/}
-                {/*            autoComplete="off"*/}
-                {/*            className={classes.inputs}*/}
-                {/*            disableUnderline={true}*/}
-                {/*            onChange={handleChange("number")}*/}
-                {/*        />*/}
-                {/*    </FormControl>*/}
-                {/*</Collapse>*/}
-                {/*<FormControlLabel label={!checked && "Номер телефона"} style={{marginLeft: 0}} control={*/}
-                {/*    <Checkbox*/}
-                {/*        style={{color: "rgba(206,212,218, .993)",/* borderRadius: 10*!/}*/}
-                {/*        className={classes.telegramCheckbox}*/}
-                {/*        icon={<Telegram />}*/}
-                {/*        checkedIcon={<Telegram sx={{color: blue[500]}} />}*/}
-                {/*        checked={checked}*/}
-                {/*        onChange={handleChangeChecked}*/}
-                {/*        inputProps={{ 'aria-label': 'controlled' }}*/}
-                {/*    />*/}
-                {/*} />*/}
-
                 <div /> <br />
+
                 <Typography
                     className={classes.haveAccount}
                     onClick={() => history.push("/signin")}
