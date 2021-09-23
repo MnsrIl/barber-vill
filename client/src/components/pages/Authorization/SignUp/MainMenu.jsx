@@ -64,18 +64,23 @@ const MainMenu = ({setUserState}) => {
     const firstCard = useStyles({ color: '#203f52', shadowColor: 'rgba(39,106,150,0.51)' });
     const secondCard = useStyles({ color: '#34241e', shadowColor: '#cc520082' });
 
+    const handleChooseType = (type) => {
+        setUserState(type);
+    }
+
     return (
         <>
             <Typography component={"div"} variant={"h4"}>Выберите тип аккаунта</Typography>
             <CustomCard
-                onClick={() => setUserState('barber')}
+                onClick={() => handleChooseType("Barber")}
                 classes={firstCard}
                 title={'Парикмахер'}
                 subtitle={'Хочешь начать работать парикмахером уже сейчас?'}
                 image={'https://nagatinsky.com/upload/content/in_59005ef218137.jpg'}
             />
             <CustomCard
-                onClick={() => setUserState('client')}
+                onClick={() => handleChooseType('Client')}
+                name="Client"
                 classes={secondCard}
                 title={'Клиент'}
                 subtitle={'Нужна стрижка от профессионалов своего дела?'}

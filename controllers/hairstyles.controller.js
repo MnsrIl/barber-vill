@@ -17,10 +17,10 @@ module.exports.hairstylesController = {
   getHairStyles: async (req, res) => {
     try {
       const data = await Hairstyle.find()
-      return res.status(200).json(data)
+      return res.status(200).json({data});
     } catch (e) {
       console.log(e)
-      return res.status(400).json(`error while getting hairstyles: ${e.toString()}`)
+      return res.status(400).json({error: e});
     }
   },
   getHairStyleById: async (req, res) => {
