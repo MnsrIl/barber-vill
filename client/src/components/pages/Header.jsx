@@ -32,7 +32,7 @@ function Header() {
           <Box>О сервисе </Box>
           <Box>
             <a href={"https://github.com/TheZiggie/barber-vill"}>
-              <GitHubIcon />
+              <GitHubIcon htmlColor={"#362e2e"} />
             </a>
           </Box>
         </Box>
