@@ -1,12 +1,12 @@
-const { Router } = require("express")
-const { hairstylesController } = require('../controllers/hairstyles.controller')
+const { Router } = require("express");
+const { hairstylesController } = require('../controllers/hairstyles.controller');
 
-const router = Router()
+const router = Router();
 
-router.post('/hairstyles', hairstylesController.addHairstyle)
-router.get('/hairstyles', hairstylesController.getHairStyles)
-router.get('/hairstyles/:id',hairstylesController.getHairStyleById)
-router.patch('/reviews/:id', hairstylesController.updateHairStyle)
-router.delete('/reviews/:id', hairstylesController.removeHairStyle)
+router.post('/hairstyles', hairstylesController.addHairstyle);
+router.get('/hairstyles', hairstylesController.getHairStyles);
+router.patch('/hairstyles/:id', hairstylesController.updateHairStyle);
+router.delete('/hairstyles/:id', hairstylesController.removeHairStyle);
+router.get('/hairstyles/:id',hairstylesController.getHairStyleById);
 
-module.exports = router
+module.exports = router;

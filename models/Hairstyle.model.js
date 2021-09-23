@@ -3,8 +3,11 @@ const mongoose = require('mongoose')
 const hairstyleSchema = mongoose.Schema({
   name: String,
   image: String,
-  gender: String,
-  price: Number
+  price: Number,
+  categoryId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Category"
+  }
 },
   { timestamps: true }
 )
