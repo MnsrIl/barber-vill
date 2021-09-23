@@ -10,26 +10,30 @@ import {
     withStyles
 } from "@material-ui/core";
 import { register } from "../RegistrationStyles";
-import {Checkbox, Collapse, Tooltip, Typography} from "@mui/material";
+import {Checkbox, Collapse, IconButton, Snackbar, SnackbarContent, Tooltip, Typography} from "@mui/material";
 import {PeopleAlt, VisibilityOffTwoTone, VisibilityTwoTone} from "@material-ui/icons";
-import {Telegram} from "@mui/icons-material";
-import {blue} from "@mui/material/colors";
-import {useDispatch} from "react-redux";
+import {Close, Error, Telegram} from "@mui/icons-material";
+import {blue, green} from "@mui/material/colors";
+import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
+import {createNewUser} from "../../../../redux/feautures/auth";
 
 const SignUpAvatar = ({classes, state}) => (
     <Tooltip title={"Выберите аватарку"}>
-        <Avatar className={`${classes.avatar} ${classes.signup}`}
-                style={state.avatar ? {backgroundColor: "#344892"} : null}>
-            <PeopleAlt className={classes.icon} /> {/*Если пользователь выбрал аватарку, то фон меняется */}
+        <Avatar className={`${classes.avatar} ${classes.signup}`}>
+            {state.avatar?.length ?
+                <img src={URL.createObjectURL(state.avatar[0])} alt="Аватар" width={100} height={100} /> :
+                <PeopleAlt className={classes.icon} /> }
         </Avatar>
     </Tooltip>
 );
 
-const AsBarber = ({classes, setUserType}) => {
+const AsBarber = ({classes, userType, setUserType}) => {
 
     const dispatch = useDispatch();
     const history = useHistory();
+
+    const {error, success, isSigningUp} = useSelector(store => store.auth);
 
     const [state, setState] = useState({
         name: null,
@@ -45,19 +49,14 @@ const AsBarber = ({classes, setUserType}) => {
 
     const [hasTelegram, setHasTelegram] = useState(false);
 
-    const handleChangeChecked = (event) => {
-        setHasTelegram(event.target.checked);
+    const handleChangeChecked = (e) => {
+        setHasTelegram(e.target.checked);
         hasTelegram && closeTelegram()
     };
 
-    const closeStatusMessage = e => {
+    const closeStatusMessage = () => {
         setState({...state, statusMessageOpen: false });
-
-        // if (success) {
-        //     dispatch({type: "auth/data/clear"});
-        //     return history.push("/sign-in")
-        // }
-        // dispatch({type: "auth/data/clear"});
+        dispatch({type: "auth/createNewUser/resetInfo"});
     };
 
     const handleChange = (name, option = "value") => e => {
@@ -76,58 +75,49 @@ const AsBarber = ({classes, setUserType}) => {
 
     const submitRegistration = e => {
         e.preventDefault();
-        const newUserCredentials = {
-            name: state.name,
-            lastname: state.lastname,
-            avatar: state.avatar,
-            telegram: state.telegram,
-            email: state.email,
-            login: state.login,
-            password: state.password,
-        };
-        console.log(newUserCredentials);
-        //dispatch(signUp(newUserCredentials));
+        const {name, lastname, avatar, telegram, email, login, password} = state;
+        const newUserCredentials = {name, lastname, avatar, telegram, email, login, password, role: userType};
 
+        dispatch(createNewUser(newUserCredentials));
         setState({...state, statusMessageOpen: true});
     };
 
     return (
         <>
-            {/*{(error || success) && (*/}
-            {/*    <Snackbar*/}
-            {/*        variant={error ? "error" : "success"}*/}
-            {/*        key={error || success}*/}
-            {/*        anchorOrigin={{*/}
-            {/*            vertical: "top",*/}
-            {/*            horizontal: "center"*/}
-            {/*        }}*/}
-            {/*        anchorPosition={{top: 200}}*/}
-            {/*        open={state.statusMessageOpen}*/}
-            {/*        onClose={closeStatusMessage}*/}
-            {/*        autoHideDuration={3000}*/}
-            {/*    >*/}
-            {/*        <SnackbarContent*/}
-            {/*            className={classes.error}*/}
-            {/*            style={success && {color: "#31671a", border: `1.2px solid ${green[900]}`}}*/}
-            {/*            message={*/}
-            {/*                <div>*/}
-            {/*                    <span style={{ marginRight: "8px" }}>*/}
-            {/*                      <Error fontSize="large" color={error ? "error" : "success"} />*/}
-            {/*                    </span>*/}
-            {/*                    <span> {error || success} </span>*/}
-            {/*                </div>*/}
-            {/*            }*/}
-            {/*            action={[*/}
-            {/*                <IconButton*/}
-            {/*                    key="close"*/}
-            {/*                    aria-label="close"*/}
-            {/*                    onClick={closeStatusMessage}*/}
-            {/*                >*/}
-            {/*                    <Close color={error ? "error" : "success"} />*/}
-            {/*                </IconButton>*/}
-            {/*            ]}*/}
-            {/*        />*/}
-            {/*    </Snackbar>)}*/}
+            {(error || success) && <Snackbar
+                variant={error ? "error" : "success"}
+                key={error || success}
+                anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "center"
+                }}
+                open={state.statusMessageOpen}
+                onClose={closeStatusMessage}
+                autoHideDuration={3000}
+            >
+                <SnackbarContent
+                    className={classes.error}
+                    style={success && {color: "#31671a", border: `1.2px solid ${green[900]}`}}
+                    message={
+                        <div>
+                            <span style={{marginRight: "8px"}}>
+                              <Error fontSize="large" color={error ? "error" : "success"}/>
+                            </span>
+                            <span> {error || success} </span>
+                        </div>
+                    }
+                    action={[
+                        <IconButton
+                            key="close"
+                            aria-label="close"
+                            onClick={closeStatusMessage}
+                        >
+                            <Close color={error ? "error" : "success"}/>
+                        </IconButton>
+                    ]}
+                />
+            </Snackbar>}
+
 
             <FormControlLabel
                 style={{marginRight: "-9px"}}
@@ -137,6 +127,7 @@ const AsBarber = ({classes, setUserType}) => {
                 label={<SignUpAvatar classes={classes} state={state} />}
                 onChange={handleChange("avatar", "files")}
             />
+
             <Typography>Регистрация</Typography>
 
             <form
@@ -152,7 +143,7 @@ const AsBarber = ({classes, setUserType}) => {
                         type="text"
                         autoComplete="off"
                         className={classes.inputs}
-                        disableUnderline={true}
+                        disableUnderline
                         onChange={handleChange("name")}
                     />
                 </FormControl>
@@ -165,7 +156,7 @@ const AsBarber = ({classes, setUserType}) => {
                         type="text"
                         autoComplete="off"
                         className={classes.inputs}
-                        disableUnderline={true}
+                        disableUnderline
                         onChange={handleChange("lastname")}
                     />
                 </FormControl>
@@ -178,7 +169,7 @@ const AsBarber = ({classes, setUserType}) => {
                         type="text"
                         autoComplete="off"
                         className={classes.inputs}
-                        disableUnderline={true}
+                        disableUnderline
                         onChange={handleChange("email")}
                     />
                 </FormControl>
@@ -192,7 +183,7 @@ const AsBarber = ({classes, setUserType}) => {
                         type="text"
                         autoComplete="off"
                         className={classes.inputs}
-                        disableUnderline={true}
+                        disableUnderline
                         onChange={handleChange("login")}
                     />
                 </FormControl>
@@ -205,9 +196,9 @@ const AsBarber = ({classes, setUserType}) => {
                         name="password"
                         autoComplete="off"
                         className={classes.inputs}
-                        disableUnderline={true}
+                        disableUnderline
                         onChange={handleChange("password")}
-                        type={state.hidePassword ? "password" : "input"}
+                        type={state.hidePassword ? "password" : "text"}
                         endAdornment={
                             state.hidePassword ? (
                                 <InputAdornment position="end">
@@ -241,7 +232,7 @@ const AsBarber = ({classes, setUserType}) => {
                             type="text"
                             autoComplete="off"
                             className={classes.inputs}
-                            disableUnderline={true}
+                            disableUnderline
                             onChange={handleChange("telegram")}
                         />
                     </FormControl>
@@ -276,7 +267,7 @@ const AsBarber = ({classes, setUserType}) => {
                 </Typography>
 
                 <Button
-                    //disabled={isSigningUp}
+                    disabled={isSigningUp}
                     disableRipple
                     fullWidth
                     variant="outlined"

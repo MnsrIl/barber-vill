@@ -26,16 +26,15 @@ const reducer = (state = initialState, action) => {
 };
 
 export const getAllHairstyles = () => async (dispatch) => {
-  try {
-    dispatch({ type: "hairstyles/getAllHairstyles/pending" });
+  dispatch({ type: "hairstyles/getAllHairstyles/pending" });
 
-    const res = await fetch(`/hairstyles`);
-    const json = await res.json();
+  const res = await fetch("/api/hairstyles");
+  const json = await res.json();
 
-    dispatch({ type: "hairstyles/getAllHairstyles/fulfilled",payload: json });
-   
-  } catch (e) {
-    dispatch({ type: "hairstyles/getAllHairstyles/rejected", error: e.toString()});
+  if (json.error) {
+    dispatch({ type: "hairstyles/getAllHairstyles/rejected", error: json.error});
+  } else {
+    dispatch({ type: "hairstyles/getAllHairstyles/fulfilled", payload: json.data });
   }
 };
 
@@ -43,7 +42,7 @@ export const getOneHairstyle = (id) => async (dispatch) => {
   try{
     dispatch({type:"hairstyles/getOneHairstyle/pending"})
 
-    const response = await fetch(`/hairstyles/${id}`);
+    const response = await fetch(`/api/hairstyles/${id}`);
     const json = await response.json();
 
     dispatch({ type: "hairstyles/getOneHairstyle/fulfilled", payload: json });

@@ -4,17 +4,17 @@ import {
   Button,
   Card,
   CardActionArea,
-  CardActions,
   CardContent,
   CardMedia,
   Grid,
   Typography,
 } from "@material-ui/core";
 import { Box } from "@mui/system";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import hairstyles from "../../image/hairstyles1.jpg";
 import beards from "../../image/men-beards.jpg";
 import Header from "./Header";
+import DoubleArrowIcon from "@mui/icons-material/DoubleArrow";
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -28,8 +28,8 @@ const useStyles = makeStyles((theme) => ({
   btn: {
     margin: 20,
     borderRadius: 40,
-    fontSize:12,
-    padding:12
+    fontSize: 12,
+    padding: 12,
   },
   iconProfile: {
     width: 50,
@@ -51,19 +51,21 @@ function HomePage() {
 
       <Grid xs={12} className={classes.content}>
         <Grid item xs={12} sm={5}>
-          <Box width={340} height={306} ml="150px" mt="200px">
+          <Box width={340} height={306} ml="150px" mt="150px">
             <Box>
-              <h1>Твой новый друг с доставкой на дом</h1>
+              <h1>Хочешь выглядеть как Султан?</h1>
             </Box>
             <Box>
-              Онлайн-магазин домашних животных подарит тебе нового друга в
-              несколько кликов. Действуй!
+              Сделай причёску, которая <br /> изменит твою жизнь. <br />
+              Жизнь больше не станет прежней, ибо ты будешь выглядеть как -
+              НурСултан!
             </Box>
             <Button
               className={classes.btn}
               size="medium"
               color="secondary"
               variant={"contained"}
+              style={{ cursor: "pointer" }}
               onClick={() => history.push("/hairstyles")}
             >
               Посмотреть весь список
@@ -73,12 +75,20 @@ function HomePage() {
           <Box display="flex" ml="150px">
             <Card className={classes.card}>
               <CardContent>
-                <Typography gutterBottom component="h2">
-                  Прически
-                </Typography>
+                <Box
+                  display="flex"
+                  justifyContent="space-around"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => history.push("/hairstyles")}
+                >
+                  <Typography gutterBottom component="h2">
+                    Прически
+                  </Typography>
+                  <DoubleArrowIcon />
+                </Box>
               </CardContent>
               <CardActionArea>
-                <Box pb="30px" width="90%">
+                <Box pb="30px">
                   <CardMedia
                     className={classes.image}
                     component={"img"}
@@ -86,24 +96,21 @@ function HomePage() {
                   />
                 </Box>
               </CardActionArea>
-              <CardActions>
-                <Button
-                  component={Link}
-                  to={""}
-                  size="medium"
-                  color="primary"
-                  variant={"contained"}
-                >
-                  Подробнее
-                </Button>
-              </CardActions>
             </Card>
 
             <Card className={classes.card}>
               <CardContent>
-                <Typography gutterBottom component="h2">
-                  Бороды
-                </Typography>
+                <Box
+                  display="flex"
+                  justifyContent="space-around"
+                  style={{ cursor: "pointer" }}
+                  onClick={() => history.push("/beards")}
+                >
+                  <Typography gutterBottom component="h2">
+                    Бороды
+                  </Typography>
+                  <DoubleArrowIcon />
+                </Box>
               </CardContent>
               <CardActionArea>
                 <Box>
@@ -114,17 +121,6 @@ function HomePage() {
                   />
                 </Box>
               </CardActionArea>
-              <CardActions>
-                <Button
-                  component={Link}
-                  to={""}
-                  size="medium"
-                  color="primary"
-                  variant={"contained"}
-                >
-                  Подробнее
-                </Button>
-              </CardActions>
             </Card>
           </Box>
         </Grid>

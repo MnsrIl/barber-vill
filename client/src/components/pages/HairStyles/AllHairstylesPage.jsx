@@ -8,11 +8,14 @@ import {
   CardContent,
   CardMedia,
   Fab,
+  Grid,
   makeStyles,
   Typography,
 } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
 import { useHistory } from "react-router-dom";
+import Skeleton from "@mui/material/Skeleton";
+import Header from "../Header";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -66,10 +69,24 @@ function AllHairstylesPage() {
 
   return (
     <Box display="flex" flexWrap="wrap" justifyContent="space-between">
+      <Header/>
       {loading ? (
-        <Box>
-          <h1>Идет загрузка...</h1>
-        </Box>
+        <Grid container wrap="wrap">
+          {(loading ? Array.from(new Array(8)) : hairstyles).map((item, index) => (
+            <Box key={index} sx={{ width: 300, marginRight: 3, my: 5 }}>
+              <Skeleton
+                animation="wave"
+                variant="rectangular"
+                width={300}
+                height={200}
+              />
+                <Box sx={{ pt: 0.5 }}>
+                  <Skeleton />
+                  <Skeleton width="60%" />
+                </Box>
+            </Box>
+          ))}
+        </Grid>
       ) : (
         hairstyles.map((item) => (
           <Card className={classes.card}>
