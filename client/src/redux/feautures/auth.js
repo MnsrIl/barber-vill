@@ -1,27 +1,43 @@
+const tokenFromCookie = document.cookie
+    .replace(/(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+
 const initialState = {
     isLoggingIn: false,
     isSigningUp: false,
     isLoggingOut: false,
-    isLoggedIn: false,
+    isLoggedIn: !!tokenFromCookie,
     error: null,
     success: null,
-    person: null
+    person: null,
+    token: tokenFromCookie
 }
+
+//
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
 
+        //Загрузка информации о авторизованном пользователе
+        case "auth/loadUser/pending" :
+            return {...state, userLoading: true}
+        case "auth/loadUser/rejected" :
+            return {...state, error: action.error, userLoading: undefined}
+        case "auth/loadUser/fulfilled" :
+            return {...state, person: action.success, userLoading: undefined}
+
         //Вход в аккаунт
-        case "auth/login/resetInfo" :
+        case "auth/login/error/resetInfo" :
             return {...state, success: null, error: null, isLoggingIn: false}
+        case "auth/login/success/resetInfo" :
+            return {...state, isLoggingIn: false, isLoggedIn: true, success: null}
 
         case "auth/login/pending" :
             return {...state, success: null, error: null, isLoggingIn: true}
         case "auth/login/rejected" :
             return {...state, error: action.error}
         case "auth/login/fulfilled" : {
-            const {success, data} = action.payload;
-            return {...state, success, person: data}
+            const {success, token, user} = action.payload;
+            return {...state, success, token, person: {...user, password: undefined }, isLoggedIn: true}
         }
 
         //Регистрация нового пользователя
@@ -39,6 +55,11 @@ const reducer = (state = initialState, action) => {
             return state;
     }
 }
+
+//
+//
+//
+//
 
 export const createNewUser = (data) => async (dispatch) => {
     dispatch({type: "auth/createNewUser/pending"});
@@ -68,19 +89,56 @@ export const createNewUser = (data) => async (dispatch) => {
 
 }
 
+//
+//
+//
+
 export const logInto = (login, password) => async (dispatch) => {
     dispatch({type: "auth/login/pending"});
 
     const res = await fetch("/api/login", {
         method: "POST",
-        body: JSON.stringify({login, password})
+        body: JSON.stringify({login, password}),
+        headers: {
+            "Content-Type" : "application/json",
+        }
     });
-    const json = res.json();
+    const json = await res.json();
 
     if (json.error) {
-        dispatch({type: "auth/login/rejected", error: json.error});
+        return dispatch({type: "auth/login/rejected", error: json.error});
     } else {
-        dispatch({type: "auth/login/fulfilled", payload: {success: json.success, data: json.data}});
+        const {token, success, user} = json;
+        dispatch({type: "auth/login/fulfilled", payload: {success, token: `Bearer ${token}`, user}});
+        // loadUser();
+    }
+}
+
+//
+//
+//
+
+export const loadUser = () => async (dispatch, getStore) => {
+
+    console.log("Этап 3");
+    const store = getStore();
+    if (!store.auth.isLoggedIn) {
+        return;
+    }
+
+    dispatch({type: "auth/loadUser/pending"}); //First stage
+
+    const res = await fetch("/api/profile", {
+        headers: {
+            Authorization: store.auth.token,
+        }
+    });
+    const json = await res.json();
+
+    if (json.error) {
+        dispatch({type: "auth/loadUser/rejected", error: json.error}); //Second stage
+    } else {
+        dispatch({type: "auth/loadUser/fulfilled", payload: json.user}); //Third stage
     }
 }
 

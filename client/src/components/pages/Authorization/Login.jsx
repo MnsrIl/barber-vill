@@ -1,20 +1,19 @@
 import {useState} from "react";
-import { Paper, SnackbarContent, Snackbar, Input, InputLabel, withStyles,
-    FormControl,  Button , InputAdornment, IconButton } from "@material-ui/core";
-import { VisibilityTwoTone, VisibilityOffTwoTone } from "@material-ui/icons";
+import { Paper, Input, InputLabel, withStyles,
+    FormControl,  Button , InputAdornment } from "@material-ui/core";
+import {IconButton, Snackbar, SnackbarContent, Typography} from "@mui/material";
 import { register } from "./RegistrationStyles";
 import {useDispatch, useSelector} from "react-redux";
-import {green} from "@material-ui/core/colors";
-import {Close, Error} from "@mui/icons-material";
+import {green} from "@mui/material/colors";
+import {Close, Error, VisibilityTwoTone, VisibilityOffTwoTone} from "@mui/icons-material";
 import {useHistory} from "react-router-dom";
-import {Typography} from "@mui/material";
 import {logInto} from "../../../redux/feautures/auth";
 //import logo from "../../images/updated_logo.png"
 //import {logIn} from "../../redux/feautures/auth";
 
 
-const LogIn = (props) =>  {
-    const { error, success, isLoggingIn} = useSelector(store => store.auth);
+const Login = (props) =>  {
+    const { error, success, isLoggingIn, isLoggedIn} = useSelector(store => store.auth);
 
     const dispatch = useDispatch();
     const history = useHistory();
@@ -28,8 +27,12 @@ const LogIn = (props) =>  {
 
     const closeStatusMessage = () => {
         setState({...state, statusMessageOpen: false });
-
-        dispatch({type: "auth/login/resetInfo"});
+        if (success) {
+            dispatch({type: "auth/login/success/resetInfo"});
+            history.push("/");
+        } else {
+            dispatch({type: "auth/login/error/resetInfo"});
+        }
     };
 
     const handleChange = name => e => {
@@ -53,6 +56,7 @@ const LogIn = (props) =>  {
     };
 
     const { classes } = props;
+
     return (
         <div className={classes.main}>
 
@@ -67,7 +71,7 @@ const LogIn = (props) =>  {
                         }}
                         open={state.statusMessageOpen}
                         onClose={closeStatusMessage}
-                        autoHideDuration={4000}
+                        autoHideDuration={3000}
                     >
                         <SnackbarContent
                             className={classes.error}
@@ -171,4 +175,4 @@ const LogIn = (props) =>  {
     );
 }
 
-export default withStyles(register)(LogIn);
+export default withStyles(register)(Login);

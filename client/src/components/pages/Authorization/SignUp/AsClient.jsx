@@ -9,11 +9,10 @@ import {
 } from "@material-ui/core";
 import { register } from "../RegistrationStyles";
 import {IconButton, Snackbar, SnackbarContent, Typography} from "@mui/material";
-import {VisibilityOffTwoTone, VisibilityTwoTone} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
 import {createNewUser} from "../../../../redux/feautures/auth";
-import {Close, Error} from "@mui/icons-material";
+import {Close, Error, VisibilityOffTwoTone, VisibilityTwoTone} from "@mui/icons-material";
 
 const AsClient = ({classes, setUserType, userType}) => {
 

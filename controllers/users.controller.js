@@ -1,7 +1,7 @@
 const {Barber} = require("../models/Barber.model");
 const {Client} = require("../models/Client.model");
 const {User} = require("../models/User.model");
-const {sign} = require("jsonwebtoken");
+const {sign, verify} = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const {extname} = require("path");
 
@@ -15,9 +15,28 @@ module.exports.usersController = {
 
     login: async (req,res) => {
         try {
+            const {login, password} = req.body;
+            if (!login || !password) {
+                return res.status(400).json({error: "Поля ввода не могут быть пустыми!"});
+            }
 
+            const user = await User.findOne({login}).populate("personal");
+            if (!user) {
+                return res.status(404).json({error: "Пользователь с таким логином не найден!"});
+            }
+
+
+            const isPasswordValid = bcrypt.compareSync(password, user.password);
+            if (!isPasswordValid) {
+                return res.status(404).json({error: "Введён неверный пароль!"});
+            }
+
+            const token = generateNewToken({...user, password: undefined });
+            res.cookie("token", `Bearer ${token}`, {httpOnly: true, expires: new Date(Date.now() + 900000)});
+
+            return res.status(200).json({success: "Вход был успешно выполнен!", token, user});
         } catch (e) {
-
+            return res.status(404).json({error: "Ошибка при авторизации...  " + e});
         }
     },
 
@@ -108,5 +127,16 @@ module.exports.usersController = {
        } catch {
 
        }
+    },
+
+    getAuthorizedUser: async (req, res) => {
+        try {
+            const { id } = req.user;
+            const user = await User.findById(id).populate("personal");
+
+            res.status(200).json({success: "Пользователь успешно найден", user});
+        } catch (e) {
+            res.status(400).json({error: e});
+        }
     }
 }
