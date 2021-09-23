@@ -51,18 +51,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function AllBeardsPage() {
-  const classes = useStyles()
-  const history = useHistory()
+  const classes = useStyles();
+  const history = useHistory();
 
   const { loading, error, beards } = useSelector(
     (store) => store.beards
-  )
+  );
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllBeards())
-  }, [dispatch])
+    dispatch(getAllBeards());
+  }, [dispatch]);
 
   return (
     <Box display="flex" flexWrap="wrap" justifyContent="space-between">
@@ -87,7 +87,7 @@ function AllBeardsPage() {
                 style={{ cursor: "pointer" }}
                 // onClick={() => history.push(`/hairstyles/${item.categoryId._id}`)}
               >
-                {item.categoryId}
+                {item.name}
               </Typography>
               <Typography gutterBottom variant="h5" component="h2">
                 {item.name}
@@ -105,7 +105,7 @@ function AllBeardsPage() {
                 aria-label="add"
                 className={classes.margin}
               >
-                <NavLink className={classes.nav} to={`/hairstyles/${item._id}`}>
+                <NavLink className={classes.nav} to={`/beards/${item._id}`}>
                   Подробнее
                 </NavLink>
               </Fab>
@@ -114,7 +114,7 @@ function AllBeardsPage() {
         ))
       )}
     </Box>
-  )
+  );
 }
 
 export default AllBeardsPage;

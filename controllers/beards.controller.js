@@ -22,6 +22,15 @@ module.exports.beardsController = {
       return res.status(400).json(`error while getting beards: ${e.toString()}`)
     }
   },
+  getOneBeard: async (req, res) => {
+    try {
+      const data = await Beard.findById(req.params.id)
+      return res.status(200).json(data)
+    } catch (e) {
+      console.log(e)
+      return res.status(400).json(`error while getting the beard: ${e.toString()}`)
+    }
+  },
   updateBeard: async (req, res) => {
     const { name, image, price } = req.body
     try {
