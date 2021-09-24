@@ -33,7 +33,12 @@ const AsClient = ({classes, setUserType, userType}) => {
     const closeStatusMessage = () => {
         setState({...state, statusMessageOpen: false });
 
-        dispatch({type: "auth/createNewUser/resetInfo"});
+        if (success) {
+            dispatch({type: "auth/login/success/resetInfo"});
+            history.push("/");
+        } else {
+            dispatch({type: "auth/createNewUser/resetInfo"});
+        }
     };
 
     const handleChange = (name, option = "value") => e => {
@@ -175,7 +180,7 @@ const AsClient = ({classes, setUserType, userType}) => {
 
                 <Typography
                     className={classes.haveAccount}
-                    onClick={() => history.push("/signin")}
+                    onClick={() => history.push("/login")}
                 >
                     Уже есть аккаунт?
                 </Typography>

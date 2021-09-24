@@ -13,7 +13,7 @@ const generateNewToken = (payload) =>
 
 module.exports.usersController = {
 
-    login: async (req,res) => {
+    login: async (req, res) => {
         try {
             const {login, password} = req.body;
             if (!login || !password) {
@@ -31,10 +31,12 @@ module.exports.usersController = {
                 return res.status(404).json({error: "Введён неверный пароль!"});
             }
 
-            const token = generateNewToken({...user, password: undefined });
-            res.cookie("token", `Bearer ${token}`, {httpOnly: true, expires: new Date(Date.now() + 900000)});
+            const userObject = user.toObject(); //Иначе выдаёт кривой объект
 
-            return res.status(200).json({success: "Вход был успешно выполнен!", token, user});
+            const token = `Bearer ${generateNewToken({...userObject, password: undefined })}`;
+
+            const jsonOptions = {success: "Вход был успешно выполнен!", token};
+            return res.status(200).json(jsonOptions);
         } catch (e) {
             return res.status(404).json({error: "Ошибка при авторизации...  " + e});
         }
@@ -62,6 +64,8 @@ module.exports.usersController = {
             const hashedPassword = bcrypt.hashSync(password, Number(HASH_SALT));
             //console.log("Пре-этап");
 
+            let user;
+
             if (role === "Client") { //если пользователь регистрируется как клиент, то...
                 //console.log("Этап 4");
                 const {number} = req.body;
@@ -75,7 +79,7 @@ module.exports.usersController = {
                 }
 
                 const client = await Client.create({number});
-                await User.create({name, login, password: hashedPassword, role, personal: client.id});
+                user = await User.create({name, login, password: hashedPassword, role, personal: client.id});
                 //console.log("Этап 5");
             }
 
@@ -107,16 +111,17 @@ module.exports.usersController = {
                 }
 
                 const barber = await Barber.create({lastname, avatar: filePath, email, telegram });
-                await User.create({name, login, password: hashedPassword, role, personal: barber.id});
+                user = await User.create({name, login, password: hashedPassword, role, personal: barber.id});
 
                 //Ниже всех, чтобы сохранять фотографию только тогда, когда пользователь успешно зарегистрирован
                 avatar && await avatar.mv(`./client/public${filePath}`);
                 //console.log("Этап 7");
             }
-            //console.log("Финалочка");
-            res.status(200).json({success: "Пользователь успешно создан"});
+
+            const token = `Bearer ${generateNewToken({...user.toObject(), password: undefined })}`;
+
+            res.status(200).json({success: "Пользователь успешно создан", token});
         } catch (e) {
-            console.log("Бум!");
             res.status(404).json({error: e});
         }
     },
@@ -131,10 +136,10 @@ module.exports.usersController = {
 
     getAuthorizedUser: async (req, res) => {
         try {
-            const { id } = req.user;
-            const user = await User.findById(id).populate("personal");
+            const { _id } = req.user;
+            const user = await User.findById(_id, "-password").populate("personal");
 
-            res.status(200).json({success: "Пользователь успешно найден", user});
+            res.status(200).json({success: "Пользователь успешно найден", user });
         } catch (e) {
             res.status(400).json({error: e});
         }

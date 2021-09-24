@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllHairstyles } from "../../../redux/feautures/hairstyles";
-import { Box } from "@mui/system";
 import {
   Card,
   CardActions,
@@ -12,9 +11,8 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import { NavLink } from "react-router-dom";
-import { useHistory } from "react-router-dom";
-import Skeleton from "@mui/material/Skeleton";
+import { NavLink, useHistory } from "react-router-dom";
+import {Skeleton, Box} from "@mui/material";
 import Header from "../Header";
 
 const useStyles = makeStyles((theme) => ({
