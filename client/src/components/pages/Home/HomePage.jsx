@@ -1,13 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { Box } from "@mui/system";
-import {
-  Button,
-  Card,
-  CardActionArea,
-  CardMedia,
-  Grid,
-} from "@material-ui/core";
+import { Button,Card,CardMedia,Grid } from "@material-ui/core";
 import { GitHub as GitHubIcon, Female as FemaleIcon } from "@mui/icons-material";
 import Header from "../Header";
 import hairstyles from "../../../image/hairstyles1.jpg";
@@ -68,16 +62,19 @@ function HomePage() {
             </Card>
 
             <Card className={classes.card}>
-              <CardActionArea>
-                <Box>
-                  <CardMedia
-                    component={"img"}
-                    src={hairstyles}
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push("/beards")}
-                  />
-                </Box>
-              </CardActionArea>
+              <Box pb="30px" className={classes.cardLink}>
+                <CardMedia
+                  component={"img"}
+                  src={hairstyles}
+                  className={classes.cardImg}
+                />
+                <FemaleIcon
+                  fontSize="large"
+                  className={classes.cardIcon}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => history.push("/beards")}
+                />
+              </Box>
             </Card>
           </Box>
         </Grid>

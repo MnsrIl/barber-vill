@@ -112,7 +112,7 @@ function Header() {
               <ListItemButton sx={{ pl: 4 }}>
                 <NavLink
                   exact
-                  to="/hairstyles"
+                  to="/barbers"
                   className={classes.iconsMenu}
                   activeStyle={{ color: "red", fontWeight: "bold" }}
                 >

@@ -6,6 +6,7 @@ import AllHairstylesPage from "./components/pages/HairStyles/AllHairstylesPage";
 import OneHairStyle from "./components/pages/HairStyles/OneHairStyle";
 import AllBeardsPage from './components/pages/Beards/AllBeardsPage';
 import OneBeardPage from './components/pages/Beards/OneBeardPage';
+import AllBarbersPage from "./components/pages/barbers/AllBarbersPage";
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
         <Route path={"/hairstyles/:id"} exact component={OneHairStyle} />
         <Route path={"/beards"} exact component={AllBeardsPage} />
         <Route path={"/beards/:id"} exact component={OneBeardPage} />
+        <Route path={"/barbers"} exact component={AllBarbersPage}/>
       </Switch>
 );
 
