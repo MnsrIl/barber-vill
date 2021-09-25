@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Card,
-  CardActionArea,
   CardMedia,
   Grid,
 } from "@material-ui/core";

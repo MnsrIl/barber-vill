@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
       animation: `$show 1000ms ${theme.transitions.easing.easeInOut}`,
       animationFillMode: "forwards",
       animationDelay: "1s",
+      
     },
     triangleB: {
       width: 300,
