@@ -186,7 +186,7 @@ const AsClient = ({classes, setUserType, userType}) => {
                 </Typography>
                 <Typography
                     className={classes.haveAccount}
-                    onClick={() => setUserType('')}
+                    onClick={() => setUserType('Barber')}
                 >
                     Я - Парикмахер
                 </Typography>

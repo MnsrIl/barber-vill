@@ -266,7 +266,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
 
                 <Typography
                     className={classes.haveAccount}
-                    onClick={() => setUserType('')}
+                    onClick={() => setUserType('Client')}
                 >
                     Я - Клиент
                 </Typography>

@@ -29,7 +29,7 @@ export const getAllBeards = () => async (dispatch) => {
   try {
     dispatch({ type: "beards/getAllBeards/pending" });
 
-    const res = await fetch(`/beards`);
+    const res = await fetch(`/api/beards`);
     const json = await res.json();
 
     dispatch({ type: "beards/getAllBeards/fulfilled",payload: json });
@@ -43,7 +43,7 @@ export const getOneBeard = (id) => async (dispatch) => {
   try{
     dispatch({type:"beards/getOneBeard/pending"})
 
-    const response = await fetch(`/beards/${id}`);
+    const response = await fetch(`/api/beards/${id}`);
     const json = await response.json();
 
     dispatch({ type: "beards/getOneBeard/fulfilled", payload: json });
