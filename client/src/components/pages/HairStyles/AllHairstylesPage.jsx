@@ -66,8 +66,10 @@ function AllHairstylesPage() {
   }, [dispatch]);
 
   return (
+    <>
+  <Header/>
     <Box display="flex" flexWrap="wrap" justifyContent="space-between">
-      <Header/>
+      
       {loading ? (
         <Grid container wrap="wrap">
           {(loading ? Array.from(new Array(8)) : hairstyles).map((item, index) => (
@@ -129,6 +131,7 @@ function AllHairstylesPage() {
         ))
       )}
     </Box>
+    </>
   );
 }
 
