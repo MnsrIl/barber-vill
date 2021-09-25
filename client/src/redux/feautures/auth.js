@@ -1,43 +1,46 @@
-const tokenFromCookie = document.cookie
-    .replace(/(?:(?:^|.*;\s*)token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+import Cookies from 'js-cookie';
+
+const tokenCookie = Cookies.get("token");
+//console.log(getCookie(), document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1"));
 
 const initialState = {
     isLoggingIn: false,
     isSigningUp: false,
-    isLoggingOut: false,
-    isLoggedIn: !!tokenFromCookie,
+    isLoggedIn: !!tokenCookie,
     error: null,
     success: null,
     person: null,
-    token: tokenFromCookie
+    token: Cookies.get("token") || null,
 }
 
 //
 
 const reducer = (state = initialState, action) => {
     switch (action.type) {
-
+        case "auth/logout" : {
+            Cookies.remove("token");
+            return {...state, isLoggedIn: false, token: null, person: null}
+        }
         //Загрузка информации о авторизованном пользователе
         case "auth/loadUser/pending" :
             return {...state, userLoading: true}
         case "auth/loadUser/rejected" :
             return {...state, error: action.error, userLoading: undefined}
         case "auth/loadUser/fulfilled" :
-            return {...state, person: action.success, userLoading: undefined}
+            return {...state, person: action.payload.user, userLoading: undefined}
 
         //Вход в аккаунт
         case "auth/login/error/resetInfo" :
             return {...state, success: null, error: null, isLoggingIn: false}
         case "auth/login/success/resetInfo" :
-            return {...state, isLoggingIn: false, isLoggedIn: true, success: null}
+            return {...state, isLoggingIn: false, isSigningUp: false, isLoggedIn: true, success: null}
 
         case "auth/login/pending" :
             return {...state, success: null, error: null, isLoggingIn: true}
         case "auth/login/rejected" :
             return {...state, error: action.error}
         case "auth/login/fulfilled" : {
-            const {success, token, user} = action.payload;
-            return {...state, success, token, person: {...user, password: undefined }, isLoggedIn: true}
+            return {...state, success: action.payload.success, token: action.payload.token}
         }
 
         //Регистрация нового пользователя
@@ -49,7 +52,7 @@ const reducer = (state = initialState, action) => {
         case "auth/createNewUser/rejected" :
             return {...state, error: action.error}
         case "auth/createNewUser/fulfilled" :
-            return {...state, success: action.success}
+            return {...state, success: action.payload.success, token: action.payload.token}
 
         default:
             return state;
@@ -84,7 +87,8 @@ export const createNewUser = (data) => async (dispatch) => {
     if (json.error) {
         dispatch({type: "auth/createNewUser/rejected", error: json.error});
     } else {
-        dispatch({type: "auth/createNewUser/fulfilled", success: json.success});
+        dispatch({type: "auth/createNewUser/fulfilled", payload: { success: json.success, token: json.token }});
+        Cookies.set("token", json.token, {expires: 3});
     }
 
 }
@@ -108,9 +112,8 @@ export const logInto = (login, password) => async (dispatch) => {
     if (json.error) {
         return dispatch({type: "auth/login/rejected", error: json.error});
     } else {
-        const {token, success, user} = json;
-        dispatch({type: "auth/login/fulfilled", payload: {success, token: `Bearer ${token}`, user}});
-        // loadUser();
+        dispatch({type: "auth/login/fulfilled", payload: { success: json.success, token: json.token }});
+        Cookies.set("token", json.token, {expires: 3});
     }
 }
 
@@ -120,11 +123,7 @@ export const logInto = (login, password) => async (dispatch) => {
 
 export const loadUser = () => async (dispatch, getStore) => {
 
-    console.log("Этап 3");
     const store = getStore();
-    if (!store.auth.isLoggedIn) {
-        return;
-    }
 
     dispatch({type: "auth/loadUser/pending"}); //First stage
 
@@ -138,7 +137,8 @@ export const loadUser = () => async (dispatch, getStore) => {
     if (json.error) {
         dispatch({type: "auth/loadUser/rejected", error: json.error}); //Second stage
     } else {
-        dispatch({type: "auth/loadUser/fulfilled", payload: json.user}); //Third stage
+        console.log(json.user);
+        dispatch({type: "auth/loadUser/fulfilled", payload: {user: json.user, success: json.success}}); //Third stage
     }
 }
 

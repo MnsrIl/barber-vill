@@ -56,7 +56,12 @@ const AsBarber = ({classes, userType, setUserType}) => {
 
     const closeStatusMessage = () => {
         setState({...state, statusMessageOpen: false });
-        dispatch({type: "auth/createNewUser/resetInfo"});
+        if (success) {
+            dispatch({type: "auth/login/success/resetInfo"});
+            history.push("/");
+        } else {
+            dispatch({type: "auth/createNewUser/resetInfo"});
+        }
     };
 
     const handleChange = (name, option = "value") => e => {
@@ -254,14 +259,14 @@ const AsBarber = ({classes, userType, setUserType}) => {
 
                 <Typography
                     className={classes.haveAccount}
-                    onClick={() => history.push("/signin")}
+                    onClick={() => history.push("/login")}
                 >
                     Уже есть аккаунт?
                 </Typography>
 
                 <Typography
                     className={classes.haveAccount}
-                    onClick={() => setUserType('')}
+                    onClick={() => setUserType('Client')}
                 >
                     Я - Клиент
                 </Typography>
