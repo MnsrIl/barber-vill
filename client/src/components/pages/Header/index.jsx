@@ -85,7 +85,7 @@ function Header() {
 
                 <ProfileIcon />
 
-                <Select IconComponent={ReorderIcon} className={classes.listIcon}>
+                <Select IconComponent={() => <ReorderIcon htmlColor={"#fff"}/>} className={classes.listIcon}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <List component="div" disablePadding>
                             <ListItemButton sx={{ pl: 4 }}>
