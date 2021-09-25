@@ -1,7 +1,7 @@
 import {Route, Switch} from "react-router-dom";
 import SignUp from "./components/pages/Authorization/SignUp"
 import SignIn from "./components/pages/Authorization/Login";
-import HomePage from "./components/pages/HomePage";
+import HomePage from "./components/pages/Home/HomePage";
 import AllHairstylesPage from "./components/pages/HairStyles/AllHairstylesPage";
 import OneHairStyle from "./components/pages/HairStyles/OneHairStyle";
 import AllBeardsPage from './components/pages/Beards/AllBeardsPage';
