@@ -80,7 +80,7 @@ const ProfileIcon = () => {
                             <Avatar src={person?.personal?.avatar} />
                             {person? (person.name || person.login) : null}
                         </MenuItem>
-                        <MenuItem onClick={() => sendToAddress("/my-profile")}>
+                        <MenuItem onClick={() => sendToAddress("/profile")}>
                             <ListItemIcon>
                                 <ManageAccounts fontSize="medium" />
                             </ListItemIcon>
