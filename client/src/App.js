@@ -9,6 +9,7 @@ import OneBeardPage from './components/pages/Beards/OneBeardPage';
 import {useDispatch, useSelector} from "react-redux";
 import {useEffect} from "react";
 import {loadUser} from "./redux/feautures/auth";
+import AllBarbersPage from "./components/pages/barbers/AllBarbersPage";
 
 
 function App() {
@@ -28,9 +29,9 @@ function App() {
             <Route path={"/hairstyles/:id"} exact component={OneHairStyle} />
             <Route path={"/beards"} exact component={AllBeardsPage} />
             <Route path={"/beards/:id"} exact component={OneBeardPage} />
+            <Route path={"/barbers"} exact component={AllBarbersPage}/>
         </Switch>
     );
-
 }
 
 export default App;

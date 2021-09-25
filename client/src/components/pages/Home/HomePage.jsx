@@ -67,16 +67,19 @@ function HomePage() {
             </Card>
 
             <Card className={classes.card}>
-              <CardActionArea>
-                <Box>
-                  <CardMedia
-                    component={"img"}
-                    src={hairstyles}
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push("/beards")}
-                  />
-                </Box>
-              </CardActionArea>
+              <Box pb="30px" className={classes.cardLink}>
+                <CardMedia
+                  component={"img"}
+                  src={hairstyles}
+                  className={classes.cardImg}
+                />
+                <FemaleIcon
+                  fontSize="large"
+                  className={classes.cardIcon}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => history.push("/beards")}
+                />
+              </Box>
             </Card>
           </Box>
         </Grid>
