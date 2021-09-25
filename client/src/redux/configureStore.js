@@ -11,5 +11,5 @@ const logger = createLogger({
 
 export default createStore(
     combineReducers(reducers),
-    composeWithDevTools(applyMiddleware(logger, thunk))
+    composeWithDevTools(applyMiddleware(thunk, logger))
 );
