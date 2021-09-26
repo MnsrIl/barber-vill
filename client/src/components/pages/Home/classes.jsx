@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundImage: `url(${barberShop})`,
       backgroundRepeat: "no-repeat",
       backgroundSize: "100% 900px",
-      height: 730,
+      height: 720,
     },
     card: {
       width: 250,
@@ -31,8 +31,9 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: "space-between",
     },
     triangle: {
-      width: 350,
+      width: 250,
       background: "linear-gradient(297deg, transparent 1.5em, #e9f666 0 )",
+      opacity:0,
       transition: "1s",
       animation: `$show 1000ms ${theme.transitions.easing.easeInOut}`,
       animationFillMode: "forwards",
@@ -40,8 +41,9 @@ const useStyles = makeStyles((theme) => ({
       
     },
     triangleB: {
-      width: 300,
+      width: 250,
       background: "linear-gradient(116deg, transparent 1.5em, #2685b9 0)",
+      opacity:0,
       transition: "1s",
       animation: `$show 4000ms ${theme.transitions.easing.easeInOut}`,
       animationFillMode: "forwards",
@@ -103,13 +105,13 @@ const useStyles = makeStyles((theme) => ({
     },
     footer: {
       width: "90%",
-      height: "50px",
+      height: "60px",
       position: "absolute",
       bottom: "0",
-      borderTop: "2px solid white",
+      borderTop: "1px solid grey",
       margin: "0 50px",
       textAlign: "center",
-      paddingTop: "20px",
+      paddingTop: "10px",
     },
   }));
 
