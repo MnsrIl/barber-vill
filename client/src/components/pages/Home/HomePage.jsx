@@ -1,16 +1,13 @@
 import { useHistory } from "react-router-dom";
+import { Box, Button, Card, CardMedia, Grid } from "@material-ui/core";
 import {
-  Box,
-  Button,
-  Card,
-  CardMedia,
-  Grid,
-} from "@material-ui/core";
-import { GitHub as GitHubIcon, Female as FemaleIcon } from "@mui/icons-material";
+  GitHub as GitHubIcon,
+  Female as FemaleIcon,
+} from "@mui/icons-material";
 import Header from "../Header";
 import hairstyles from "../../../image/hairstyles1.jpg";
 import beards from "../../../image/men-beards.jpg";
-import useStyles from "./classes"
+import useStyles from "./classes";
 
 function HomePage() {
   const classes = useStyles();
@@ -31,16 +28,22 @@ function HomePage() {
               НурСултан!
             </Box>
           </Box>
-          <Box display="flex" textAlign="center" cursor="pointer" height="50px">
+          <Box
+            display="flex"
+            textAlign="center"
+            cursor="pointer"
+            height="50px"
+            ml="70px"
+          >
             <Button
-              onClick={() => history.push("/hairstyles")}
               className={classes.triangle}
+              onClick={() => history.push("/hairstyles")}
             >
               Все прически
             </Button>
             <Button
-              onClick={() => history.push("/beards")}
               className={classes.triangleB}
+              onClick={() => history.push("/beards")}
             >
               Все бороды
             </Button>

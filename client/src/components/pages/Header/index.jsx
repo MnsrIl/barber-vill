@@ -1,22 +1,18 @@
+import React from "react";
 import {
+  Button,
   Divider,
   Drawer,
   IconButton,
   List,
   makeStyles,
+  Menu,
+  MenuItem,
   Toolbar,
 } from "@material-ui/core";
-import {
-  Box,
-  Collapse,
-  CssBaseline,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Select,
-} from "@mui/material";
-import profileIcon from "../../../image/profile.png";
-import { NavLink, useHistory } from "react-router-dom";
+import { Box, ListItemButton, ListItemIcon, ListItemText } from "@mui/material";
+import { styled } from "@material-ui/styles";
+import { NavLink } from "react-router-dom";
 import ProfileIcon from "./ProfileIcon";
 import {
   GTranslate as GTranslateIcon,
@@ -24,10 +20,8 @@ import {
   Info as InfoIcon,
   People as PeopleIcon,
   Menu as MenuIcon,
+  Close as CloseIcon,
 } from "@mui/icons-material";
-import React from "react";
-import { styled } from "@material-ui/styles";
-import CloseIcon from '@mui/icons-material/Close';
 
 const useStyles = makeStyles((theme) => ({
   headerInfo: {
@@ -42,118 +36,143 @@ const useStyles = makeStyles((theme) => ({
   },
   headerMain: {
     display: "flex",
-    height: 50,
-    padding: "20px 100px",
+    height: 40,
+    padding: "20px 60px",
     alignItems: "center",
     justifyContent: "space-between",
+    borderBottom: "1px solid grey",
   },
   listIcon: {
-    width: 40,
     height: 40,
-    border: "2px solid white",
   },
   iconsMenu: {
     display: "flex",
     textDecoration: "none",
+    color: "white",
   },
-  iconMenu:{
-      
+  theNameOfTheStyleClass: {
+    backgroundColor: "rgba(20,20,20,0.9)",
   },
-  listitem:{
-    backgroundColor:'rgba(0,0,0,20)'
-  }
 }));
 
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
-  padding: "0 8px",
-  justifyContent: "flex-end",
+  paddingTop: 9,
+  paddingLeft: 89,
 }));
 
 function Header() {
   const classes = useStyles();
-  const history = useHistory();
 
   const [open, setOpen] = React.useState(false);
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const openLanguage = Boolean(anchorEl);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   const handleDrawerOpen = () => {
     setOpen(true);
   };
-
   const handleDrawerClose = () => {
     setOpen(false);
   };
 
   return (
     <Box className={classes.headerMain}>
-      <Box>logo</Box>
+      <Box color="white">logo</Box>
+      <Box className={classes.listIcon}>
+        <Button
+          id="basic-button"
+          aria-controls="basic-menu"
+          aria-haspopup="true"
+          style={{ color: "white", marginLeft: "700px" }}
+          aria-expanded={openLanguage ? "true" : undefined}
+          onClick={handleClick}
+        >
+          <Box>
+            <GTranslateIcon />
+          </Box>
+          language
+        </Button>
+        <Menu
+          id="basic-menu"
+          anchorEl={anchorEl}
+          open={openLanguage}
+          onClose={handleClose}
+          style={{ top: "45px", width: "200px", marginLeft: "12px" }}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
+          }}
+        >
+          <MenuItem onClick={handleClose}>
+            <NavLink
+              to=""
+              style={{ textDecoration: "none" }}
+              activeStyle={{ color: "red", fontWeight: "bold" }}
+            >
+              <ListItemText primary="English" />
+            </NavLink>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <NavLink
+              to=""
+              style={{ textDecoration: "none" }}
+              activeStyle={{ color: "red", fontWeight: "bold" }}
+            >
+              <ListItemText primary="Русский" />
+            </NavLink>
+          </MenuItem>
+        </Menu>
+      </Box>
       <Box
         width="120px"
         display="flex"
         justifyContent="space-between"
         alignItems="center"
       >
-        <Select IconComponent={GTranslateIcon} className={classes.listIcon}>
-          <Collapse in={open} timeout="auto" unmountOnExit>
-            <List component="div" disablePadding>
-              <ListItemButton sx={{ pl: 4 }}>
-                <NavLink
-                  to=""
-                  style={{ textDecoration: "none" }}
-                  activeStyle={{ color: "red", fontWeight: "bold" }}
-                >
-                  <ListItemText primary="Русский" />
-                </NavLink>
-              </ListItemButton>
-
-              <ListItemButton sx={{ pl: 4 }}>
-                <NavLink
-                  to=""
-                  style={{ textDecoration: "none" }}
-                  activeStyle={{ color: "red", fontWeight: "bold" }}
-                >
-                  <ListItemText primary="English" />
-                </NavLink>
-              </ListItemButton>
-            </List>
-          </Collapse>
-        </Select>
-
         <ProfileIcon />
 
         <Box className={classes.iconMenu}>
-          <CssBaseline />
           <Toolbar>
             <IconButton
-              color="secondary"
               aria-label="open drawer"
               onClick={handleDrawerOpen}
               edge="start"
               sx={{ mr: 2, ...(open && { display: "none" }) }}
+              style={{
+                border: "2px solid white",
+                borderRadius: "50%",
+                color: "white",
+              }}
             >
               <MenuIcon />
             </IconButton>
           </Toolbar>
+
           <Drawer
-            // sx={{
-            //   width: "24px",
-            //   flexShrink: 0,
-            //   "& .MuiDrawer-paper": {
-            //     width: "240px",
-            //     boxSizing: "border-box",
-            //   },
-            //   "& .MuiPaper-root": {
-            //       backgroundColor: "red"
-            //   }
-            // }}
+            classes={{ paper: classes.theNameOfTheStyleClass }}
             variant="persistent"
             anchor="right"
             open={open}
-            className = {classes.listitem}
           >
             <DrawerHeader>
-              <IconButton onClick={handleDrawerClose}><CloseIcon/></IconButton>
+              <IconButton onClick={handleDrawerClose}>
+                <CloseIcon
+                  fontSize="large"
+                  style={{
+                    color: "red",
+                    border: "2px solid white",
+                    borderRadius: "50%",
+                  }}
+                />
+              </IconButton>
             </DrawerHeader>
             <Divider />
 
@@ -166,7 +185,7 @@ function Header() {
                   activeStyle={{ color: "red", fontWeight: "bold" }}
                 >
                   <ListItemIcon>
-                    <HomeIcon />
+                    <HomeIcon style={{ color: "white" }} />
                   </ListItemIcon>
                   <ListItemText primary="Главная" />
                 </NavLink>
@@ -180,7 +199,7 @@ function Header() {
                   activeStyle={{ color: "red", fontWeight: "bold" }}
                 >
                   <ListItemIcon>
-                    <PeopleIcon />
+                    <PeopleIcon style={{ color: "white" }} />
                   </ListItemIcon>
                   <ListItemText primary="Парикмахеры" />
                 </NavLink>
@@ -194,7 +213,7 @@ function Header() {
                   activeStyle={{ color: "red", fontWeight: "bold" }}
                 >
                   <ListItemIcon>
-                    <InfoIcon />
+                    <InfoIcon style={{ color: "white" }} />
                   </ListItemIcon>
                   <ListItemText primary="О сервисе" />
                 </NavLink>
