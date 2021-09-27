@@ -18,7 +18,7 @@ function HomePage() {
       <Header />
       <Grid xs={12} className={classes.content}>
         <Grid item xs={12} sm={5}>
-          <Box width={340} height={306} ml="150px" mt="80px" color="white">
+          <Box className={classes.contenText}>
             <Box>
               <h1>Хочешь выглядеть как Султан?</h1>
             </Box>
@@ -51,7 +51,7 @@ function HomePage() {
         </Grid>
 
         <Grid item xs={12} sm={6}>
-          <Box display="flex" mt="80px">
+          <Box display="flex" mt="103px">
             <Card className={classes.card}>
               <Box pb="30px" className={classes.cardLink}>
                 <CardMedia

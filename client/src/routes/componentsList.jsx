@@ -3,7 +3,7 @@ import LoginComponent from "../components/pages/Authorization/Login";
 import HomePage from "../components/pages/Home/HomePage";
 import OneBeardPage from "../components/pages/Beards/OneBeardPage";
 import AllHairstylesPage from "../components/pages/HairStyles/AllHairstylesPage";
-import AllBarbersPage from "../components/pages/barbers/AllBarbersPage";
+import AllBarbersPage from "../components/pages/Barbers/AllBarbersPage";
 import AllBeardsPage from "../components/pages/Beards/AllBeardsPage";
 import OneHairStyle from "../components/pages/HairStyles/OneHairStyle";
 import MyProfile from "../components/pages/MyProfile";

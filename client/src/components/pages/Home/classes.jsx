@@ -30,6 +30,15 @@ const useStyles = makeStyles((theme) => ({
       display: "flex",
       justifyContent: "space-between",
     },
+    contenText:{
+      width:340, 
+      height:306, 
+      marginLeft:"150px", 
+      marginTop:"80px", 
+      color:"white",
+      fontSize:18
+      
+    },
     triangle: {
       width: 250,
       background: "linear-gradient(297deg, transparent 1.5em, #e9f666 0 )",
