@@ -202,5 +202,17 @@ module.exports.usersController = {
         } catch (e) {
             res.status(400).json({error: e});
         }
+    },
+
+    updateUserDataBarber: async (req, res) => {
+        try {
+            const {personal, role} = req.user;
+            const data = req.body;
+            await Barber.findByIdAndUpdate(personal._id, data);
+            res.status(200).json({success: "Данные были успешно обновлены!"});
+        } catch (e) {
+            console.log(e);
+            res.status(400).json({error: e});
+        }
     }
 }

@@ -37,6 +37,7 @@ const UpdateAvatar = ({person, useStyles}) => {
             sx={{mr: -1}}
             control={<input type="file" accept="image/*" style={{display: "none"}} />}
             onChange={handleChange}
+            classes={{root: classes.rootLabel}}
             label={!!avatar.length ?
               (<Tooltip
                   interactive

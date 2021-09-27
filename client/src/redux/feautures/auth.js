@@ -28,6 +28,16 @@ const reducer = (state = initialState, action) => {
         case "auth/loadUser/fulfilled" :
             return {...state, person: action.payload.user, userLoading: undefined}
 
+        //Обновление данных пользователя
+        case "auth/updateUserData/pending" :
+            return {...state, success: null, error: null, dataUpdating: true}
+        case "auth/updateUserData/rejected" :
+            return {...state, error: action.error, dataUpdating: undefined}
+        case "auth/updateUserData/fulfilled" :
+            return {...state, success: action.payload.success, dataUpdating: undefined,
+                person: {...state.person,
+                    personal: {...state.person.personal, ...action.payload.data}}}
+
         //Обновление аватарки Парикмахера
         case "auth/updateAvatar/pending" :
             return {...state, error: null, success: null, avatarUpdating: true}
@@ -36,11 +46,12 @@ const reducer = (state = initialState, action) => {
         case "auth/updateAvatar/fulfilled" : {
             const {avatar, success} = action.payload;
             return {
-                ...state, success,
+                ...state, success, avatarUpdating: undefined,
                 person: {...state.person,
                     personal: {...state.person.personal, avatar}}
             };
         }
+
 
         //Вход в аккаунт
         case "auth/login/error/resetInfo" :
@@ -178,6 +189,31 @@ export const updateAvatar = (avatar) => async (dispatch, getStore) => {
         dispatch({type: "auth/updateAvatar/rejected", error: json.error});
     } else {
         dispatch({type: "auth/updateAvatar/fulfilled", payload: {success: json.success, avatar: json.path}});
+    }
+}
+
+
+/*\-------------------<>-------------------\*/
+
+
+export const updateUserData = (data) => async (dispatch, getStore) => {
+    const store = getStore();
+    dispatch({type: "auth/updateUserData/pending"});
+
+    const res = await fetch("/api/updateData", {
+        method: "PATCH",
+        body: JSON.stringify(data),
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: store.auth.token
+        }
+    });
+    const json = await res.json();
+
+    if (json.error) {
+        dispatch({type: "auth/updateUserData/rejected", error: json.error});
+    } else {
+        dispatch({type: "auth/updateUserData/fulfilled", payload: {success: json.success, data}});
     }
 }
 

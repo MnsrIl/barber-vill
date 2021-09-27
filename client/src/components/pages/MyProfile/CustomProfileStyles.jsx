@@ -18,7 +18,6 @@ const profilePageStyle = theme => ({
             maxWidth: "160px",
             width: "100%",
             margin: "0 auto",
-            transform: "translate3d(0, -50%, 0)",
         },
     },
     description: {
@@ -79,6 +78,8 @@ const profilePageStyle = theme => ({
         opacity: 0.45,
         color: `${textDark} !important`,
     },
+
+    rootLabel: {transform: "translate3d(0, -50%, 0)"},
 
     ...tooltip,
 
