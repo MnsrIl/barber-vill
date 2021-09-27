@@ -11,6 +11,7 @@ import {
   boxShadow,
   drawerWidth,
 } from "../material-kit-react.js";
+import {makeStyles} from "@material-ui/core";
 
 const headerStyle = {
   appBar: {
@@ -149,4 +150,4 @@ const headerStyle = {
   },
 };
 
-export default headerStyle;
+export default makeStyles(headerStyle);

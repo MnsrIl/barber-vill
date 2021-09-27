@@ -1,27 +1,17 @@
-import imagesStyle from "./imagesStyles";
+import {container, title} from "./CustomComponents/material-kit-react"
+import imagesStyle from "./CustomComponents/imagesStyles";
+import {makeStyles} from "@material-ui/core";
+import tooltip from "./CustomComponents/Header/tooltipsStyle";
 
-const profilePageStyle = {
+const textDark = "#0D0D0D";
+const borderLight = "rgba(206,212,218, .993)";
 
-    container: {
-        paddingRight: "15px",
-        paddingLeft: "15px",
-        marginRight: "auto",
-        marginLeft: "auto",
-        width: "100%",
-        "@media (min-width: 576px)": {
-            maxWidth: "540px",
-        },
-        "@media (min-width: 768px)": {
-            maxWidth: "720px",
-        },
-        "@media (min-width: 992px)": {
-            maxWidth: "960px",
-        },
-        "@media (min-width: 1200px)": {
-            maxWidth: "1140px",
-        },
+const profilePageStyle = theme => ({
+
+    container,
+    margin5: {
+        margin: "5px",
     },
-
     profile: {
         textAlign: "center",
         "& img": {
@@ -36,6 +26,11 @@ const profilePageStyle = {
         maxWidth: "600px",
         color: "#999",
         textAlign: "center !important",
+        "& .MuiTextField-root": {
+            width: '600px',
+            textAlign: "center !important",
+            color: "#999"
+        }
     },
     name: {
         marginTop: "-80px",
@@ -53,10 +48,7 @@ const profilePageStyle = {
             "0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2)",
     },
     title: {
-        color: "#3C4858",
-        margin: "1.75rem 0 0.875rem",
-        fontWeight: "700",
-        fontFamily: `"Roboto Slab", "Times New Roman", serif`,
+        ...title,
         display: "inline-block",
         position: "relative",
         marginTop: "30px",
@@ -78,6 +70,36 @@ const profilePageStyle = {
         margin: "20px auto 50px auto",
         textAlign: "center",
     },
-};
+    labels: {
+        padding: `${theme.spacing(1)}px ${theme.spacing(4)}px`,
+        fontSize: "13px",
+        lineHeight: "5px",
+        fontFamily: "PT Mono, monospace",
+        fontWeight: 400,
+        opacity: 0.45,
+        color: `${textDark} !important`,
+    },
 
-export default profilePageStyle;
+    ...tooltip,
+
+    inputs: {
+        position: "relative",
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+        fontFamily: "Cutive Mono, monospace",
+        color: textDark,
+        fontSize: "14px",
+        padding: `${theme.spacing(1.5)}px ${theme.spacing(1)}px`,
+        borderRadius: "8px",
+        border: "1.4px solid",
+        boxShadow: "1px 2px 20px rgba(169,198,217,0.29457423) ",
+        borderColor: borderLight,
+
+        "&:hover": {
+            background: "rgba(169,198,217,0.36457423) ",
+        },
+    },
+
+});
+
+export default makeStyles(profilePageStyle);

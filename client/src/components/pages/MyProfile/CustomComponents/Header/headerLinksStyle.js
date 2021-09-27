@@ -1,6 +1,7 @@
 import { defaultFont } from "../material-kit-react.js";
 
 import tooltip from "./tooltipsStyle.js";
+import {makeStyles} from "@material-ui/core";
 
 const headerLinksStyle = (theme) => ({
   list: {
@@ -101,11 +102,13 @@ const headerLinksStyle = (theme) => ({
     marginRight: "4px",
   },
   dropdownLink: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
     "&,&:hover,&:focus": {
       color: "inherit",
       textDecoration: "none",
-      display: "block",
-      padding: "10px 20px",
+      padding: "8px 15px",
     },
   },
   ...tooltip,
@@ -114,4 +117,4 @@ const headerLinksStyle = (theme) => ({
   },
 });
 
-export default headerLinksStyle;
+export default makeStyles(headerLinksStyle);
