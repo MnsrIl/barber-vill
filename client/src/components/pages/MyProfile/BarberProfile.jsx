@@ -30,47 +30,21 @@ import work5 from "../../../image/clem-onojegaw.jpg";
 
 import styles from "./CustomProfileStyles";
 import {useSelector} from "react-redux";
-import {Tooltip} from "@material-ui/core"
+import {Input, InputLabel, Tooltip} from "@material-ui/core"
 import {GitHub, Telegram, Camera, Palette, Favorite, Create as CreateIcon, Facebook} from "@material-ui/icons";
-import {FormControlLabel, TextField} from "@mui/material";
+import {FormControl, FormControlLabel, TextField} from "@mui/material";
 import {ArrowDownward, ArrowForward, ArrowForwardIos, Email, KeyboardArrowDown, Save} from "@mui/icons-material";
+import UpdateAvatar from "./Barber/UpdateAvatar";
 
 
 const useStyles = styles;
-
-/**Просто компонент с аватаркой, который был вынесен в отдельную константу, ибо ему не хватило места*/
-const AvatarComponent = ({person, state}) => {
-
-  const classes = useStyles();
-  const imageClasses = classNames(classes.imgRaised, classes.imgRoundedCircle, classes.imgFluid);
-
-  const imgSrc = state.avatar?.length ? URL.createObjectURL(state.avatar[0]) : person.personal?.avatar || avatarImage;
-
-  return !!state.avatar.length ?
-      <Tooltip
-          open={true}
-          interactive
-          title={<span onClick={() => console.log("Аватарка успешно изменена!")} >Сохранить изменения</span>}
-          placement={"top"}
-          classes={{tooltip: classes.tooltip}}
-      >
-        <img src={imgSrc} alt="avatar" className={imageClasses}/>
-      </Tooltip>
-      :
-      <Tooltip
-          title={"Желаете изменить аватарку?"}
-          placement={"top"}
-          classes={{tooltip: classes.tooltip}}>
-        <img src={imgSrc} alt="avatar" className={imageClasses}/>
-      </Tooltip>;
-}
 
 const BarberProfile = (props) => {
   const person = useSelector(store => store.auth.person);
 
   const [changeAble, setChangeAble] = useState(false);
   const [state, setState] = useState({
-    avatar: "",
+    email: person?.personal.email || "",
   })
 
   const handleChangeState = (name, option = "value") => e => {
@@ -93,10 +67,12 @@ const BarberProfile = (props) => {
 
   const handleChange = () => setChangeAble(!changeAble);
   const handleText = (e) => setMySelfText(e.target.value);
+  const [changeAbleData, setChangeAbleData] = useState(true);
+
+  const handleChangeAbling = () => setChangeAbleData(!changeAbleData);
 
   const classes = useStyles();
   const { ...rest } = props;
-  const imageClasses = classNames(classes.imgRaised, classes.imgRoundedCircle, classes.imgFluid);
   const navImageClasses = classNames(classes.imgRounded, classes.imgGallery);
 
   return (
@@ -124,12 +100,7 @@ const BarberProfile = (props) => {
                 <GridItem xs={12} sm={12} md={6}>
                   <div className={classes.profile}>
                     <div>
-                      <FormControlLabel
-                          sx={{mr: -1}}
-                          control={<input type="file" accept="image/*" style={{display: "none"}} />}
-                          onChange={handleChangeState("avatar", "files")}
-                          label={<AvatarComponent state={state} person={person}/>}
-                      />
+                      <UpdateAvatar person={person} useStyles={useStyles} />
                     </div>
                     <div className={classes.name}>
                       <h3 className={classes.title}>
@@ -237,33 +208,28 @@ const BarberProfile = (props) => {
                           tabContent: (
                               <GridContainer justifyContent="center">
                                 <GridItem xs={12} sm={12} md={4}>
-                                  <img
-                                      alt="..."
-                                      src={work1}
-                                      className={navImageClasses}
-                                  />
-                                  <img
-                                      alt="..."
-                                      src={work2}
-                                      className={navImageClasses}
-                                  />
-                                  <img
-                                      alt="..."
-                                      src={work3}
-                                      className={navImageClasses}
-                                  />
-                                </GridItem>
-                                <GridItem xs={12} sm={12} md={4}>
-                                  <img
-                                      alt="..."
-                                      src={work4}
-                                      className={navImageClasses}
-                                  />
-                                  <img
-                                      alt="..."
-                                      src={work5}
-                                      className={navImageClasses}
-                                  />
+                                  <FormControl required fullWidth margin="normal">
+                                    <InputLabel htmlFor="number" className={classes.labels}>
+                                      Почта
+                                    </InputLabel>
+                                    <Input
+                                        disabled={changeAbleData}
+                                        name="number"
+                                        type="text"
+                                        autoComplete="off"
+                                        className={classes.inputs}
+                                        placeholder={person?.personal.email}
+                                        disableUnderline={true}
+                                        // onChange={handleChange("login")}
+                                    />
+                                  </FormControl>
+                                <Button simple color={"facebook"} onClick={handleChangeAbling}>
+                                  {changeAbleData ?
+                                      <>Изменить данные <CreateIcon/> </>
+                                      :
+                                      <>Сохранить изменения <Save/> </>
+                                  }
+                                </Button>
                                 </GridItem>
                               </GridContainer>
                           ),

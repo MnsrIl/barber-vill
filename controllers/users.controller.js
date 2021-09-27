@@ -4,6 +4,7 @@ const {User} = require("../models/User.model");
 const {sign, verify} = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const {extname} = require("path");
+const fs = require("fs");
 
 const { SECRET_KEY, HASH_SALT } = process.env;
 
@@ -140,6 +141,64 @@ module.exports.usersController = {
             const user = await User.findById(_id, "-password").populate("personal");
 
             res.status(200).json({success: "Пользователь успешно найден", user });
+        } catch (e) {
+            res.status(400).json({error: e});
+        }
+    },
+
+    getBarbers: async (req, res) => {
+        try {
+            const barbers = await User.find({role: "Barber"}).populate("personal");
+
+            res.status(200).json({success: "Барберы успешно загружены", barbers});
+        } catch (e) {
+            res.status(400).json({error: e});
+        }
+    },
+
+    removeUser: async (req, res) => {
+        try {
+            const {role, id, personal} = req.user;
+
+            await [role].findByIdAndRemove(personal._id);
+            await User.findByIdAndRemove(id);
+
+            res.status(200).json({success: "Пользователь успешно удалён"});
+        } catch (e) {
+            res.status(400).json({error: e});
+        }
+    },
+
+    updateImage: async (req, res) => {
+        try {
+            const {personal, role} = req.user;
+            const avatar = req.files?.avatar;
+
+            if (role !== "Barber") {
+                res.status(400).json({error: "You have to be a barber!"});
+            }
+
+            let filePath = "";
+
+            const barber = await Barber.findById(personal._id);
+
+            if (avatar) {
+                const ext = extname(avatar.name);
+
+                if(!((/^.(png|jpe?g|svg)$/i).test(ext))) { //Проверка на нужный нам формат
+                    return res.status(400).json({error: "Формат файла вашей аватарки не поддерживается!"});
+                }
+
+                filePath = "/assets/images/avatars/" + Math.random() + ext;
+            }
+            if (barber.avatar) {
+                fs.unlinkSync(`./client/public${barber.avatar}`);
+            }
+
+            await Barber.findByIdAndUpdate(personal._id, {avatar: filePath});
+
+            avatar && await avatar.mv(`./client/public${filePath}`);
+            res.status(200).json({success: "Фотография была успешно изменена!", path: filePath });
         } catch (e) {
             res.status(400).json({error: e});
         }

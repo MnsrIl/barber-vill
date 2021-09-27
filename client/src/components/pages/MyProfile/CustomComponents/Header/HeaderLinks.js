@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import CustomDropdown from "../CustomDropdown/CustomDropdown.js";
 
 import styles from "./headerLinksStyle.js";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 const useStyles = styles;
 
@@ -13,6 +13,7 @@ export default function HeaderLinks(props) {
 
     const classes = useStyles();
     const dispatch = useDispatch();
+    const person = useSelector(store => store.auth.person)
 
     const handleLogOut = () => {
       dispatch({type: "auth/logout"});
@@ -44,7 +45,7 @@ export default function HeaderLinks(props) {
                       color: "transparent",
                   }}
                   buttonIcon={Apps}
-                  dropdownList={[
+                  dropdownList={person?.role === "Client" ? [
                       <Link to="/" className={classes.dropdownLink}>
                           <CashIcon color={"success"} sx={{mr: "5px"}} />
                           Пополнить баланс
@@ -53,6 +54,11 @@ export default function HeaderLinks(props) {
                           <DeleteIcon color={"error"} />
                           Удалить аккаунт
                       </Link>,
+                  ] : [
+                    <Link to="/" className={classes.dropdownLink}>
+                      <DeleteIcon color={"error"} />
+                      Удалить аккаунт
+                    </Link>
                   ]}
               />
           </ListItem>
