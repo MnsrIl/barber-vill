@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  Button,
   Divider,
   Drawer,
   IconButton,
@@ -40,10 +39,7 @@ const useStyles = makeStyles((theme) => ({
     padding: "20px 60px",
     alignItems: "center",
     justifyContent: "space-between",
-    borderBottom: "1px solid grey",
-  },
-  listIcon: {
-    height: 40,
+    // borderBottom: "1px solid grey",
   },
   iconsMenu: {
     display: "flex",
@@ -87,50 +83,6 @@ function Header() {
   return (
     <Box className={classes.headerMain}>
       <Box color="white">logo</Box>
-      <Box className={classes.listIcon}>
-        <Button
-          id="basic-button"
-          aria-controls="basic-menu"
-          aria-haspopup="true"
-          style={{ color: "white", marginLeft: "700px" }}
-          aria-expanded={openLanguage ? "true" : undefined}
-          onClick={handleClick}
-        >
-          <Box>
-            <GTranslateIcon />
-          </Box>
-          language
-        </Button>
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={openLanguage}
-          onClose={handleClose}
-          style={{ top: "45px", width: "200px", marginLeft: "12px" }}
-          MenuListProps={{
-            "aria-labelledby": "basic-button",
-          }}
-        >
-          <MenuItem onClick={handleClose}>
-            <NavLink
-              to=""
-              style={{ textDecoration: "none" }}
-              activeStyle={{ color: "red", fontWeight: "bold" }}
-            >
-              <ListItemText primary="English" />
-            </NavLink>
-          </MenuItem>
-          <MenuItem onClick={handleClose}>
-            <NavLink
-              to=""
-              style={{ textDecoration: "none" }}
-              activeStyle={{ color: "red", fontWeight: "bold" }}
-            >
-              <ListItemText primary="Русский" />
-            </NavLink>
-          </MenuItem>
-        </Menu>
-      </Box>
       <Box
         width="120px"
         display="flex"
@@ -161,6 +113,7 @@ function Header() {
             variant="persistent"
             anchor="right"
             open={open}
+            style={{ position: "relative" }}
           >
             <DrawerHeader>
               <IconButton onClick={handleDrawerClose}>
@@ -218,6 +171,55 @@ function Header() {
                   <ListItemText primary="О сервисе" />
                 </NavLink>
               </ListItemButton>
+            </List>
+            <List
+              component="div"
+              disablePadding
+              style={{ position: "absolute", bottom: 0, height: "70px" }}
+            >
+              <ListItemButton
+                sx={{ pl: 4, color: "white" }}
+                id="basic-button"
+                aria-controls="basic-menu"
+                aria-haspopup="true"
+                aria-expanded={openLanguage ? "true" : undefined}
+                onClick={handleClick}
+              >
+                <ListItemIcon>
+                  <GTranslateIcon style={{ color: "white" }} />
+                </ListItemIcon>
+                <ListItemText primary=" Язык" />
+              </ListItemButton>
+
+              <Menu
+                id="basic-menu"
+                anchorEl={anchorEl}
+                open={openLanguage}
+                onClose={handleClose}
+                style={{ marginTop: "-50px", marginLeft: "35px" }}
+                MenuListProps={{
+                  "aria-labelledby": "basic-button",
+                }}
+              >
+                <MenuItem onClick={handleClose}>
+                  <NavLink
+                    to=""
+                    style={{ textDecoration: "none", padding: "0 12px" }}
+                    activeStyle={{ color: "red", fontWeight: "bold" }}
+                  >
+                    <ListItemText primary="English" />
+                  </NavLink>
+                </MenuItem>
+                <MenuItem onClick={handleClose}>
+                  <NavLink
+                    to=""
+                    style={{ textDecoration: "none", padding: "0 12px" }}
+                    activeStyle={{ color: "red", fontWeight: "bold" }}
+                  >
+                    <ListItemText primary="Русский" />
+                  </NavLink>
+                </MenuItem>
+              </Menu>
             </List>
           </Drawer>
         </Box>
