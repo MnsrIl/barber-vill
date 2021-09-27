@@ -1,7 +1,6 @@
 import Cookies from 'js-cookie';
 
 const tokenCookie = Cookies.get("token");
-//console.log(getCookie(), document.cookie.replace(/(?:(?:^|.*;\s*)token\s*=\s*([^;]*).*$)|^.*$/, "$1"));
 
 const initialState = {
     isLoggingIn: false,
@@ -28,6 +27,20 @@ const reducer = (state = initialState, action) => {
             return {...state, error: action.error, userLoading: undefined}
         case "auth/loadUser/fulfilled" :
             return {...state, person: action.payload.user, userLoading: undefined}
+
+        //Обновление аватарки Парикмахера
+        case "auth/updateAvatar/pending" :
+            return {...state, error: null, success: null, avatarUpdating: true}
+        case "auth/updateAvatar/rejected" :
+            return {...state, error: action.error, avatarUpdating: undefined}
+        case "auth/updateAvatar/fulfilled" : {
+            const {avatar, success} = action.payload;
+            return {
+                ...state, success,
+                person: {...state.person,
+                    personal: {...state.person.personal, avatar}}
+            };
+        }
 
         //Вход в аккаунт
         case "auth/login/error/resetInfo" :
@@ -59,10 +72,9 @@ const reducer = (state = initialState, action) => {
     }
 }
 
-//
-//
-//
-//
+
+/*\-------------------<>-------------------\*/
+
 
 export const createNewUser = (data) => async (dispatch) => {
     dispatch({type: "auth/createNewUser/pending"});
@@ -93,9 +105,9 @@ export const createNewUser = (data) => async (dispatch) => {
 
 }
 
-//
-//
-//
+
+/*\-------------------<>-------------------\*/
+
 
 export const logInto = (login, password) => async (dispatch) => {
     dispatch({type: "auth/login/pending"});
@@ -117,9 +129,9 @@ export const logInto = (login, password) => async (dispatch) => {
     }
 }
 
-//
-//
-//
+
+/*\-------------------<>-------------------\*/
+
 
 export const loadUser = () => async (dispatch, getStore) => {
 
@@ -142,10 +154,31 @@ export const loadUser = () => async (dispatch, getStore) => {
     }
 }
 
-export default reducer;
 
-//Если пользователь зарегистрировался, то должен -будет- присвоиться токен, person должен быть заполнен;
-// так же должны прийти либо ключ error, либо success; Если success - то он идёт дальше, через некоторый тайминг.
-// При скрытии окна в стейте ключи error и success должны очиститься
-//
-//При выходе должен очиститься токен, и всё ему принадлежащее
+/*\-------------------<>-------------------\*/
+
+
+export const updateAvatar = (avatar) => async (dispatch, getStore) => {
+    dispatch({type: "auth/updateAvatar/pending"});
+
+    const store = getStore();
+    const formData = new FormData();
+    formData.set("avatar", avatar ? avatar[0] : "");
+
+    const res = await fetch("/api/barbers/updateAvatar", {
+        method: "PATCH",
+        body: formData,
+        headers: {
+            Authorization: store.auth.token
+        }
+    });
+    const json = await res.json();
+
+    if (json.error) {
+        dispatch({type: "auth/updateAvatar/rejected", error: json.error});
+    } else {
+        dispatch({type: "auth/updateAvatar/fulfilled", payload: {success: json.success, avatar: json.path}});
+    }
+}
+
+export default reducer;

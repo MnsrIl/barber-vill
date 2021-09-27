@@ -86,7 +86,7 @@ const ClientProfile = (props) => {
 
                         </div>
                         <h4 className={classes.title}>
-                          Ваш баланс: {person?.personal.balance}$ {/*Баланс*/}
+                          Ваш баланс: {person?.personal.balance}$  {/*Баланс*/}
                         </h4>
                       </div>
                     </GridItem>
