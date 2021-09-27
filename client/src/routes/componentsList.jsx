@@ -6,7 +6,7 @@ import AllHairstylesPage from "../components/pages/HairStyles/AllHairstylesPage"
 import AllBarbersPage from "../components/pages/barbers/AllBarbersPage";
 import AllBeardsPage from "../components/pages/Beards/AllBeardsPage";
 import OneHairStyle from "../components/pages/HairStyles/OneHairStyle";
-import MyProfile from "../components/pages/MyProfile";
+import MyProfile from "../components/pages/MyProfile/index";
 
 export const Login = () => <LoginComponent />
 

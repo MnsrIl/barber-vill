@@ -1,11 +1,15 @@
-import {Paper} from "@mui/material";
+import {useSelector} from "react-redux";
+import BarberProfile from "./BarberProfile";
+import ClientProfile from "./ClientProfile";
 
 const MyProfile = () => {
-    return (
-        <Paper>
-            Это мой профиль!
-        </Paper>
-    );
-};
+    const person = useSelector(store => store.auth.person);
 
+    return (
+        <div>
+            {person?.role === "Barber" ? <BarberProfile /> : <ClientProfile />}
+        </div>
+    )
+
+};
 export default MyProfile;
