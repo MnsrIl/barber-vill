@@ -7,32 +7,6 @@ import {updateAvatar} from "../../../../redux/feautures/auth";
 import {useDispatch, useSelector} from "react-redux";
 import {useSnackbar} from "notistack";
 
-// const AvatarComponent = ({person, avatar}) => {
-//
-//   const classes = useStyles();
-//   const imageClasses = classNames(classes.imgRaised, classes.imgRoundedCircle, classes.imgFluid);
-//
-//   const imgSrc = avatar?.length ? URL.createObjectURL(avatar[0]) : person.personal?.avatar || avatarImage;
-//
-//   return !!state.avatar.length ?
-//       <Tooltip
-//           open={true}
-//           interactive
-//           title={<span onClick={() => console.log("Аватарка успешно изменена!")} >Сохранить изменения</span>}
-//           placement={"top"}
-//           classes={{tooltip: classes.tooltip}}
-//       >
-//         <img src={imgSrc} alt="avatar" className={imageClasses}/>
-//       </Tooltip>
-//       :
-//       <Tooltip
-//           title={"Желаете изменить аватарку?"}
-//           placement={"top"}
-//           classes={{tooltip: classes.tooltip}}>
-//         <img src={imgSrc} alt="avatar" className={imageClasses}/>
-//       </Tooltip>;
-// }
-
 const UpdateAvatar = ({person, useStyles}) => {
   const [avatar, setAvatar] = useState("");
   const {enqueueSnackbar, closeSnackbar} = useSnackbar();
