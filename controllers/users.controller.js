@@ -6,6 +6,8 @@ const bcrypt = require("bcryptjs");
 const {extname} = require("path");
 const fs = require("fs");
 
+const phoneRegEx = /^((\+7|7|8)\s?)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{2}[\s.-]?\d{2}$/;
+const emailRegEx = /(?:[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*|"(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21\x23-\x5b\x5d-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])*")@(?:(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?|\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-z0-9-]*[a-z0-9]:(?:[\x01-\x08\x0b\x0c\x0e-\x1f\x21-\x5a\x53-\x7f]|\\[\x01-\x09\x0b\x0c\x0e-\x7f])+)\])/;
 const { SECRET_KEY, HASH_SALT } = process.env;
 
 const generateNewToken = (payload) =>
@@ -92,6 +94,9 @@ module.exports.usersController = {
 
                 if (!email) {
                     return res.status(404).json({error: "Необходимо указать почту!"});
+                }
+                if (!(emailRegEx.test(email))) {
+                    return res.status(404).json({error: "Ошибка! Некорректный вид почты."});
                 }
 
                 //Проверка на возможность ранее зарегистрированного пользователя с такой же почтой
@@ -200,6 +205,32 @@ module.exports.usersController = {
             avatar && await avatar.mv(`./client/public${filePath}`);
             res.status(200).json({success: "Фотография была успешно изменена!", path: filePath });
         } catch (e) {
+            res.status(400).json({error: e});
+        }
+    },
+
+    updateUserDataBarber: async (req, res) => {
+        try {
+            const {personal, role, _id} = req.user;
+            const { name, ...data } = req.body;
+
+            if (
+                ("email" in data && !data.email) || ("telegram" in data && !data.telegram) ||
+                ("number" in data && !data.number) || ("lastname" in data && !data.lastname || !name)
+               ) {
+                return res.status(404).json({error: "Изменённые поля не могут быть пустыми!"});
+            }
+
+            if (data.email && !emailRegEx.test(data.email)) {
+                return res.status(404).json({error: "Ошибка! Некорректный вид почты."});
+            }
+
+            await User.findByIdAndUpdate(_id, {name});
+            await (role === "Barber" ? Barber : Client).findByIdAndUpdate(personal._id, data);
+
+            res.status(200).json({success: "Данные были успешно обновлены!"});
+        } catch (e) {
+            console.log(e);
             res.status(400).json({error: e});
         }
     }

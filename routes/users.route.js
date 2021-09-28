@@ -8,6 +8,7 @@ router.post("/signup", usersController.signup);
 router.post("/login", usersController.login);
 router.post("/logout", usersController.logout);
 router.get("/profile", authMiddleware, usersController.getAuthorizedUser);
+router.patch("/updateData", authMiddleware, usersController.updateUserDataBarber);
 
 //routes for barbers
 router.get("/barbers", usersController.getBarbers);

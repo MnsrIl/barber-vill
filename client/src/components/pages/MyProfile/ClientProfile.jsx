@@ -73,7 +73,7 @@ const ClientProfile = (props) => {
                     <GridItem xs={12} sm={12} md={6}>
                       <div className={classes.profile}>
                         <div>
-                          <img src={helloImage} alt="..." className={imageClasses} />
+                          <img src={helloImage} alt="..." className={imageClasses} style={{transform: "translate3d(0, -50%, 0)"}} />
                         </div>
                         <div className={classes.name}>
                           <h3 className={classes.title}>
@@ -136,16 +136,15 @@ const ClientProfile = (props) => {
                                   <GridContainer justifyContent="center">
                                     <GridItem xs={12} sm={12} md={4}>
                                       <FormControl required fullWidth margin="normal">
-                                      <InputLabel htmlFor="login" className={classes.labels}>
+                                      <InputLabel htmlFor="name" className={classes.labels}>
                                         Имя
                                       </InputLabel>
                                       <Input
                                           disabled={changeAbleData}
-                                          name="login"
+                                          name="name"
                                           type="text"
                                           autoComplete="off"
                                           className={classes.inputs}
-                                          placeholder={"Ваше имя"}
                                           disableUnderline={true}
                                           // onChange={handleChange("login")}
                                       />
@@ -160,18 +159,17 @@ const ClientProfile = (props) => {
                                             type="text"
                                             autoComplete="off"
                                             className={classes.inputs}
-                                            placeholder={"Ваш номер телефона"}
                                             disableUnderline={true}
                                             // onChange={handleChange("login")}
                                         />
                                       </FormControl>
-                                          <Button simple color={"facebook"} onClick={handleChangeAbling}>
-                                            {changeAbleData ?
-                                                <>Изменить данные <CreateIcon/> </>
-                                                :
-                                                <>Сохранить изменения <Save/> </>
-                                            }
-                                          </Button>
+                                      <Button simple color={"facebook"} onClick={handleChangeAbling}>
+                                        {changeAbleData ?
+                                            <>Изменить данные <CreateIcon/> </>
+                                            :
+                                            <>Сохранить изменения <Save/> </>
+                                        }
+                                      </Button>
                                     </GridItem>
                                   </GridContainer>
                               ),

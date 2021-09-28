@@ -29,12 +29,13 @@ import work4 from "../../../image/mariya-georgieva.jpg";
 import work5 from "../../../image/clem-onojegaw.jpg";
 
 import styles from "./CustomProfileStyles";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {Input, InputLabel, Tooltip} from "@material-ui/core"
 import {GitHub, Telegram, Camera, Palette, Favorite, Create as CreateIcon, Facebook} from "@material-ui/icons";
 import {FormControl, FormControlLabel, TextField} from "@mui/material";
 import {ArrowDownward, ArrowForward, ArrowForwardIos, Email, KeyboardArrowDown, Save} from "@mui/icons-material";
 import UpdateAvatar from "./Barber/UpdateAvatar";
+import {updateUserData} from "../../../redux/feautures/auth";
 
 
 const useStyles = styles;
@@ -45,6 +46,9 @@ const BarberProfile = (props) => {
   const [changeAble, setChangeAble] = useState(false);
   const [state, setState] = useState({
     email: person?.personal.email || "",
+    telegram: person?.personal.telegram || "",
+    lastname: person?.personal.lastname || "",
+    name: person?.name || "",
   })
 
   const handleChangeState = (name, option = "value") => e => {
@@ -69,7 +73,13 @@ const BarberProfile = (props) => {
   const handleText = (e) => setMySelfText(e.target.value);
   const [changeAbleData, setChangeAbleData] = useState(true);
 
-  const handleChangeAbling = () => setChangeAbleData(!changeAbleData);
+  const dispatch = useDispatch()
+  const handleChangeAbling = () => {
+    if (!changeAbleData) {
+      dispatch(updateUserData({email: state.email, name: state.name, lastname: state.lastname, telegram: state.telegram}));
+    }
+    setChangeAbleData(!changeAbleData)
+  };
 
   const classes = useStyles();
   const { ...rest } = props;
@@ -104,7 +114,7 @@ const BarberProfile = (props) => {
                     </div>
                     <div className={classes.name}>
                       <h3 className={classes.title}>
-                        {person?.name} {/*Имя*/}
+                        {person?.name} {(person?.personal?.lastname)} {/*Имя*/}
                       </h3>
                       <h6 style={{fontSize: "0.75em", fontWeight: "600", margin: "4px 0"}}>
                         {person?.personal.email && /*Отображение почты, если она есть*/
@@ -209,18 +219,63 @@ const BarberProfile = (props) => {
                               <GridContainer justifyContent="center">
                                 <GridItem xs={12} sm={12} md={4}>
                                   <FormControl required fullWidth margin="normal">
-                                    <InputLabel htmlFor="number" className={classes.labels}>
-                                      Почта
+                                    <InputLabel className={classes.labels}>
+                                      Имя
                                     </InputLabel>
                                     <Input
+                                        value={state.name}
                                         disabled={changeAbleData}
                                         name="number"
                                         type="text"
                                         autoComplete="off"
                                         className={classes.inputs}
-                                        placeholder={person?.personal.email}
                                         disableUnderline={true}
-                                        // onChange={handleChange("login")}
+                                        onChange={handleChangeState("name")}
+                                    />
+                                  </FormControl>
+                                  <FormControl required fullWidth margin="normal">
+                                    <InputLabel className={classes.labels}>
+                                      Фамилия
+                                    </InputLabel>
+                                    <Input
+                                        value={state.lastname}
+                                        disabled={changeAbleData}
+                                        name="number"
+                                        type="text"
+                                        autoComplete="off"
+                                        className={classes.inputs}
+                                        disableUnderline={true}
+                                        onChange={handleChangeState("lastname")}
+                                    />
+                                  </FormControl>
+                                  <FormControl required fullWidth margin="normal">
+                                    <InputLabel className={classes.labels}>
+                                      Почта
+                                    </InputLabel>
+                                    <Input
+                                        value={state.email}
+                                        disabled={changeAbleData}
+                                        name="number"
+                                        type="text"
+                                        autoComplete="off"
+                                        className={classes.inputs}
+                                        disableUnderline={true}
+                                        onChange={handleChangeState("email")}
+                                    />
+                                  </FormControl>
+                                  <FormControl required fullWidth margin="normal">
+                                    <InputLabel className={classes.labels}>
+                                      Телеграмм
+                                    </InputLabel>
+                                    <Input
+                                        value={state.telegram}
+                                        disabled={changeAbleData}
+                                        name="number"
+                                        type="text"
+                                        autoComplete="off"
+                                        className={classes.inputs}
+                                        disableUnderline={true}
+                                        onChange={handleChangeState("telegram")}
                                     />
                                   </FormControl>
                                 <Button simple color={"facebook"} onClick={handleChangeAbling}>
