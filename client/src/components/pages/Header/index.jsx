@@ -54,8 +54,8 @@ const useStyles = makeStyles((theme) => ({
 const DrawerHeader = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
-  paddingTop: 9,
-  paddingLeft: 89,
+  paddingTop: 8,
+  paddingLeft: 90,
 }));
 
 function Header() {

@@ -7,7 +7,9 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllBarbers } from "../../../redux/feautures/barbers";
 import Header from "../Header";
 
 const useStyles = makeStyles((theme) => ({
@@ -118,6 +120,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   img: {
+    maxHeight:420,
     transition: "all 0.5s",
   },
 }));
@@ -125,100 +128,60 @@ const useStyles = makeStyles((theme) => ({
 function AllBarbersPage() {
   const classes = useStyles();
 
+  const { loading, barbers } = useSelector((store) => store.barbers);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllBarbers());
+  }, [dispatch]);
+
   return (
     <Grid container className={classes.main}>
-      <Grid className={classes.header}>
-        <Header />
-      </Grid>
-
-      <Grid item xs={12} style={{ margin: 100, textAlign: "center" }}>
-        <Typography variant="h2" style={{ color: "white" }}>
-          Все парикмахеры
-        </Typography>
-      </Grid>
-
-      <Grid container style={{ display: "flex", justifyContent: "center" }}>
-        <Grid item xs={12} sm={3} className={classes.cardBox}>
-          <Card className={classes.card}>
-            <Box>
-              <CardMedia
-                component={"img"}
-                src={
-                  "https://oldboybarbershop.com/sites/default/files/2019-10/krasnodar-sedina-barber-denis.jpg"
-                }
-                className={classes.img}
-              />
-              <Box className={classes.hiddenText}>
-                <Typography>lorem</Typography>
-                <Typography>ipsum</Typography>
-              </Box>
-              <CardContent>
-                <Typography
-                  variant="h5"
-                  component="h2"
-                  style={{ textAlign: "center" }}
-                >
-                  Lorem ipsum
-                </Typography>
-              </CardContent>
-            </Box>
-          </Card>
-        </Grid>
-
-        <Grid item xs={12} sm={3} className={classes.cardBox}>
-          <Card className={classes.card}>
-            <Box>
-              <CardMedia
-                component={"img"}
-                src={
-                  "https://oldboybarbershop.com/sites/default/files/2019-10/krasnodar-sedina-barber-denis.jpg"
-                }
-                className={classes.img}
-              />
-              <Box className={classes.hiddenText}>
-                <Typography>lorem</Typography>
-                <Typography>ipsum</Typography>
-              </Box>
-              <CardContent>
-                <Typography
-                  variant="h5"
-                  component="h2"
-                  style={{ textAlign: "center" }}
-                >
-                  Lorem ipsum
-                </Typography>
-              </CardContent>
-            </Box>
-          </Card>
-        </Grid>
-
-        <Grid item xs={12} sm={3} className={classes.cardBox}>
-          <Card className={classes.card}>
-            <Box>
-              <CardMedia
-                component={"img"}
-                src={
-                  "https://oldboybarbershop.com/sites/default/files/2019-10/krasnodar-sedina-barber-denis.jpg"
-                }
-                className={classes.img}
-              />
-              <Box className={classes.hiddenText}>
-                <Typography>lorem</Typography>
-                <Typography>ipsum</Typography>
-              </Box>
-              <CardContent>
-                <Typography
-                  variant="h5"
-                  component="h2"
-                  style={{ textAlign: "center" }}
-                >
-                  Lorem ipsum
-                </Typography>
-              </CardContent>
-            </Box>
-          </Card>
-        </Grid>
-      </Grid>
+      {loading ? (
+        <Box>
+          <h1>loading...</h1>
+        </Box>
+      ) : (
+        <>
+          <Grid className={classes.header}>
+            <Header />
+          </Grid>
+          <Grid item xs={12} style={{ margin: 100, textAlign: "center" }}>
+            <Typography variant="h2" style={{ color: "white" }}>
+              Все парикмахеры
+            </Typography>
+          </Grid>
+          <Grid container style={{ display: "flex", justifyContent: "center" }}>
+            {barbers.map((item) => (
+              <Grid item xs={12} sm={3} className={classes.cardBox}>
+                <Card className={classes.card}>
+                  <Box>
+                    <CardMedia
+                      component={"img"}
+                      src={item?.personal.avatar}
+                      className={classes.img}
+                    />
+                    <Box className={classes.hiddenText}>
+                      <Typography>{item?.personal.email}</Typography>
+                      <Typography>{item?.personal.telegram}</Typography>
+                    </Box>
+                    <CardContent>
+                      <Typography
+                        variant="h5"
+                        component="h2"
+                        style={{ textAlign: "center" }}
+                      >
+                        {item?.name} {item?.personal.lastname}
+                      </Typography>
+                    </CardContent>
+                  </Box>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+        </>
+      )}
     </Grid>
   );
 }
