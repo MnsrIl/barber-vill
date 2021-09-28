@@ -3,6 +3,7 @@ import { Box, Button, Card, CardMedia, Grid } from "@material-ui/core";
 import {
   GitHub as GitHubIcon,
   Female as FemaleIcon,
+  Male as MaleIcon
 } from "@mui/icons-material";
 import Header from "../Header";
 import hairstyles from "../../../image/hairstyles1.jpg";
@@ -75,7 +76,7 @@ function HomePage() {
                   src={hairstyles}
                   className={classes.cardImg}
                 />
-                <FemaleIcon
+                <MaleIcon
                   fontSize="large"
                   className={classes.cardIcon}
                   style={{ cursor: "pointer" }}
