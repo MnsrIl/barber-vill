@@ -7,17 +7,15 @@ module.exports.categoriesController = {
       await Category.create({ name, type, gender })
       return res.status(200).json(`category was added`)
     } catch (e) {
-      console.log(e)
-      return res.status(400).json(`error while adding a category: ${e.toString()}`)
+      return res.status(400).json({error: e})
     }
   },
   getCategories: async (req, res) => {
     try {
-      const data = await Category.find();
-      return res.status(200).json(data);
+      const data = await Category.find({gender: req.params.gender});
+      return res.status(200).json({success: "Категории успешно загружены!", data});
     } catch (e) {
-      console.log(e)
-      return res.status(400).json(`error while getting categories: ${e.toString()}`)
+      return res.status(400).json({error: e})
     }
   },
   updateCategory: async (req, res) => {
@@ -26,8 +24,7 @@ module.exports.categoriesController = {
       await Category.findByIdAndUpdate(req.params.id,{ name })
       return res.status(200).json(`category was updated`)
     } catch (e) {
-      console.log(e)
-      return res.status(400).json(`error while updating a category: ${e.toString()}`)
+      return res.status(400).json({error: e})
     }
   },
   removeCategory: async (req, res) => {
@@ -35,8 +32,7 @@ module.exports.categoriesController = {
       await Category.findByIdAndRemove(req.params.id)
       return res.status(200).json(`category was removed`)
     } catch (e) {
-      console.log(e)
-      return res.status(400).json(`error while removing a category: ${e.toString()}`)
+      return res.status(400).json({error: e})
     }
   }
 }
