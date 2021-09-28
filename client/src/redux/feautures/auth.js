@@ -33,10 +33,16 @@ const reducer = (state = initialState, action) => {
             return {...state, success: null, error: null, dataUpdating: true}
         case "auth/updateUserData/rejected" :
             return {...state, error: action.error, dataUpdating: undefined}
-        case "auth/updateUserData/fulfilled" :
-            return {...state, success: action.payload.success, dataUpdating: undefined,
-                person: {...state.person,
-                    personal: {...state.person.personal, ...action.payload.data}}}
+        case "auth/updateUserData/fulfilled" : {
+            const {data: {name, ...rest}, success} = action.payload
+            return {
+                ...state, success, dataUpdating: undefined,
+                person: {
+                    ...state.person, name,
+                    personal: {...state.person.personal, ...rest}
+                }
+            }
+        }
 
         //Обновление аватарки Парикмахера
         case "auth/updateAvatar/pending" :
