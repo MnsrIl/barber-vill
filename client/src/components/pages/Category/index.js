@@ -1,4 +1,3 @@
-import LeftTab from "./LeftTab";
 import UpperTab from "./UpperTab";
 import Header from "../Header";
 

@@ -99,7 +99,8 @@ const AllHairstylesPage = (props) => {
                 <CardContent className={classes.content}>
                   <Typography
                     gutterBottom
-                    component="h2"
+                    component="span"
+                    variant={"body1"}
                     style={{ cursor: "pointer" }}
                     // onClick={() => history.push(`/hairstyles/${item.categoryId._id}`)}
                   >

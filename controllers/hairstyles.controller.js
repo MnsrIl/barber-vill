@@ -16,13 +16,11 @@ module.exports.hairstylesController = {
   },
   getHairStyles: async (req, res) => {
     try {
-      const data = await Hairstyle.find().populate("categoryId")//.({'categoryId.gender': 'М'});
-      //Удачи разбирать этот код утром :)
-      //Ниже код возвращает массив по полу(М/Ж).
+      const data = await Hairstyle.find().populate("categoryId")
       const filteredDataByGender = data.filter(item => item.categoryId.gender === req.params.gender);
+
       return res.status(200).json({data: filteredDataByGender});
     } catch (e) {
-      console.log(e)
       return res.status(400).json({error: e});
     }
   },

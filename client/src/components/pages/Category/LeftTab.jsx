@@ -80,12 +80,11 @@ function VerticalTabs(props) {
             <AllHairstylesPage gender={props.gender} />
           </TabPanel>
           {
-            loading ? <div>Категории загружаются...</div> :
-                categories.map((item, index) =>
-                    <TabPanel key={item._id} value={value} index={index + 1}>
-                      <AllHairstylesPage categoryId={item._id} />
-                    </TabPanel>
-                )
+             categories?.map((item, index) =>
+                 <TabPanel key={item._id} value={value} index={index + 1}>
+                   <AllHairstylesPage categoryId={item._id} />
+                 </TabPanel>
+             )
           }
       </Box>
   );
