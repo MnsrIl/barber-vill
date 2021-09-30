@@ -1,4 +1,4 @@
-import {AllBeards, AllHairstyles, Barbers, Home, OneBeard, OneHairstyle, Category} from "./componentsList";
+import {AllBeards, AllHairstyles, Barber, Barbers, Home, OneBeard, OneHairstyle, Category} from "./componentsList";
 
 const list = [
     {
@@ -37,6 +37,12 @@ const list = [
         exact: true,
         component: OneBeard
     },
+    {
+        name: "Один парикмахер",
+        path: "/barber",
+        exact: true,
+        component: Barber
+    }
 ]
 
 export default list;

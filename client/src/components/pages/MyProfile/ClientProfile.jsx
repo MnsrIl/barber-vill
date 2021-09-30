@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 // nodejs library that concatenates classes
 import classNames from "classnames";
 import helloImage from "../../../image/avatar-hello.jpg";
@@ -28,20 +28,44 @@ import work4 from "../../../image/mariya-georgieva.jpg";
 import work5 from "../../../image/clem-onojegaw.jpg";
 
 import styles from "./CustomProfileStyles";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {GitHub, Telegram, Camera, Palette, Favorite, Create as CreateIcon, Facebook} from "@material-ui/icons";
 import {FormControl, TextField, Tooltip} from "@mui/material";
 import {ArrowDownward, ArrowForward, ArrowForwardIos, BorderColor, KeyboardArrowDown, Save} from "@mui/icons-material";
 import {Input, InputLabel} from "@material-ui/core";
+import { updateUserData } from "../../../redux/feautures/auth";
 
 const useStyles = styles;
 
 const ClientProfile = (props) => {
       const person = useSelector(store => store.auth.person);
+    
+      const [userState, setUserState] = useState({
+        name:""
+      })
+
+      useEffect(() => {
+        if(person) {
+          setUserState({
+            ...userState, name:person.name, number: person.personal.number
+          })
+        }
+      }, [person])
 
       const [changeAbleData, setChangeAbleData] = useState(true);
 
-      const handleChangeAbling = () => setChangeAbleData(!changeAbleData);
+      const dispatch = useDispatch()
+
+      const handleChangeAbling = () => {
+        if (!changeAbleData) {
+          dispatch(updateUserData({name: userState.name, number:userState.number}))
+        }
+        setChangeAbleData(!changeAbleData)
+      }
+
+      const handleChange = e => {
+        setUserState({...userState, [e.target.name]: e.target.value})
+      }
 
       const classes = useStyles();
       const { ...rest } = props;
@@ -140,13 +164,14 @@ const ClientProfile = (props) => {
                                         Имя
                                       </InputLabel>
                                       <Input
+                                          value={userState.name}
                                           disabled={changeAbleData}
                                           name="name"
                                           type="text"
                                           autoComplete="off"
                                           className={classes.inputs}
                                           disableUnderline={true}
-                                          // onChange={handleChange("login")}
+                                          onChange={handleChange}
                                       />
                                       </FormControl>
                                       <FormControl required fullWidth margin="normal">
@@ -154,13 +179,14 @@ const ClientProfile = (props) => {
                                           Номер телефона
                                         </InputLabel>
                                         <Input
+                                            value={userState.number}
                                             disabled={changeAbleData}
                                             name="number"
                                             type="text"
                                             autoComplete="off"
                                             className={classes.inputs}
                                             disableUnderline={true}
-                                            // onChange={handleChange("login")}
+                                            onChange={handleChange}
                                         />
                                       </FormControl>
                                       <Button simple color={"facebook"} onClick={handleChangeAbling}>

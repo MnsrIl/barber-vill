@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundImage: `url(${barberShop})`,
     backgroundRepeat: "no-repeat",
     backgroundSize: "100% 900px",
-    height: 720,
+    height: 800,
   },
   card: {
     width: 250,
