@@ -84,6 +84,13 @@ const reducer = (state = initialState, action) => {
         case "auth/createNewUser/fulfilled" :
             return {...state, success: action.payload.success, token: action.payload.token}
 
+        case "auth/deleteAccount/pending":
+            return {...state, deleting: true};
+        case "auth/deleteAccount/fulfilled":
+            return {...state, deleting: undefined, isLoggedIn: false, person: null, token: null};
+        case "auth/deleteAccount/rejected":
+            return {...state, deleting: undefined, error: action.error}
+
         default:
             return state;
     }
@@ -222,5 +229,26 @@ export const updateUserData = (data) => async (dispatch, getStore) => {
         dispatch({type: "auth/updateUserData/fulfilled", payload: {success: json.success, data}});
     }
 }
+
+export const deleteAccount = () => async (dispatch, getStore) => {
+    const store = getStore()
+  
+    dispatch ({type: "auth/deleteAccount/pending"})
+  
+    const res = await fetch("/api/deleteAccount", {
+      method: "DELETE",
+      headers:{
+          Authorization: store.auth.token
+      }
+    })
+    const json = await res.json()
+  
+    if (json.error) {
+      dispatch ({type: "auth/deleteAccount/rejected", error: json.error})
+    } else {
+      dispatch ({type: "auth/deleteAccount/fulfilled", payload: {success: json.success}})
+      Cookies.remove("token")
+    }
+  }
 
 export default reducer;

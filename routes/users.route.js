@@ -13,5 +13,6 @@ router.patch("/updateData", authMiddleware, usersController.updateUserDataBarber
 //routes for barbers
 router.get("/barbers", usersController.getBarbers);
 router.patch("/barbers/updateAvatar", authMiddleware, usersController.updateImage);
+router.delete("/deleteAccount", authMiddleware, usersController.removeUser)
 
 module.exports = router;

@@ -163,10 +163,10 @@ module.exports.usersController = {
 
     removeUser: async (req, res) => {
         try {
-            const {role, id, personal} = req.user;
+            const {role, _id, personal} = req.user;
 
-            await [role].findByIdAndRemove(personal._id);
-            await User.findByIdAndRemove(id);
+            await (role === "Barber" ? Barber : Client).findByIdAndRemove(personal._id);
+            await User.findByIdAndRemove(_id);
 
             res.status(200).json({success: "Пользователь успешно удалён"});
         } catch (e) {
