@@ -14,6 +14,8 @@ import {
 import { NavLink, useHistory } from "react-router-dom";
 import {Skeleton, Box} from "@mui/material";
 import Header from "../Header";
+import Category from "../Category";
+import LeftTab from "../Category/LeftTab";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -51,25 +53,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AllHairstylesPage() {
+const AllHairstylesPage = (props) => {
   const classes = useStyles();
   const history = useHistory();
 
-  const { loading, error, hairstyles } = useSelector(
-    (store) => store.hairstyles
-  );
+  const { loading, error, hairstyles } = useSelector((store) => store.hairstyles);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAllHairstyles());
+    dispatch(getAllHairstyles(props.categoryId, props.gender));
   }, [dispatch]);
 
   return (
     <>
-  <Header/>
-    <Box display="flex" flexWrap="wrap" justifyContent="space-between">
-      
+      <Box display="flex" flexWrap="wrap" justifyContent="space-between">
       {loading ? (
         <Grid container wrap="wrap">
           {(loading ? Array.from(new Array(8)) : hairstyles).map((item, index) => (
@@ -87,48 +85,51 @@ function AllHairstylesPage() {
             </Box>
           ))}
         </Grid>
-      ) : (
-        hairstyles.map((item) => (
-          <Card className={classes.card}>
-            <Box className={classes.imgBox}>
-              <CardMedia
-                className={classes.image}
-                component={"img"}
-                src={item.image}
-              />
-            </Box>
-            <CardContent className={classes.content}>
-              <Typography
-                gutterBottom
-                component="h2"
-                style={{ cursor: "pointer" }}
-                // onClick={() => history.push(`/hairstyles/${item.categoryId._id}`)}
-              >
-                {item.categoryId}
-              </Typography>
-              <Typography gutterBottom variant="h5" component="h2">
-                {item.name}
-              </Typography>
-              <Typography gutterBottom component="h2">
-                {item.price} ₽
-              </Typography>
-            </CardContent>
+      ) : (<>
 
-            <CardActions className={classes.btnBox}>
-              <Fab
-                variant="extended"
-                size="small"
-                color="primary"
-                aria-label="add"
-                className={classes.margin}
-              >
-                <NavLink className={classes.nav} to={`/hairstyles/${item._id}`}>
-                  Подробнее
-                </NavLink>
-              </Fab>
-            </CardActions>
-          </Card>
-        ))
+          {hairstyles.map((item) => (
+              <Card className={classes.card} key={item._id}>
+                <Box className={classes.imgBox}>
+                  <CardMedia
+                    className={classes.image}
+                    component={"img"}
+                    src={item.image}
+                  />
+                </Box>
+                <CardContent className={classes.content}>
+                  <Typography
+                    gutterBottom
+                    component="span"
+                    variant={"body1"}
+                    style={{ cursor: "pointer" }}
+                    // onClick={() => history.push(`/hairstyles/${item.categoryId._id}`)}
+                  >
+                    {item.categoryId.name}
+                  </Typography>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    {item.name}
+                  </Typography>
+                  <Typography gutterBottom component="h2">
+                    {item.price} ₽
+                  </Typography>
+                </CardContent>
+
+                <CardActions className={classes.btnBox}>
+                  <Fab
+                    variant="extended"
+                    size="small"
+                    color="primary"
+                    aria-label="add"
+                    className={classes.margin}
+                  >
+                    <NavLink className={classes.nav} to={`/hairstyles/${item._id}`}>
+                      Подробнее
+                    </NavLink>
+                  </Fab>
+                </CardActions>
+              </Card>
+          ))}
+          </>
       )}
     </Box>
     </>

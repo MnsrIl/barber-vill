@@ -1,11 +1,9 @@
 import {Avatar, IconButton, MenuItem, Divider, ListItemIcon, Menu, Tooltip, } from '@mui/material';
 import profileIcon from "../../../image/profile.png";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {ManageAccounts, Logout, VpnKey, LockOpen} from "@mui/icons-material";
 import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
-import {loadUser} from "../../../redux/feautures/auth";
-import Cookies from 'js-cookie';
 
 const ProfileIcon = () => {
     const history = useHistory();
