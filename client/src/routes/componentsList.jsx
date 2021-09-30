@@ -7,6 +7,7 @@ import AllBarbersPage from "../components/pages/Barbers/AllBarbersPage";
 import AllBeardsPage from "../components/pages/Beards/AllBeardsPage";
 import OneHairStyle from "../components/pages/HairStyles/OneHairStyle";
 import MyProfile from "../components/pages/MyProfile/index";
+import OneBarberPage from "../components/pages/Barbers/OneBarberPage";
 
 export const Login = () => <LoginComponent />
 
@@ -25,3 +26,5 @@ export const OneBeard = () => <OneBeardPage />
 export const OneHairstyle = () => <OneHairStyle />
 
 export const Profile = () => <MyProfile />
+
+export const Barber = () => <OneBarberPage />

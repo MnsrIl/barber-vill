@@ -12,9 +12,12 @@ import { getAllBarbers } from "../../../redux/feautures/barbers";
 import Header from "../Header";
 import { useStyles } from "./classes";
 import preloader from "../../../image/loading.gif";
+import { useHistory } from "react-router-dom";
+import { Button } from "@mui/material";
 
 function AllBarbersPage() {
   const classes = useStyles();
+  const history = useHistory();
 
   const { loading, barbers } = useSelector((store) => store.barbers);
 
@@ -53,6 +56,11 @@ function AllBarbersPage() {
                     <Box className={classes.hiddenText}>
                       <Typography>{item?.personal.email}</Typography>
                       <Typography>{item?.personal.telegram}</Typography>
+                      <Button
+                        style={{ cursor: "pointer" }}
+                        onClick={() => history.push(`/barber`)}>
+                          Подробнее
+                      </Button>
                     </Box>
                     <CardContent>
                       <Typography

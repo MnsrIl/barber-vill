@@ -96,7 +96,7 @@ export const useStyles = makeStyles((theme) => ({
     height: "120px",
     margin: "auto",
     textAlign: "center",
-    transform: "scale(5)",
+    transform: "scale(4)",
     boxShadow: "0 0 0 2px rgba(180,180,180, 0.7)",
     borderRadius: "10%",
     opacity: 0,
