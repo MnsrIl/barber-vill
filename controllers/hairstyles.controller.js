@@ -16,10 +16,11 @@ module.exports.hairstylesController = {
   },
   getHairStyles: async (req, res) => {
     try {
-      const data = await Hairstyle.find()
-      return res.status(200).json({data});
+      const data = await Hairstyle.find().populate("categoryId")
+      const filteredDataByGender = data.filter(item => item.categoryId.gender === req.params.gender);
+
+      return res.status(200).json({data: filteredDataByGender});
     } catch (e) {
-      console.log(e)
       return res.status(400).json({error: e});
     }
   },
@@ -31,6 +32,16 @@ module.exports.hairstylesController = {
       return res.status(400).json(`error while getting hairstyles: ${e.toString()}`)
     }
   },
+
+  getHairstyleByCategory: async (req, res) => {
+    try {
+      const data = await Hairstyle.find({categoryId: req.params.categoryId}).populate("categoryId");
+      return res.status(200).json({data});
+    } catch (e) {
+      res.status(400).json({error: e})
+    }
+  },
+
   updateHairStyle: async (req, res) => {
     const { name, image, gender, price, categoryId} = req.body
     try {
