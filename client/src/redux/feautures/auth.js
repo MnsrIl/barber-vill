@@ -166,7 +166,6 @@ export const loadUser = () => async (dispatch, getStore) => {
     if (json.error) {
         dispatch({type: "auth/loadUser/rejected", error: json.error}); //Second stage
     } else {
-        console.log(json.user);
         dispatch({type: "auth/loadUser/fulfilled", payload: {user: json.user, success: json.success}}); //Third stage
     }
 }

@@ -14,26 +14,28 @@ module.exports.hairstylesController = {
       return res.status(400).json(`error while adding hairstyle: ${e.toString()}`)
     }
   },
-  getHairStyles: async (req, res) => {
+  getHairstylesByGender: async (req, res) => {
     try {
+      const {gender} = req.query;
+
       const data = await Hairstyle.find().populate("categoryId")
-      const filteredDataByGender = data.filter(item => item.categoryId.gender === req.params.gender);
+      const filteredDataByGender = data.filter(item => item.categoryId.gender === gender);
 
       return res.status(200).json({data: filteredDataByGender});
     } catch (e) {
       return res.status(400).json({error: e});
     }
   },
-  getHairStyleById: async (req, res) => {
+  getHairstyleById: async (req, res) => {
     try {
-      const data = await Hairstyle.findById(req.params.id)
-      return res.status(200).json(data)
-    }catch (e) {
-      return res.status(400).json(`error while getting hairstyles: ${e.toString()}`)
+      const data = await Hairstyle.findById(req.params.hairstyleID).populate("categoryId");
+      return res.status(200).json(data);
+    } catch (e) {
+      return res.status(400).json({error: e});
     }
   },
 
-  getHairstyleByCategory: async (req, res) => {
+  getHairstylesByCategory: async (req, res) => {
     try {
       const data = await Hairstyle.find({categoryId: req.params.categoryId}).populate("categoryId");
       return res.status(200).json({data});
@@ -61,8 +63,4 @@ module.exports.hairstylesController = {
       return res.status(400).json(`error while removing hairstyle: ${e.toString()}`)
     }
   },
-  // getHairstylesByCategory: async (req, res) => {
-  //   const category = await Category.find(req.params)
-  //   const hairstyle = await Hairstyle.find(category)
-  // }
 }

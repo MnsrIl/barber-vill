@@ -1,7 +1,7 @@
 import {Avatar, IconButton, MenuItem, Divider, ListItemIcon, Menu, Tooltip, } from '@mui/material';
 import profileIcon from "../../../image/profile.png";
 import {useState} from "react";
-import {ManageAccounts, Logout, VpnKey, LockOpen} from "@mui/icons-material";
+import {ManageAccounts, Logout, VpnKey, LockOpen, Security, FaceRetouchingNatural} from "@mui/icons-material";
 import {useHistory} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 
@@ -75,8 +75,14 @@ const ProfileIcon = () => {
                 {isLoggedIn ?
                     <>
                         <MenuItem>
-                            <Avatar src={person?.personal?.avatar} />
-                            {person? (person.name || person.login) : null}
+                            Роль: {person?.role}
+                        </MenuItem>
+                        <MenuItem>
+                            <ListItemIcon>
+                                {person?.role === 'Barber' ? <Avatar src={person.personal?.avatar} /> :
+                                    <FaceRetouchingNatural />}
+                            </ListItemIcon>
+                            {person? `Имя: ${(person.name || person.login)}` : null}
                         </MenuItem>
                         <MenuItem onClick={() => sendToAddress("/profile")}>
                             <ListItemIcon>

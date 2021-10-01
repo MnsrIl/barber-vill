@@ -64,7 +64,7 @@ function HomePage() {
                   fontSize="large"
                   className={classes.cardIcon}
                   style={{ cursor: "pointer" }}
-                  onClick={() => history.push("/hairstyles")}
+                  onClick={() => history.push("/hairstyles?gender=Ж")}
                 />
               </Box>
             </Card>
@@ -77,10 +77,11 @@ function HomePage() {
                   className={classes.cardImg}
                 />
                 <MaleIcon
-                  fontSize="large"
-                  className={classes.cardIcon}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => history.push("/beards")}
+                    color={"primary"}
+                    fontSize="large"
+                    className={classes.cardIcon}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => history.push("/hairstyles")}
                 />
               </Box>
             </Card>

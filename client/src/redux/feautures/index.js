@@ -11,6 +11,6 @@ export const reducers = {
     hairstyles: hairstylesReducer,
     beards: beardsReducer,
     auth: authReducer,
-    barbers: barbersReducer
+    barbers: barbersReducer,
     categories: categoriesReducer,
 };
