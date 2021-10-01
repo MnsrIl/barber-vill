@@ -20,6 +20,7 @@ import studio2 from "../../../image/studio-2.jpg";
 import studio4 from "../../../image/studio-4.jpg";
 import studio5 from "../../../image/studio-5.jpg";
 
+
 const useStyles = styles;
 
 function BarberModelPage(props) {

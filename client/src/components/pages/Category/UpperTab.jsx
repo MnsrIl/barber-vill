@@ -2,32 +2,37 @@ import {Box, Tab} from '@mui/material';
 import {TabContext, TabList, TabPanel} from '@mui/lab';
 import {useState} from "react";
 import LeftTab from "./LeftTab";
+import {useHistory} from "react-router-dom";
+import useQuery from "../../../hooks/useQuery";
 
 function UpperTab() {
-  const [value, setValue] = useState('1');
+    const gender = useQuery("gender") || "М";
+    const [value, setValue] = useState(gender);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+    const history = useHistory();
+    const handleChange = (event, newValue) => {
+        history.push(`/hairstyles?gender=${newValue}`)
+        setValue(newValue);
+    };
 
-  return (
-      <Box sx={{ width: '100%', typography: 'body1' }}>
-        <TabContext value={value}>
-          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-            <TabList onChange={handleChange} aria-label="lab API tabs example">
-              <Tab label="Мужские" value="1" />
-              <Tab label="Женские" value="2" />
-            </TabList>
-          </Box>
-          <TabPanel value="1">
-            <LeftTab gender="М" />
-          </TabPanel>
-          <TabPanel value="2">
-            <LeftTab gender="Ж" />
-          </TabPanel>
-        </TabContext>
-      </Box>
-  );
+    return (
+        <Box sx={{ width: '100%', typography: 'body1' }}>
+            <TabContext value={value}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                    <TabList onChange={handleChange} aria-label="lab API tabs example">
+                        <Tab label="Мужские" value="М" />
+                        <Tab label="Женские" value="Ж" />
+                    </TabList>
+                </Box>
+                <TabPanel value="М">
+                    <LeftTab />
+                </TabPanel>
+                <TabPanel value="Ж">
+                    <LeftTab />
+                </TabPanel>
+            </TabContext>
+        </Box>
+    );
 }
 
 export default UpperTab;
