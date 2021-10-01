@@ -58,7 +58,7 @@ function AllBarbersPage() {
                       <Typography>{item?.personal.telegram}</Typography>
                       <Button
                         style={{ cursor: "pointer" }}
-                        onClick={() => history.push(`/barber`)}>
+                        onClick={() => history.push(`/barber/${item._id}`)}>
                           Подробнее
                       </Button>
                     </Box>

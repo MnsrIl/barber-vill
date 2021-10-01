@@ -29,7 +29,7 @@ import work5 from "../../../image/clem-onojegaw.jpg";
 
 import styles from "./CustomProfileStyles";
 import {useDispatch, useSelector} from "react-redux";
-import {GitHub, Telegram, Camera, Palette, Favorite, Create as CreateIcon, Facebook} from "@material-ui/icons";
+import {GitHub, Telegram, Camera, Palette, Favorite, Create as CreateIcon, Facebook, CreateOutlined} from "@material-ui/icons";
 import {FormControl, TextField, Tooltip} from "@mui/material";
 import {ArrowDownward, ArrowForward, ArrowForwardIos, BorderColor, KeyboardArrowDown, Save} from "@mui/icons-material";
 import {Input, InputLabel} from "@material-ui/core";
@@ -154,8 +154,8 @@ const ClientProfile = (props) => {
                               ),
                             },
                             {
-                              tabButton: "Work",
-                              tabIcon: Palette,
+                              tabButton: "Редактировать",
+                              tabIcon: CreateOutlined,
                               tabContent: (
                                   <GridContainer justifyContent="center">
                                     <GridItem xs={12} sm={12} md={4}>

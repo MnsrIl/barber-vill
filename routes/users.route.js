@@ -10,8 +10,11 @@ router.post("/logout", usersController.logout);
 router.get("/profile", authMiddleware, usersController.getAuthorizedUser);
 router.patch("/updateData", authMiddleware, usersController.updateUserDataBarber);
 
+// router.get("/users",usersController.getUsers)
+
 //routes for barbers
 router.get("/barbers", usersController.getBarbers);
+router.get("/barber/:id", usersController.getBarberById)
 router.patch("/barbers/updateAvatar", authMiddleware, usersController.updateImage);
 router.delete("/deleteAccount", authMiddleware, usersController.removeUser)
 
