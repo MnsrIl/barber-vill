@@ -58,6 +58,7 @@ function AllBarbersPage() {
                       <Typography>{item?.personal.telegram}</Typography>
                       <Button
                         style={{ cursor: "pointer" }}
+                        target={"_blank"}
                         onClick={() => history.push(`/barber`)}>
                           Подробнее
                       </Button>

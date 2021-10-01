@@ -7,7 +7,7 @@ import {useEffect, useState} from "react";
 import AllHairstylesPage from "../HairStyles/AllHairstylesPage";
 import {useDispatch, useSelector} from "react-redux";
 import {loadCategories} from "../../../redux/feautures/categories";
-
+import useQuery from "../../../hooks/useQuery";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -43,24 +43,25 @@ function a11yProps(index) {
 }
 
 function VerticalTabs(props) {
-  const [value, setValue] = useState(0);
-  const categories = useSelector(store => store.categories.allCategories);
-  const loading = useSelector(store => store.categories.loading);
+      const [value, setValue] = useState(0);
+      const categories = useSelector(store => store.categories.allCategories);
+      const loading = useSelector(store => store.categories.loading);
 
-  const dispatch = useDispatch();
+      const dispatch = useDispatch();
+      const gender = useQuery("gender");
 
-  useEffect(() => {
-    dispatch(loadCategories(props.gender))
-  }, [props.gender]);
+      useEffect(() => {
+          dispatch(loadCategories(gender))
+      }, [gender, dispatch]);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+      const handleChange = (event, newValue) => {
+        setValue(newValue);
+      };
 
-  return (
-      <Box
-          sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 224 }}
-      >
+      return (
+          <Box
+              sx={{ flexGrow: 1, bgcolor: 'background.paper', display: 'flex', height: 224 }}
+          >
               <Tabs
                   orientation="vertical"
                   variant="scrollable"
@@ -69,25 +70,25 @@ function VerticalTabs(props) {
                   aria-label="Vertical tabs example"
                   sx={{ borderRight: 1, borderColor: 'divider' }}
               >
-                <Tab label="Все" {...a11yProps(0)} />
-                {
-                  loading ? <div>Категории загружаются...</div> :
-                      categories.map((item, index) =>
-                          <Tab label={item.name} key={item._id} {...a11yProps(index + 1)} />)
-                }
+                  <Tab label="Все" {...a11yProps(0)} />
+                  {
+                      loading ? <div>Категории загружаются...</div> :
+                          categories.map((item, index) =>
+                              <Tab label={item.name} key={item._id} {...a11yProps(index + 1)} />)
+                  }
               </Tabs>
-          <TabPanel value={value} index={0}>
-            <AllHairstylesPage gender={props.gender} />
-          </TabPanel>
-          {
-             categories?.map((item, index) =>
-                 <TabPanel key={item._id} value={value} index={index + 1}>
-                   <AllHairstylesPage categoryId={item._id} />
-                 </TabPanel>
-             )
-          }
-      </Box>
-  );
+              <TabPanel value={value} index={0}>
+                <AllHairstylesPage />
+              </TabPanel>
+              {
+                 categories?.map((item, index) =>
+                     <TabPanel key={item._id} value={value} index={index + 1}>
+                       <AllHairstylesPage categoryId={item._id} />
+                     </TabPanel>
+                 )
+              }
+          </Box>
+      );
 }
 
 export default VerticalTabs;

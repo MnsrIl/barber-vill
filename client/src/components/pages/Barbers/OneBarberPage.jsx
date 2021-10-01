@@ -12,7 +12,8 @@ import GridContainer from "../MyProfile/CustomComponents/Grid/GridContainer";
 import GridItem from "../MyProfile/CustomComponents/Grid/GridItem";
 import NavPills from "../MyProfile/CustomComponents/NavPills/NavPills";
 import { Camera, Room, RateReview } from "@material-ui/icons";
-import MapGL from "react-map-gl";
+import {FormControl} from "@mui/material";
+import {Input, InputLabel} from "@material-ui/core";
 
 const useStyles = styles;
 
@@ -119,7 +120,19 @@ function BarberModelPage(props) {
                     tabIcon: RateReview,
                     tabContent: (
                       <GridContainer justifyContent="center">
-                        <GridItem xs={12} sm={12} md={4}></GridItem>
+                        <GridItem xs={12} sm={12} md={4}>
+                            <FormControl required fullWidth margin="normal">
+                                <Input
+                                    placeholder={"Оставьте отзыв!"}
+                                    name="name"
+                                    type="text"
+                                    autoComplete="off"
+                                    className={classes.inputs}
+                                    disableUnderline={true}
+                                    // onChange={state}
+                                />
+                            </FormControl>
+                        </GridItem>
                       </GridContainer>
                     ),
                   },
