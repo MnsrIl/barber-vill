@@ -5,6 +5,7 @@ import CustomDropdown from "../CustomDropdown/CustomDropdown.js";
 
 import styles from "./headerLinksStyle.js";
 import {useDispatch, useSelector} from "react-redux";
+import { deleteAccount } from "../../../../../redux/feautures/auth.js";
 
 const useStyles = styles;
 
@@ -17,6 +18,10 @@ export default function HeaderLinks(props) {
 
     const handleLogOut = () => {
       dispatch({type: "auth/logout"});
+    }
+
+    const handleDelete = () => {
+        dispatch(deleteAccount())
     }
 
     return (
@@ -50,12 +55,13 @@ export default function HeaderLinks(props) {
                           <CashIcon color={"success"} sx={{mr: "5px"}} />
                           Пополнить баланс
                       </Link>,
-                      <Link to="/" className={classes.dropdownLink}>
+                      <Link to="/" onClick = {handleDelete}
+                      className={classes.dropdownLink}>
                           <DeleteIcon color={"error"} />
                           Удалить аккаунт
                       </Link>,
                   ] : [
-                    <Link to="/" className={classes.dropdownLink}>
+                    <Link to="/" onClick = {handleDelete} className={classes.dropdownLink}>
                       <DeleteIcon color={"error"} />
                       Удалить аккаунт
                     </Link>

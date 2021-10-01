@@ -3,8 +3,8 @@ import languagesReducer from "./languages";
 import beardsReducer from "./beards";
 import authReducer from "./auth";
 import barbersReducer from "./barbers"
+import clientsReducer from "./clients"
 import categoriesReducer from "./categories";
-
 
 export const reducers = {
     languages: languagesReducer,    
@@ -12,5 +12,6 @@ export const reducers = {
     beards: beardsReducer,
     auth: authReducer,
     barbers: barbersReducer,
+    clients: clientsReducer,
     categories: categoriesReducer,
-};
+}

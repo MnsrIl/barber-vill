@@ -15,6 +15,10 @@ const barberSchema = new Schema({
     telegram: {
         type: String
     },
+    reviews: [{
+        type: Schema.Types.ObjectId,
+        ref: "Review"
+    }]
 });
 
 module.exports.Barber = model("Barber", barberSchema);

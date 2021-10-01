@@ -1,20 +1,23 @@
 const Review = require("../models/Review.model")
+const {Barber} = require("../models/Barber.model")
 
 module.exports.reviewsController = {
   addReview: async (req, res) => {
-    // нужен импорт модели "Barber"
-    const { text, userId, barberId } = req.body
     try {
-      await Review.create({text, userId, barberId})
-      return res.status(200).json(`review was successfully added`)
+      const { _id: id } = req.user;
+      const { text, barberId } = req.body;
+
+      const review = await Review.create({userId: id, text, barberId});
+      await Barber.findByIdAndUpdate(barberId, {$push: {reviews: review._id}});
+
+      return res.status(200).json({success: "Отзыв успешно добавлен", review});
     } catch (e) {
-      console.log(e)
-      return res.status(400).json(`error while adding a review: ${e.toString()}`)
+      return res.status(404).json({error: e});
     }
   },
   getReviewsForBarber: async (req, res) => {
     try {
-      const data = await Review.find(req.params.barberId)
+      const data = await Review.find(req.params.barberId).populate("userId barberId")
       return res.status(200).json(data)
     } catch (e) {
       console.log(e)

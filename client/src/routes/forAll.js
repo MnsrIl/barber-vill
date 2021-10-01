@@ -39,7 +39,7 @@ const list = [
     },
     {
         name: "Один парикмахер",
-        path: "/barber",
+        path: "/barber/:id",
         exact: true,
         component: Barber
     }
