@@ -4,12 +4,14 @@ import beardsReducer from "./beards";
 import authReducer from "./auth";
 import barbersReducer from "./barbers"
 import clientsReducer from "./clients"
+import categoriesReducer from "./categories";
 
 export const reducers = {
     languages: languagesReducer,    
     hairstyles: hairstylesReducer,
     beards: beardsReducer,
     auth: authReducer,
-    barbers:barbersReducer,
-    clients:clientsReducer
-};
+    barbers: barbersReducer,
+    clients: clientsReducer,
+    categories: categoriesReducer,
+}
