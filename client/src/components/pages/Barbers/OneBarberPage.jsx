@@ -61,7 +61,8 @@ function BarberModelPage(props) {
                 <GridItem xs={12} sm={12} md={6}>
                   <div className={classes.profile}>
                     <div>
-                      <img src={helloImage} alt="..." className={imageClasses} />
+                      <img src={helloImage} alt="..." className={imageClasses} 
+                      style={{transform: "translate3d(0, -50%, 0)"}} />
                     </div>
                     <div>
                       <h3 className={classes.title}>{currentBarber?.name}</h3>
