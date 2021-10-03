@@ -5,18 +5,9 @@ import {Tooltip} from "@material-ui/core";
 import {useEffect, useState} from "react";
 import {updateAvatar} from "../../../../redux/feautures/auth";
 import {useDispatch, useSelector} from "react-redux";
-import {useSnackbar} from "notistack";
 
 const UpdateAvatar = ({person, useStyles}) => {
   const [avatar, setAvatar] = useState("");
-  const {enqueueSnackbar, closeSnackbar} = useSnackbar();
-  const {success, error} = useSelector(store => store.auth);
-
-  useEffect(() => {
-    if (error || success) {
-      enqueueSnackbar(success || error, {variant: success ? "success" : "error"});
-    }
-  }, [success, error])
 
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -28,8 +19,8 @@ const UpdateAvatar = ({person, useStyles}) => {
     setAvatar(e.target.files);
   }
 
-  const handleSubmit = () => {
-    dispatch(updateAvatar(avatar));
+  const handleSubmit = async () => {
+    await dispatch(updateAvatar(avatar));
   }
 
   return (

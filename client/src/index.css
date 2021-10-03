@@ -18,3 +18,9 @@ code {
   display: flex;
   align-items: center;
 }
+
+.mapboxgl-popup-close-button {
+  padding: 5px 10px;
+  font-size: 20px;
+  color: #f00
+}
