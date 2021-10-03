@@ -63,7 +63,7 @@ const AllHairstylesPage = (props) => {
           <Grid container wrap="wrap">
             {(loading ? Array.from(new Array(8)) : hairstyles).map(
               (item, index) => (
-                <Box key={index} sx={{ width: 400, marginLeft: 3, my: 5 }}>
+                <Box key={index} sx={{ width: 400, marginLeft: 50, my: 5 }}>
                   <Skeleton
                     animation="wave"
                     variant="rectangular"
