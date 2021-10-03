@@ -12,6 +12,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getOneHairstyle } from "../../../redux/feautures/hairstyles";
 import Header from "../Header";
+import {Dialog, IconButton, Slide} from "@mui/material";
+import {Room, RoomOutlined} from "@mui/icons-material";
+import {OBJModel, Tick} from "react-3d-viewer";
 import ModalPage from "../Requests/Modal";
 
 const useStyles = makeStyles((theme) => ({
@@ -43,17 +46,35 @@ function OneHairStyle(props) {
 
   const classes = useStyles();
 
+  const [state, setState] = useState({x: 0, y: 0, z: 0});
+
+  useEffect(() => {
+
+    if (hairstyleId === 'kladka') {
+      let tick = Tick(() => {
+        const rotation = state;
+        rotation.y += 0.003;
+        setState(rotation);
+      })
+      return () => tick.animate = false;
+    }
+
+    }, [state]);
+
   const { hairstyleId } = useParams();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getOneHairstyle(hairstyleId));
+    if (hairstyleId !== 'kladka') {
+      dispatch(getOneHairstyle(hairstyleId));
+    }
   }, [hairstyleId, dispatch]);
 
   return (
     <Grid style={{ color: "white", minHeight: 800 }}>
       <Header />
+    
       {loading ? (
         <Box className={classes.loading}>
           Идет загрузка...
@@ -62,13 +83,13 @@ function OneHairStyle(props) {
         <Grid container className={classes.container}>
           <Grid item xs={12} sm={4} style={{ position: "relative" }}>
             <Typography gutterBottom variant="h3">
-              {currentHairstyle?.name}
+              {hairstyleId === 'kladka' ? 'Кладка' : currentHairstyle?.name}
             </Typography>
             <Typography gutterBottom variant="h5" style={{borderBottom:'1px solid grey'}}>
-              Категория: {currentHairstyle?.categoryId.name}
+              Категория: {hairstyleId === 'kladka' ? 'Короткие' : currentHairstyle?.categoryId.name}
             </Typography>
             <Typography gutterBottom variant="h5" style={{borderBottom:'1px solid grey'}}>
-              Цена: {currentHairstyle?.price} ₽
+              Цена: {hairstyleId === 'kladka' ? '5000' : currentHairstyle?.price} ₽
             </Typography>
 
             <Fab
@@ -84,11 +105,22 @@ function OneHairStyle(props) {
             </Fab>
           </Grid>
           <Grid item xs={12} sm={6}>
-            <CardMedia
-              className={classes.image}
-              component={"img"}
-              src={currentHairstyle?.image}
-            />
+            {
+                 hairstyleId === 'kladka' ?
+                     <OBJModel
+                         background={'#5d3939'}
+                         className={classes.image}
+                         src={'/assets/models/FemaleHairBlender.obj'}
+                         position={{x:0, y: -46, z: -10}}
+                         rotation={state}
+                     />
+                       :
+                     <CardMedia
+                         className={classes.image}
+                         component={"img"}
+                         src={currentHairstyle?.image}
+                     />
+               }
           </Grid>
         </Grid>
       )}

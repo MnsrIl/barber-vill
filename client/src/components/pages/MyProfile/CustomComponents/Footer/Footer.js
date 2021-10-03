@@ -29,58 +29,7 @@ export default function Footer(props) {
   return (
     <footer className={footerClasses}>
       <div className={classes.container}>
-        <div className={classes.left}>
-          <List className={classes.list}>
-            <ListItem className={classes.inlineBlock}>
-              <a
-                href="/"
-                className={classes.block}
-                target="_blank"
-              >
-                Как вам?
-              </a>
-            </ListItem>
-            <ListItem className={classes.inlineBlock}>
-              <a
-                href="/"
-                className={classes.block}
-                target="_blank"
-              >
-                About us
-              </a>
-            </ListItem>
-            <ListItem className={classes.inlineBlock}>
-              <a
-                href="/"
-                className={classes.block}
-                target="_blank"
-              >
-                Главная
-              </a>
-            </ListItem>
-            <ListItem className={classes.inlineBlock}>
-              <a
-                href="/"
-                className={classes.block}
-                target="_blank"
-              >
-                Парикмахеры
-              </a>
-            </ListItem>
-          </List>
-        </div>
-        <div className={classes.right}>
-          {/*&copy; {1900 + new Date().getYear()} , made with{" "}*/}
-          {/*<Favorite className={classes.icon} /> by{" "}*/}
-          {/*<a*/}
-          {/*  href="https://www.creative-tim.com?ref=mkr-footer"*/}
-          {/*  className={aClasses}*/}
-          {/*  target="_blank"*/}
-          {/*>*/}
-          {/*  Creative Tim*/}
-          {/*</a>{" "}*/}
-          {/*for a better web.*/}
-        </div>
+
       </div>
     </footer>
   );

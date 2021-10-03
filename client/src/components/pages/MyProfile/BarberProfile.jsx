@@ -367,7 +367,7 @@ const BarberProfile = (props) => {
                 </div>
             </div>}
           {/*Here's could be your FOOTER*/}
-          {/*<Footer />*/}
+          <Footer />
         </div>
         </>
     );

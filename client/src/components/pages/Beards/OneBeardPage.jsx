@@ -41,13 +41,13 @@ function OneBeard(props) {
 
   const { loading, currentBeards } = useSelector((store) => store.beards);
 
-  const { id } = useParams();
+  const { beardId } = useParams();
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getOneBeard(id));
-  }, [id, dispatch]);
+    dispatch(getOneBeard(beardId));
+  }, [beardId, dispatch]);
 
   return (
     <Grid style={{ color: "white", minHeight: 800 }}>

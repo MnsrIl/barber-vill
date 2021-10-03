@@ -15,20 +15,28 @@ module.exports.beardsController = {
   },
   getBeards: async (req, res) => {
     try {
-      const data = await Beard.find()
-      return res.status(200).json(data)
+      const data = await Beard.find().populate("categoryId");
+      return res.status(200).json({success: "Все бороды загружены", data})
     } catch (e) {
-      console.log(e)
-      return res.status(400).json(`error while getting beards: ${e.toString()}`)
+      return res.status(400).json({error: e})
     }
   },
+
+  getBeardsByCategory: async (req, res) => {
+    try {
+      const data = await Beard.find({categoryId: req.params.categoryId}).populate("categoryId");
+      return res.status(200).json({success: "Бороды успешно загружены", data});
+    } catch (e) {
+      res.status(200).json({error: e});
+    }
+  },
+
   getOneBeard: async (req, res) => {
     try {
-      const data = await Beard.findById(req.params.id)
-      return res.status(200).json(data)
+      const data = await Beard.findById(req.params.beardId).populate("categoryId");
+      return res.status(200).json({success: "Одна борода загружена", data});
     } catch (e) {
-      console.log(e)
-      return res.status(400).json(`error while getting the beard: ${e.toString()}`)
+      return res.status(400).json({error: e});
     }
   },
   updateBeard: async (req, res) => {
