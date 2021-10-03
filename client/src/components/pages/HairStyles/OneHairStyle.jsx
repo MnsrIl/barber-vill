@@ -15,7 +15,7 @@ export const useStyles = makeStyles((theme) => ({
     height:600
   },
   name:{
-   textAlign:"center",
+  //  textAlign:"center",
   //  fontSize:30
   }
 }));
@@ -51,7 +51,7 @@ function OneHairStyle(props) {
             <h1>Идет загрузка...</h1>
           </Box>
         ) : (
-          <Grid container style={{justifyContent:"center", backgroundColor:"rgba(0,0,0, 0.7)", width:'75%',margin:"0 auto", padding:50, borderRadius:40,}}>
+          <Grid container style={{justifyContent:"center", backgroundColor:"rgba(0,0,0, 0.7)", width:'75%',margin:"0 auto", padding:40, borderRadius:40,}}>
            <Grid item xs={12} sm={4} style={{position:'relative'}}>
             <Typography gutterBottom variant="h3" className={classes.name}>
               {currentHairstyle?.name}
@@ -73,22 +73,6 @@ function OneHairStyle(props) {
               Оставить заявку
               </Link>
             </Fab> 
-            
-            {/* нужно убрать карту с этой страницы */}
-              <IconButton onClick={handleOpenMap}>
-                  <RoomOutlined />
-              </IconButton>
-            <Dialog
-              fullScreen
-              open={openMap}
-              onClose={handleOpenMap}
-              TransitionComponent={Transition}
-            >
-              <Map handleClose={handleOpenMap} />
-            </Dialog>
-              {/*  */}
-
-
             </Grid>
              <Grid item xs={12} sm={6}>
               <CardMedia
