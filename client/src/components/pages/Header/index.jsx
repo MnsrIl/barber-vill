@@ -35,8 +35,8 @@ const useStyles = makeStyles((theme) => ({
   },
   headerMain: {
     display: "flex",
-    height: 40,
-    padding: "20px 60px",
+    // height: 40,
+    padding: "6px 61px",
     alignItems: "center",
     justifyContent: "space-between",
     // borderBottom: "1px solid grey",
