@@ -25,32 +25,31 @@ const reducer = (state = initialState, action) => {
   }
 };
 
-export const getAllBeards = () => async (dispatch) => {
-  try {
+export const getAllBeards = (categoryId) => async (dispatch) => {
     dispatch({ type: "beards/getAllBeards/pending" });
 
-    const res = await fetch(`/api/beards`);
+    const res = await fetch(categoryId ? `/api/category/${categoryId}/beards` : `/api/beards`);
     const json = await res.json();
 
-    dispatch({ type: "beards/getAllBeards/fulfilled",payload: json });
-
-  } catch (e) {
-    dispatch({ type: "beards/getAllBeards/rejected", error: e.toString()});
-  }
+    if (json.error) {
+      dispatch({ type: "beards/getAllBeards/rejected", error: json.error});
+    } else {
+      dispatch({ type: "beards/getAllBeards/fulfilled", payload: json.data });
+    }
 };
 
 export const getOneBeard = (id) => async (dispatch) => {
-  try{
+
     dispatch({type:"beards/getOneBeard/pending"})
 
     const response = await fetch(`/api/beards/${id}`);
     const json = await response.json();
 
-    dispatch({ type: "beards/getOneBeard/fulfilled", payload: json });
-
-  } catch (e) {
-    dispatch({ type: "beards/getOneBeard/rejected", error: e.toString()});
-  }
+    if (json.error) {
+      dispatch({ type: "beards/getOneBeard/rejected", error: json.error});
+    } else {
+      dispatch({ type: "beards/getOneBeard/fulfilled", payload: json.data });
+    }
 }
 
 export default reducer;

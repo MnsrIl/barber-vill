@@ -20,6 +20,15 @@ const reducer = (state = initialState, action) => {
             Cookies.remove("token");
             return {...state, isLoggedIn: false, token: null, person: null}
         }
+        //Пополнение счёта клиентом
+        case "auth/topUp" : {
+            return {...state,
+                person: {...state.person,
+                    personal: {
+                        ...state.person.personal,
+                        balance: state.person.personal.balance + Number(action.payload.balance)
+                    }}}
+        }
         //Очистка
         case "auth/dataClear" : {
             return {...state, success: null, error: null}

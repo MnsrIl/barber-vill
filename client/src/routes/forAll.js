@@ -29,7 +29,7 @@ const list = [
         name: "Все бороды",
         path: "/beards",
         exact: true,
-        component: AllBeards
+        component: Category
     },
     {
         name: "Одна борода",

@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loadCategories } from "../../../redux/feautures/categories";
 import useQuery from "../../../hooks/useQuery";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import AllBeardsPage from "../Beards/AllBeardsPage";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -36,7 +37,7 @@ TabPanel.propTypes = {
   value: PropTypes.number.isRequired,
 };
 
-function a11yProps(index) {
+export function a11yProps(index) {
   return {
     id: `vertical-tab-${index}`,
     "aria-controls": `vertical-tabpanel-${index}`,
@@ -52,7 +53,7 @@ function VerticalTabs(props) {
   const gender = useQuery("gender");
 
   useEffect(() => {
-    dispatch(loadCategories(gender));
+    dispatch(loadCategories(gender, props.type));
   }, [gender, dispatch]);
 
   const handleChange = (event, newValue) => {
@@ -84,11 +85,14 @@ function VerticalTabs(props) {
       </Box>
       <Box>
         <TabPanel value={value} index={0}>
-          <AllHairstylesPage />
+          {props.type === 'beards' ? <AllBeardsPage /> : <AllHairstylesPage />}
         </TabPanel>
         {categories?.map((item, index) => (
           <TabPanel key={item._id} value={value} index={index + 1}>
-            <AllHairstylesPage categoryId={item._id} />
+            {props.type === 'beards' ?
+                <AllBeardsPage categoryId={item._id} /> :
+                <AllHairstylesPage categoryId={item._id} />
+            }
           </TabPanel>
         ))}
       </Box>

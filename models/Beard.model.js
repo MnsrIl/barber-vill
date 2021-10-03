@@ -1,13 +1,15 @@
-const mongoose = require('mongoose')
+const {Schema, model} = require('mongoose')
 
-const beardSchema = mongoose.Schema({
+const beardSchema = new Schema({
     name: String,
     image: String,
-    price: Number
+    price: Number,
+    categoryId: {
+        type: Schema.Types.ObjectId,
+        ref: 'Category'
+    }
   },
   { timestamps: true }
-)
+);
 
-const Beard = mongoose.model('Beard', beardSchema)
-
-module.exports = Beard
+module.exports = model('Beard', beardSchema);

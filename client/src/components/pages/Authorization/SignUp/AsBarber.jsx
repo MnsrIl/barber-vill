@@ -27,7 +27,6 @@ import {blue, green} from "@mui/material/colors";
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
 import {createNewUser} from "../../../../redux/feautures/auth";
-import Map from "../../Map";
 import SetBarberLocation from "../../../Map/setBarberLocation";
 
 const SignUpAvatar = ({classes, state}) => (

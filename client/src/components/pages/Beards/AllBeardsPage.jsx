@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { NavLink } from "react-router-dom";
+import {NavLink, useHistory} from "react-router-dom";
 import {
   Card,Box,
   CardActions,
@@ -15,6 +15,8 @@ import { getAllBeards } from "../../../redux/feautures/beards";
 import InfoIcon from "@mui/icons-material/Info";
 import Requests from "../Requests";
 import Header from "../Header";
+import Tab from "@mui/material/Tab";
+import {a11yProps} from "../Category/LeftTab";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -45,20 +47,25 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function AllBeardsPage() {
+function AllBeardsPage(props) {
   const classes = useStyles();
 
   const { loading, beards } = useSelector((store) => store.beards);
 
   const dispatch = useDispatch();
+  const history = useHistory()
 
   useEffect(() => {
-    dispatch(getAllBeards());
-  }, [dispatch]);
+    dispatch(getAllBeards(props.categoryId));
+  }, [dispatch, props.categoryId]);
 
   return (
     <>
-      <Header />
+      <Box fullWidth sx={{mb: 4, background: "#1b2735"}}>
+        <Tab label="Бороды" {...a11yProps(0)} style={{color:"white"}} className={'Mui-selected'} />
+        <Tab label="Стрижки" {...a11yProps(1)} style={{color:"white"}} onClick={() => history.push('/hairstyles')}/>
+
+      </Box>
       <Box display="flex" flexWrap="wrap" justifyContent="space-between">
         {loading ? (
           <Grid container wrap="wrap">
@@ -85,7 +92,7 @@ function AllBeardsPage() {
             style={{ display: "flex", justifyContent: "space-around" }}
           >
             {beards.map((item) => (
-              <Grid item xs={12} sm={3} className={classes.cardBox}>
+              <Grid key={item._id} item xs={12} sm={3} className={classes.cardBox}>
                 <Card className={classes.card}>
                   <CardMedia
                     component={"img"}

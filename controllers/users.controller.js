@@ -284,5 +284,28 @@ module.exports.usersController = {
             console.log(e);
             res.status(400).json({error: e});
         }
+    },
+
+    topUpBalance: async (req, res) => {
+        try {
+            const {personal, role} = req.user;
+            const client = await Client.findById(personal._id)
+            const { balance } = req.body;
+
+            if (!balance) {
+                return res.status(400).json({error: 'Пожалуйста, укажите сумму'})
+            }
+            if (role !== 'Client') {
+                return res.status(400).json({error: 'Только клиент может пополнить счёт!'});
+            }
+
+            if (balance > 10000 || balance <= 0) {
+                return res.status(400).json({error: 'Введённая сумма слишком мала, либо превышает лимит!'});
+            }
+            await Client.findByIdAndUpdate(personal._id, {balance: client.balance + Number(balance)});
+            res.status(200).json({success: 'Ваш счёт успешно пополнен!'})
+        } catch (e) {
+            res.status(400).json({error: e});
+        }
     }
 }

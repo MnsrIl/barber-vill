@@ -1,6 +1,7 @@
 const Category = require('../models/Category.model')
 
 module.exports.categoriesController = {
+
   addCategory: async (req, res) => {
     const { name, type, gender } = req.body
     try {
@@ -10,9 +11,12 @@ module.exports.categoriesController = {
       return res.status(400).json({error: e})
     }
   },
+
+
   getCategories: async (req, res) => {
     try {
-      const data = await Category.find({gender: req.params.gender});
+      const data = await Category.find({gender: req.params.gender, type: req.query.type});
+
       return res.status(200).json({success: "Категории успешно загружены!", data});
     } catch (e) {
       return res.status(400).json({error: e})

@@ -63,7 +63,7 @@ const AllHairstylesPage = (props) => {
           <Grid container wrap="wrap">
             {(loading ? Array.from(new Array(8)) : hairstyles).map(
               (item, index) => (
-                <Box key={index} sx={{ width: 400, marginLeft: 50, my: 5 }}>
+                <Box key={index} sx={{ width: 400, marginLeft: 5, my: 5 }}>
                   <Skeleton
                     animation="wave"
                     variant="rectangular"
@@ -82,8 +82,39 @@ const AllHairstylesPage = (props) => {
           <>
             <Grid
               container
-              style={{ display: "flex", justifyContent: "space-around" }}
+              style={{ display: "flex", justifyContent: "space-around", width: gender === 'Ж' ? '95vw' : "100%"}}
             >
+              {gender === 'Ж' &&
+              <Grid item xs={12} sm={3} className={classes.cardBox} sx={{width: '90vw'}}>
+                <Card className={classes.card}>
+                  <CardMedia
+                      component={"img"}
+                      src={'https://img1.cgtrader.com/items/2545492/142564a2a7/female-hair-bun-3d-model-obj-fbx-blend.jpg'}
+                      className={classes.img}
+                  />
+                  <CardContent className={classes.content}>
+                    <Box>
+                      <Typography gutterBottom variant="h5" component="h2">
+                        {"Кладка"}
+                      </Typography>
+                      <Typography gutterBottom component="h2">
+                        {500} ₽
+                      </Typography>
+                    </Box>
+                    <Box>
+                      <NavLink title={"Подробнее"}
+                               to={`/hairstyles/kladka`}
+                      >
+                        <InfoIcon fontSize="large"/>
+                      </NavLink>
+                    </Box>
+                  </CardContent>
+
+                  <CardActions>
+                    <Requests/>
+                  </CardActions>
+                </Card>
+              </Grid>}
               {hairstyles.map((item) => (
                 <Grid item xs={12} sm={3} className={classes.cardBox}>
                   <Card className={classes.card}>

@@ -57,10 +57,10 @@ export default function HeaderLinks(props) {
                   }}
                   buttonIcon={Apps}
                   dropdownList={person?.role === "Client" ? [
-                    <Button className={classes.dropdownLink} onClick={handleOpen}>
+                    <button className={classes.dropdownLink} onClick={handleOpen}>
                         <CashIcon color={"success"} sx={{mr: "5px"}} />
                             Пополнить баланс
-                    </Button>,
+                    </button>,
                       <Link to="/" onClick = {handleDelete}
                       className={classes.dropdownLink}>
                           <DeleteIcon color={"error"} />

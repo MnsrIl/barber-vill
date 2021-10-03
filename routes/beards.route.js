@@ -3,11 +3,11 @@ const { beardsController } = require('../controllers/beards.controller')
 
 const router = Router()
 
-// возможно стоит обсудить роуты beards
+router.get('/beards', beardsController.getBeards);
+router.get('/beards/:beardId', beardsController.getOneBeard)
+router.get('/category/:categoryId/beards', beardsController.getBeardsByCategory);
 
 router.post('/beards', beardsController.addBeard)
-router.get('/beards', beardsController.getBeards)
-router.get('/beards/:id', beardsController.getOneBeard)
 router.patch('/beards/:id', beardsController.updateBeard)
 router.delete('/beards/:id', beardsController.removeBeard)
 

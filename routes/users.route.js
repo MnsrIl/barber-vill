@@ -12,6 +12,8 @@ router.patch("/updateData", authMiddleware, usersController.updateUserDataBarber
 router.delete("/deleteAccount", authMiddleware, usersController.removeUser)
 
 // router.get("/users",usersController.getUsers)
+//routes for client
+router.post('/clients/topUpBalance', authMiddleware, usersController.topUpBalance);
 
 //routes for barbers
 router.get("/barbers", usersController.getBarbers);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
   Box,
   Grid,
@@ -8,7 +8,10 @@ import {
   Typography,
 } from "@material-ui/core";
 import { useState } from "react";
-import {Modal, Button} from "@mui/material";
+import {Modal, Button, Snackbar} from "@mui/material";
+import {useDispatch, useSelector} from "react-redux";
+import {Error} from "@mui/icons-material";
+import {topUpBalance} from "../../redux/feautures/clients";
 
 const useStyles = makeStyles({
   card: {
@@ -67,27 +70,65 @@ const useStyles = makeStyles({
 });
 
 function Balance(props) {
-  const [name, setName] = useState("");
-  const [cardNumber, setCardNumber] = useState("");
-  const [MM, setMM] = useState("");
-  const [YY, setYY] = useState("");
+  const success = useSelector(store => store.clients.success);
+  const error = useSelector(store => store.clients.error);
+  const topUpping = useSelector(store => store.clients.topUpping);
 
-  const handleName = (value) => {setName(value)};
+  const dispatch = useDispatch();
 
-  const handleCardNumber = (value) => {setCardNumber(value)};
+  const [cardInfo, setCardInfo] = useState({ MM: '', YY: '', cardNumber: '', name: '', balance: 0, CVV: '' });
 
-  const handleMM = (value) => {setMM(value)};
+  const handleChangeInfo = (e) => {
+    setCardInfo({...cardInfo,
+      [e.target.name]: e.target.value
+    });
+  }
 
-  const handleYY = (value) => {setYY(value)};
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    dispatch(topUpBalance(cardInfo.balance));
+  }
+
+  const [open, setOpen] = useState(false);
+
+  const handleClose = () => {
+    setOpen(false);
+    dispatch({type: "client/clearData"})
+  }
+
+  useEffect(() => {
+    if (success || error) {
+      setOpen(true)
+    }
+  }, [success, error])
 
   const classes = useStyles();
   return (
+      <>
       <Modal
+
         open={props.modalOpen}
         onClose={props.handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
+        <>
+          <Snackbar
+              open={open}
+              autoHideDuration={3000}
+              variant={error ? "error" : "success"}
+              onClose={handleClose}
+              message={
+                <div>
+              <span style={{ marginRight: "8px" }}>
+                <Error fontSize="large" color={error ? "error" : "success"} />
+              </span>
+                  <span> {error?.toString() || success?.toString()} </span>
+                </div>
+              }
+          />
+
         <Grid style={{ margin: "0 auto", width: '40%' }}>
           <Paper className={classes.card}>
             <Box className={classes.visaBox}>
@@ -114,24 +155,24 @@ function Balance(props) {
                     fontSize: "30px",
                     padding: "25px",
                   }}>
-                  {cardNumber ? cardNumber : "0000 0000 0000 0000"}
+                  {cardInfo.cardNumber ? cardInfo.cardNumber : "0000 0000 0000 0000"}
                 </Typography>
               </Box>
               <Box display="flex" justifyContent="space-between" p="30px">
                 <Box>
                   <Typography className = {classes.data}>
-                    {name ? name : "ФАМИЛИЯ ИМЯ"}
+                    {cardInfo.name ? cardInfo.name : "ИМЯ"}
                   </Typography>
                 </Box>
                 <Box display="flex">
                   <Typography className = {classes.data}>
-                    {MM ? MM : "MM"}
+                    {cardInfo.MM ? cardInfo.MM : "MM"}
                   </Typography>
                   <Typography className = {classes.data}>
                     /
                   </Typography>
                   <Typography className = {classes.data}>
-                    {YY ? YY : "ГГ"}
+                    {cardInfo.YY ? cardInfo.YY : "ГГ"}
                   </Typography>
                 </Box>
               </Box>
@@ -143,14 +184,16 @@ function Balance(props) {
               <TextField
                 label={"Имя на карте"}
                 variant="outlined"
-                onChange={(e) => handleName(e.target.value)}
+                name={'name'}
+                onChange={handleChangeInfo}
                 className={classes.textInput}
               />
 
               <TextField
                 label={"Номер карты"}
                 variant="outlined"
-                onChange={(e) => handleCardNumber(e.target.value)}
+                name={'cardNumber'}
+                onChange={handleChangeInfo}
                 className={classes.textInput}
               />
             </Box>
@@ -158,40 +201,51 @@ function Balance(props) {
               <TextField
                 label={"ММ"}
                 variant="outlined"
-                onChange={(e) => handleMM(e.target.value)}
+                name={'MM'}
+                onChange={handleChangeInfo}
                 className={classes.textInputBlock}
               />
               
               <TextField
                 label={"ГГ"}
                 variant="outlined"
-                onChange={(e) => handleYY(e.target.value)}
+                name={'YY'}
+                onChange={handleChangeInfo}
                 className={classes.textInputBlock}
               />
 
               <TextField
                 type={"password"}
                 label={"CVV"}
+                name={'CVV'}
                 variant="outlined"
+                onChange={handleChangeInfo}
                 className={classes.textInputBlock}
               />
+
             </Grid>
             <Box className={classes.submitBtn}>
               <TextField
-                label={"Введите сумму"}
-                variant="outlined"
+                  label={"Введите сумму"}
+                  variant="outlined"
+                  name={'balance'}
+                  onChange={handleChangeInfo}
               />
               <Button
-                variant={"contained"}
-                color={"primary"}
-                style={{ padding: 15 }}
+                  disabled={topUpping || false}
+                  variant={"contained"}
+                  color={"primary"}
+                  style={{ padding: 15 }}
+                  onClick={handleSubmit}
               >
                 Пополнить
               </Button>
             </Box>
           </Paper>
         </Grid>
+        </>
       </Modal>
+      </>
   );
 }
 

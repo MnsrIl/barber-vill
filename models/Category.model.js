@@ -1,8 +1,8 @@
-const mongoose = require('mongoose')
+const {Schema, model} = require('mongoose')
 
 // обсудить насчет этой модели по поводу фильтрации причесок по типу борода/прическа и муж/жен
 
-const categorySchema = mongoose.Schema({
+const categorySchema = new Schema({
   name: String,
   type: String,
   gender: String
@@ -10,6 +10,4 @@ const categorySchema = mongoose.Schema({
   { timestamps: true }
 )
 
-const Category = mongoose.model('Category', categorySchema)
-
-module.exports = Category
+module.exports = model('Category', categorySchema);

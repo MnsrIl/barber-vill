@@ -19,13 +19,14 @@ const reducer = (state = initialState, action) => {
     }
 }
 
-export const loadCategories = (gender) => async (dispatch) => {
+export const loadCategories = (gender, type = 'hairstyles') => async (dispatch) => {
     dispatch({type: "categories/loadCategories/pending"});
 
     if (!gender) gender = 'М';
-    const res = await fetch(`/api/categories/${gender}`);
+    const res = await fetch(`/api/categories/${gender}?type=${type}`);
     const json = await res.json();
 
+    console.log(json)
     if (json.error) {
         dispatch({type: "categories/loadCategories/rejected", error: json.error});
     } else {
