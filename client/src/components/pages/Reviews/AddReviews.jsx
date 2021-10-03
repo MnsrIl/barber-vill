@@ -1,19 +1,36 @@
 import * as React from "react";
-import { Box, IconButton, Typography, Grid } from "@material-ui/core";
+import { Box, IconButton, Typography, Grid, FormControl } from "@material-ui/core";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { TextField, Snackbar } from "@mui/material";
+import { TextField, Snackbar, InputLabel, Input, TextareaAutosize } from "@mui/material";
 import { makeStyles } from "@material-ui/core/styles";
 import { SendOutlined, Error } from "@mui/icons-material";
 import { addReviews } from "../../../redux/feautures/clients";
 
+
 const useStyles = makeStyles((theme) => ({
   input: {
-    "& .MuiTextField-root": {
-      margin: theme.spacing(2),
-      width: "90ch",
+    position: "relative",
+    marginLeft: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    fontFamily: "Cutive Mono, monospace",
+    color: "#0D0D0D",
+    fontSize: "14px",
+    padding: `${theme.spacing(1.5)}px ${theme.spacing(1)}px`,
+    borderRadius: "8px",
+    border: "1.4px solid",
+    boxShadow: "1px 2px 20px rgba(169,198,217,0.29457423) ",
+    borderColor: "rgba(206,212,218, .993)",
+
+    "&:hover": {
+        background: "rgba(169,198,217,0.36457423) ",
     },
   },
+  form: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  }
 }));
 
 const correctTime = (time) =>
@@ -48,47 +65,52 @@ const AddReviews = () => {
   };
 
   return (
-    <Grid>
+    <>
+      <Box>
+        <form className={classes.form}>
+          <FormControl required margin="normal">
+            <InputLabel htmlFor="review" className={classes.labels}>
+                отзывы
+            </InputLabel>
+            <TextareaAutosize
+                placeholder={'Оставьте отзыв о парикмахере'}
+                maxRows={2}
+                style={{height: "50px", margin: "0px 8px", width: "285px"}}
+                value={reviewInput}
+                name="review"
+                type="text"
+                autoComplete="off"
+                className={classes.input}
+                disableUnderline={true}
+                onChange={handleChange}
+            />
+          </FormControl>
+          <IconButton
+              style={{top: "12px"}}
+              disabled={adding}
+              type="submit"
+              onClick={handleSubmit}
+              color="primary"
+            >
+              <SendOutlined />
+            </IconButton>
+        </form>
+      </Box>
       <Box>
         {currentBarber?.personal.reviews?.map((item) => (
-          <Box width="90%">
-            <Box p={1} mt={2} display="flex" justifyContent="space-between">
-              <Box display="flex" alignItems={"center"}></Box>
-              <Box>{correctTime(item.createdAt)}</Box>
+          // <Box width="90%">
+            <Box p={1} mt={2}>
+              {/* <Box display="flex" alignItems={"center"}></Box> */}
+              <Box p={1} mb={1}>
+              <Typography>{item.userId.name}</Typography>
             </Box>
+            <Box>{correctTime(item.createdAt)}</Box>
             <Box p={1} mb={1}>
               <Typography>{item.text}</Typography>
             </Box>
-            <Box p={1} mb={1}>
-              <Typography>{item.userId.name}</Typography>
             </Box>
-          </Box>
+          // </Box>
         ))}
-      </Box>
-      <Box>
-        <form className={classes.input}>
-          <br />
-          <br />
-          <TextField
-            id="outlined-multiline-static"
-            multiline
-            rows={5}
-            aria-colspan={4}
-            placeholder="Введите текст"
-            value={reviewInput}
-            onChange={handleChange}
-            variant="outlined"
-          />
-          <IconButton
-            disabled={adding}
-            type="submit"
-            onClick={handleSubmit}
-            style={{ marginTop: "60px" }}
-            color="primary"
-          >
-            <SendOutlined />
-          </IconButton>
-        </form>
       </Box>
       <Box>
         <Snackbar
@@ -106,7 +128,7 @@ const AddReviews = () => {
           }
         />
       </Box>
-    </Grid>
+    </>
   );
 };
 

@@ -117,10 +117,8 @@ function BarberModelPage(props) {
                         tabButton: "Reviews",
                         tabIcon: RateReview,
                         tabContent: (
-                          <GridContainer>
-                            <GridItem xs={12} sm={12} md={4}>
+                          <GridContainer direction={"column"} justifyContent={"center"} >
                               <AddReviews />
-                            </GridItem>
                           </GridContainer>
                         )},
                     ]}
