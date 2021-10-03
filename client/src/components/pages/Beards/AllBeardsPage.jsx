@@ -9,12 +9,14 @@ import {
   Grid,
   makeStyles,
   Typography,
+  Fab,
+  Button,
 } from "@material-ui/core";
 import { Skeleton } from "@mui/lab";
 import { getAllBeards } from "../../../redux/feautures/beards";
 import InfoIcon from "@mui/icons-material/Info";
-import Requests from "../Requests";
 import Header from "../Header";
+import ModalPage from "../Requests/Modal";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -64,7 +66,7 @@ function AllBeardsPage() {
           <Grid container wrap="wrap">
             {(loading ? Array.from(new Array(8)) : beards).map(
               (item, index) => (
-                <Box key={index} sx={{ width: 400, marginLeft: 50, my: 5 }}>
+                <Box key={index} sx={{ width: 400, marginLeft: 5, my: 5 }}>
                   <Skeleton
                     animation="wave"
                     variant="rectangular"
@@ -80,8 +82,7 @@ function AllBeardsPage() {
             )}
           </Grid>
         ) : (
-          <Grid
-            container
+          <Grid container
             style={{ display: "flex", justifyContent: "space-around" }}
           >
             {beards.map((item) => (
@@ -107,10 +108,10 @@ function AllBeardsPage() {
                       </NavLink>
                     </Box>
                   </CardContent>
-
-                  <CardActions>
-                    <Requests />
-                  </CardActions>
+                      <Button variant="text"
+                        style={{ paddingLeft:120}}>
+                        <ModalPage />
+                      </Button>
                 </Card>
               </Grid>
             ))}
