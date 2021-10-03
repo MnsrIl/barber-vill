@@ -1,13 +1,8 @@
 import { useHistory } from "react-router-dom";
 import { Box, Button, Card, CardMedia, Grid } from "@material-ui/core";
-import {
-  GitHub as GitHubIcon,
-  Female as FemaleIcon,
-  Male as MaleIcon
-} from "@mui/icons-material";
+import { GitHub as GitHubIcon, Female as FemaleIcon, Male as MaleIcon} from "@mui/icons-material";
 import Header from "../Header";
 import hairstyles from "../../../image/hairstyles1.jpg";
-import beards from "../../../image/men-beards.jpg";
 import useStyles from "./classes";
 
 function HomePage() {
@@ -29,13 +24,7 @@ function HomePage() {
               НурСултан!
             </Box>
           </Box>
-          <Box
-            display="flex"
-            textAlign="center"
-            cursor="pointer"
-            height="50px"
-            ml="70px"
-          >
+          <Box className={classes.blockCard}>
             <Button
               className={classes.triangle}
               onClick={() => history.push("/hairstyles")}
@@ -57,7 +46,7 @@ function HomePage() {
               <Box pb="30px" className={classes.cardLink}>
                 <CardMedia
                   component={"img"}
-                  src={beards}
+                  src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6AD-sEMxJ8YXbi7d_5gSLTPf4PnzG5eES6uS7tel3MwlbTWaOUDfFnL6uoqgS0wXEa28&usqp=CAU"}
                   className={classes.cardImg}
                 />
                 <FemaleIcon
@@ -70,7 +59,7 @@ function HomePage() {
             </Card>
 
             <Card className={classes.card}>
-              <Box pb="30px" className={classes.cardLink}>
+              <Box className={classes.cardLink}>
                 <CardMedia
                   component={"img"}
                   src={hairstyles}

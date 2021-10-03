@@ -47,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
     transition: "all 0.5s",
   },
   cardLink: {
+    paddingBottom: 30,
     "&::before": {
       position: "absolute",
       content: '""',
@@ -118,6 +119,13 @@ const useStyles = makeStyles((theme) => ({
     "0%": { opacity: 0 },
     "100%": { opacity: 1 },
   },
+  blockCard:{
+    display:"flex",
+    textAlign:"center",
+    cursor:"pointer",
+    height:"50px",
+    marginLeft:"70px"
+  }
 }));
 
 export default useStyles;

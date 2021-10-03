@@ -220,9 +220,9 @@ module.exports.usersController = {
             await (role === "Barber" ? Barber : Client).findByIdAndRemove(personal._id);
             await User.findByIdAndRemove(_id);
 
-            res.status(200).json({success: "Пользователь успешно удалён"});
+            res.status(200).json({success: "Аккаунт успешно удалён"});
         } catch (e) {
-            res.status(400).json({error: e});
+            res.status(400).json({error: "Не удалось удалить аккаунт" + e});
         }
     },
 

@@ -16,18 +16,18 @@ function UpperTab() {
     };
 
     return (
-        <Box sx={{ width: '100%', typography: 'body1' }}>
+        <Box sx={{ width: '100%', typography: 'body1'}}>
             <TabContext value={value}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <TabList onChange={handleChange} aria-label="lab API tabs example">
-                        <Tab label="Мужские" value="М" />
-                        <Tab label="Женские" value="Ж" />
+                <Box sx={{backgroundColor:"#1b2735", p:2 }}>
+                    <TabList onChange={handleChange} aria-label="lab API tabs example" >
+                        <Tab label="Мужские" value="М" style={{color:"white"}}/>
+                        <Tab label="Женские" value="Ж" style={{color:"white"}}/>
                     </TabList>
                 </Box>
-                <TabPanel value="М">
+                <TabPanel value="М" style={{padding:0}}>
                     <LeftTab />
                 </TabPanel>
-                <TabPanel value="Ж">
+                <TabPanel value="Ж" style={{padding:0}}>
                     <LeftTab />
                 </TabPanel>
             </TabContext>

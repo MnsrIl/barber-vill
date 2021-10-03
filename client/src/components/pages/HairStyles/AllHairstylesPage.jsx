@@ -2,138 +2,125 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllHairstyles } from "../../../redux/feautures/hairstyles";
 import {
-    Card,
-    CardActions,
-    CardContent,
-    CardMedia,
-    Fab,
-    Grid,
-    makeStyles,
-    Typography,
+  Card,
+  CardActions,
+  CardContent,
+  CardMedia,
+  Grid,
+  makeStyles,
+  Typography,
 } from "@material-ui/core";
-import { NavLink, useHistory } from "react-router-dom";
-import {Skeleton, Box, Button} from "@mui/material";
+import { NavLink } from "react-router-dom";
+import { Skeleton, Box } from "@mui/material";
 import useQuery from "../../../hooks/useQuery";
 import Requests from "../Requests";
+import InfoIcon from "@mui/icons-material/Info";
 
 const useStyles = makeStyles((theme) => ({
-    card: {
-        boxShadow: "0 .5rem 1rem rgba(0,0,0,.15)",
-        width: 300,
-        maxWidth: 300,
-        height: 480,
-        borderRadius: 10,
-        marginTop: theme.spacing(5),
+  card: {
+    display: "block",
+    boxShadow: "0 .5rem 1rem rgba(0,0,0,.50)",
+    borderRadius: 15,
+    position: "relative",
+  },
+  img: {
+    height: 380,
+    transition: "all 0.6s",
+  },
+  content: {
+    position: "absolute",
+    display: "flex",
+    justifyContent: "space-between",
+    bottom: "11%",
+    background: "rgba(0,0,0, 0.7)",
+    color: "white",
+    width: "100%",
+  },
+  cardBox: {
+    marginRight: 25,
+    marginBottom: 40,
+    "&:hover img": {
+      transform: "scale(1.2)",
     },
-    imgBox: {
-        padding: 10,
-        backgroundColor: "#ffffff",
-    },
-    image: {
-        objectFit: "contain",
-        height: 250,
-    },
-    content: {
-        margin: "20px auto 0",
-        borderRadius: 5,
-        backgroundColor: "#3f51b5",
-        color: "white",
-    },
-    btnBox: {
-        textAlign: "center",
-        display: "block",
-    },
-    nav: {
-        color: "inherit",
-        textDecoration: "none",
-        "&:hover": {
-            color: "inherit",
-        },
-    },
+  },
 }));
 
 const AllHairstylesPage = (props) => {
-    const classes = useStyles();
+  const classes = useStyles();
+  const dispatch = useDispatch();
 
-    const { loading, hairstyles } = useSelector((store) => store.hairstyles);
+  const { loading, hairstyles } = useSelector((store) => store.hairstyles);
 
-    const dispatch = useDispatch();
-    const gender = useQuery("gender");
+  const gender = useQuery("gender");
 
-    useEffect(() => {
-        dispatch(getAllHairstyles(props.categoryId, gender));
-    }, [dispatch, gender]);
+  useEffect(() => {
+    dispatch(getAllHairstyles(props.categoryId, gender));
+  }, [dispatch, gender]);
 
-    return (
-        <>
-            <Box display="flex" flexWrap="wrap" justifyContent="space-between">
-                {loading ? (
-                    <Grid container wrap="wrap">
-                        {(loading ? Array.from(new Array(8)) : hairstyles).map((item, index) => (
-                            <Box key={index} sx={{ width: 300, marginRight: 3, my: 5 }}>
-                                <Skeleton
-                                    animation="wave"
-                                    variant="rectangular"
-                                    width={300}
-                                    height={200}
-                                />
-                                <Box sx={{ pt: 0.5 }}>
-                                    <Skeleton />
-                                    <Skeleton width="60%" />
-                                </Box>
-                            </Box>
-                        ))}
-                    </Grid>
-                ) : (<>
+  return (
+      <Box display="flex" flexWrap="wrap" justifyContent="space-between" pt='30px'>
+        {loading ? (
+          <Grid container wrap="wrap">
+            {(loading ? Array.from(new Array(8)) : hairstyles).map(
+              (item, index) => (
+                <Box key={index} sx={{ width: 400, marginLeft: 50, my: 5 }}>
+                  <Skeleton
+                    animation="wave"
+                    variant="rectangular"
+                    width={350}
+                    height={250}
+                  />
+                  <Box sx={{ pt: 0.5 }}>
+                    <Skeleton />
+                    <Skeleton width="60%" />
+                  </Box>
+                </Box>
+              )
+            )}
+          </Grid>
+        ) : (
+          <>
+            <Grid
+              container
+              style={{ display: "flex", justifyContent: "space-around" }}
+            >
+              {hairstyles.map((item) => (
+                <Grid item xs={12} sm={3} className={classes.cardBox}>
+                  <Card className={classes.card}>
+                    <CardMedia
+                      component={"img"}
+                      src={item.image}
+                      className={classes.img}
+                    />
+                    <CardContent className={classes.content}>
+                      <Box>
+                        <Typography gutterBottom variant="h5" component="h2">
+                          {item.name}
+                        </Typography>
+                        <Typography gutterBottom component="h2">
+                          {item.price} ₽
+                        </Typography>
+                      </Box>
+                      <Box>
+                        <NavLink title={"Подробнее"}
+                          to={`/hairstyles/${item._id}`}
+                        >
+                          <InfoIcon fontSize="large" />
+                        </NavLink>
+                      </Box>
+                    </CardContent>
 
-                        {hairstyles.map((item) => (
-                            <Card className={classes.card} key={item._id}>
-                                <Box className={classes.imgBox}>
-                                    <CardMedia
-                                        className={classes.image}
-                                        component={"img"}
-                                        src={item.image}
-                                    />
-                                </Box>
-                                <CardContent className={classes.content}>
-                                    <Typography
-                                        gutterBottom
-                                        component="span"
-                                        variant={"body1"}
-                                        style={{ cursor: "pointer" }}
-                                        // onClick={() => history.push(`/hairstyles/${item.categoryId._id}`)}
-                                    >
-                                        {item.categoryId.name}
-                                    </Typography>
-                                    <Typography gutterBottom variant="h5" component="h2">
-                                        {item.name}
-                                    </Typography>
-                                    <Typography gutterBottom component="h2">
-                                        {item.price} ₽
-                                    </Typography>
-                                </CardContent>
-
-                                <CardActions className={classes.btnBox}>
-                                    <Fab
-                                        variant="extended"
-                                        size="small"
-                                        color="primary"
-                                        aria-label="add"
-                                        className={classes.margin}
-                                    >
-                                        <NavLink className={classes.nav} to={`/hairstyles/${item._id}`}>
-                                            Подробнее
-                                        </NavLink>
-                                    </Fab>
-                                    <Requests />
-                                </CardActions>
-                            </Card>
-                        ))}
-                    </>
-                )}
-            </Box>
-        </>
-    );
-}
+                    <CardActions>
+                      <Requests />
+                    </CardActions>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </>
+        )}
+      </Box>
+  );
+};
 
 export default AllHairstylesPage;

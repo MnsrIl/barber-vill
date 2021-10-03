@@ -1,14 +1,14 @@
-import {ExitToApp, AccountBalanceWallet as CashIcon, Apps, Home, Delete as DeleteIcon} from "@mui/icons-material";
-import { List, ListItem, Tooltip } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Button, List, ListItem, Tooltip } from "@material-ui/core";
+import {ExitToApp, AccountBalanceWallet as CashIcon, Apps, Home, Delete as DeleteIcon} from "@mui/icons-material";
 import CustomDropdown from "../CustomDropdown/CustomDropdown.js";
-
 import styles from "./headerLinksStyle.js";
 import {useDispatch, useSelector} from "react-redux";
 import { deleteAccount } from "../../../../../redux/feautures/auth.js";
+import Balance from "../../../Balance.jsx";
 
 const useStyles = styles;
-
 
 export default function HeaderLinks(props) {
 
@@ -24,7 +24,13 @@ export default function HeaderLinks(props) {
         dispatch(deleteAccount())
     }
 
+    const [modalOpen, setModalOpen] = useState(false);
+    const handleOpen = () => { setModalOpen(!modalOpen) };
+    const handleClose = () => setModalOpen(false);
+
     return (
+        <>
+        <Balance modalOpen={modalOpen} handleClose={handleClose} />
         <List className={classes.list}>
           <ListItem className={classes.listItem}>
             <Tooltip
@@ -51,10 +57,10 @@ export default function HeaderLinks(props) {
                   }}
                   buttonIcon={Apps}
                   dropdownList={person?.role === "Client" ? [
-                      <Link to="/" className={classes.dropdownLink}>
-                          <CashIcon color={"success"} sx={{mr: "5px"}} />
-                          Пополнить баланс
-                      </Link>,
+                    <Button className={classes.dropdownLink} onClick={handleOpen}>
+                        <CashIcon color={"success"} sx={{mr: "5px"}} />
+                            Пополнить баланс
+                    </Button>,
                       <Link to="/" onClick = {handleDelete}
                       className={classes.dropdownLink}>
                           <DeleteIcon color={"error"} />
@@ -85,5 +91,6 @@ export default function HeaderLinks(props) {
               </Tooltip>
           </ListItem>
         </List>
+        </>
     );
 }

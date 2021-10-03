@@ -1,14 +1,23 @@
-import { Box, CardMedia, Fab, makeStyles, Typography } from "@material-ui/core";
+import { Box, CardMedia, Fab, Grid, makeStyles, Typography } from "@material-ui/core";
 import {forwardRef, useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { getOneHairstyle } from "../../../redux/feautures/hairstyles";
 import Header from "../Header";
-import Map from "../Map.jsx";
 import {Dialog, IconButton, Slide} from "@mui/material";
 import {Room, RoomOutlined} from "@mui/icons-material";
+import Image from "../../../image/imgonline.png"
 
-export const useStyles = makeStyles((theme) => ({}));
+export const useStyles = makeStyles((theme) => ({
+  image:{
+    width:600,
+    height:600
+  },
+  name:{
+  //  textAlign:"center",
+  //  fontSize:30
+  }
+}));
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -16,15 +25,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 function OneHairStyle(props) {
   const { loading, currentHairstyle } = useSelector((store) => store.hairstyles);
-  // const [openMap, setOpenMap] = useState();
-  // const [location, setLocation] = useState(null);
-  //
-  // const handleOpenMap = () => setOpenMap(!openMap);
-  //
-  // const handleSetLocation = (location) => {
-  //   handleOpenMap(false);
-  //   setLocation(location);
-  // }
+  
   const classes = useStyles();
 
   const { hairstyleId } = useParams();
@@ -36,68 +37,50 @@ function OneHairStyle(props) {
   }, [hairstyleId, dispatch]);
 
   return (
-    <>
+    <Grid style={{color:"white", 
+    // backgroundColor:"#150909"
+    // backgroundImage:`url(${Image})`, backgroundSize:"100%", backgroundRepeat:"no-repeat", height:800
+    }}>
       <Header />
-      <Box display="flex" flexWrap="wrap" justifyContent="space-between">
         {loading ? (
           <Box>
             <h1>Идет загрузка...</h1>
           </Box>
         ) : (
-          <Box>
-            <Box>
-              <CardMedia
-                className={classes.image}
-                component={"img"}
-                src={currentHairstyle?.image}
-              />
-            </Box>
-            <Typography
-              gutterBottom
-              component="h2"
-              style={{ cursor: "pointer" }}
-              // onClick={() => history.push(`/hairstyles/${item.categoryId._id}`)}
-            >
-              {currentHairstyle?.categoryId.name}
-            </Typography>
-            <Typography gutterBottom variant="h5" component="h2">
+          <Grid container style={{justifyContent:"center", backgroundColor:"rgba(0,0,0, 0.7)", width:'75%',margin:"0 auto", padding:40, borderRadius:40,}}>
+           <Grid item xs={12} sm={4} style={{position:'relative'}}>
+            <Typography gutterBottom variant="h3" className={classes.name}>
               {currentHairstyle?.name}
             </Typography>
-            <Typography gutterBottom component="h2">
-              {currentHairstyle?.price} ₽
+            <Typography gutterBottom variant="h5">
+              Категория: {currentHairstyle?.categoryId.name}
             </Typography>
-            {/*<IconButton onClick={handleOpenMap}>*/}
-            {/*    <RoomOutlined htmlColor={"#fafafa"} />*/}
-            {/*</IconButton>*/}
-            {/*<Typography color={"error"}>*/}
-            {/*  Текущее местонахождение: <br />*/}
-            {/*  lng = {location?.lng} <br />*/}
-            {/*  lat = {location?.lat}*/}
-            {/*</Typography>*/}
-            {/*<Dialog*/}
-            {/*  fullScreen*/}
-            {/*  open={openMap}*/}
-            {/*  onClose={handleOpenMap}*/}
-            {/*  TransitionComponent={Transition}*/}
-            {/*>*/}
-            {/*  <Map handleClose={handleSetLocation} />*/}
-            {/*</Dialog>*/}
+            <Typography gutterBottom variant="h5">
+              Цена: {currentHairstyle?.price} ₽
+            </Typography>
 
             <Fab
               variant="extended"
               size="small"
               color="primary"
               aria-label="add"
-              className={classes.margin}
+              style={{position:'absolute', bottom:'2%'}}
             >
-              {/* <NavLink to={``}> */}
+              <Link to={`/`}>
               Оставить заявку
-              {/* </NavLink> */}
-            </Fab>
-          </Box>
+              </Link>
+            </Fab> 
+            </Grid>
+             <Grid item xs={12} sm={6}>
+              <CardMedia
+                className={classes.image}
+                component={"img"}
+                src={currentHairstyle?.image}
+              />
+            </Grid>
+          </Grid>
         )}
-      </Box>
-    </>
+    </Grid>
   );
 }
 
