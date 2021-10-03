@@ -48,6 +48,7 @@ export const register = theme => ({
     },
     telegramCheckbox: {
         //boxShadow: "1px 2px 20px rgb(169 198 217 / 29%)",
+        color: "rgba(206,212,218, .993)",
         fontFamily: "Cutive Mono, monospace",
         marginLeft: theme.spacing(1),
         borderColor: "rgba(206,212,218, .993)",

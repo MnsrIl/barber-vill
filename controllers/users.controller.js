@@ -90,8 +90,12 @@ module.exports.usersController = {
             else if (role === "Barber") { //Если пользователь регистрируется как парикмахер, то...
                 //console.log("Этап 6");
 
-                const {lastname, email, telegram} = req.body;
+                const {lastname, email, telegram, lat, lng} = req.body;
                 const avatar = req.files?.avatar;
+
+                if (!lat && !lng) {
+                    return res.status(400).json({error: "Необходимо указать корректное местоположение!"});
+                }
 
                 if (!email) {
                     return res.status(404).json({error: "Необходимо указать почту!"});
@@ -117,8 +121,8 @@ module.exports.usersController = {
                     filePath = "/assets/images/avatars/" + Math.random() + ext;
                 }
 
-                const barber = await Barber.create({lastname, avatar: filePath, email, telegram });
-                user = await User.create({name, login, password: hashedPassword, role, personal: barber.id});
+                const barber = await Barber.create({lastname, avatar: filePath, email, telegram, location: {lat, lng} });
+                user = await User.create({name, login, password: hashedPassword, role, personal: barber});
 
                 //Ниже всех, чтобы сохранять фотографию только тогда, когда пользователь успешно зарегистрирован
                 avatar && await avatar.mv(`./client/public${filePath}`);
@@ -154,14 +158,25 @@ module.exports.usersController = {
                     } else {
                         user = await User.findById(_id, "-password").populate("personal");
                     }
-            } catch (e) { 
-                console.log(e)
+            } catch (e) {
+                console.log(e);
             }
 
             res.status(200).json({success: "Пользователь успешно найден", user });
         } catch (e) {
             res.status(400).json({error: e});
         }
+    },
+
+    addDescriptionToBarber: async (req, res) => {
+      try {
+          const {_id: barberId} = req.user.personal;
+          await Barber.findByIdAndUpdate(barberId, {desc: req.body.desc});
+
+          res.status(200).json({success: "Описание успешно добавлено"});
+      }  catch (e) {
+          res.status(400).json({error: e});
+      }
     },
 
     getBarbers: async (req, res) => {
@@ -223,7 +238,6 @@ module.exports.usersController = {
             let filePath = "";
 
             const barber = await Barber.findById(personal._id);
-
             if (avatar) {
                 const ext = extname(avatar.name);
 

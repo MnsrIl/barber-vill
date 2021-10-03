@@ -41,9 +41,9 @@ const AsClient = ({classes, setUserType, userType}) => {
         }
     };
 
-    const handleChange = (name, option = "value") => e => {
+    const handleChange = e => {
         setState({...state,
-            [name]: e.target[option]
+            [e.target.name]: e.target.value
         });
     };
 
@@ -51,19 +51,18 @@ const AsClient = ({classes, setUserType, userType}) => {
         setState({...state, hidePassword: !state.hidePassword });
     };
 
-    const submitRegistration = e => {
+    const submitRegistration = async (e) => {
         e.preventDefault();
-        const { name, number, login, password } = state;
-        const newUserCredentials = { name, number, login, password, role: userType };
+        const newUserCredentials = {...state, role: userType, hidePassword: undefined, statusMessageOpen: undefined};
 
-        dispatch(createNewUser(newUserCredentials));
+        await dispatch(createNewUser(newUserCredentials));
 
         setState({...state, statusMessageOpen: true});
     };
 
     return (
         <>
-            {(error || success) && <Snackbar
+            <Snackbar
                 variant={error ? "error" : "success"}
                 key={error || success}
                 anchorOrigin={{
@@ -95,7 +94,7 @@ const AsClient = ({classes, setUserType, userType}) => {
                         </IconButton>
                     ]}
                 />
-            </Snackbar>}
+            </Snackbar>
 
             <Typography>Регистрация</Typography>
 
@@ -103,7 +102,7 @@ const AsClient = ({classes, setUserType, userType}) => {
                 className={classes.form}
                 onSubmit={() => submitRegistration}
             >
-                <FormControl required margin="normal">
+                <FormControl required margin="normal" style={{width: "160px"}}>
                     <InputLabel htmlFor="name" className={classes.labels}>
                         имя
                     </InputLabel>
@@ -113,10 +112,10 @@ const AsClient = ({classes, setUserType, userType}) => {
                         autoComplete="off"
                         className={classes.inputs}
                         disableUnderline
-                        onChange={handleChange("name")}
+                        onChange={handleChange}
                     />
                 </FormControl>
-                <FormControl required fullWidth margin="normal">
+                <FormControl required margin="normal" style={{width: "160px"}}>
                     <InputLabel htmlFor="number" className={classes.labels}>
                         телефон
                     </InputLabel>
@@ -126,7 +125,7 @@ const AsClient = ({classes, setUserType, userType}) => {
                         autoComplete="off"
                         className={classes.inputs}
                         disableUnderline
-                        onChange={handleChange("number")}
+                        onChange={handleChange}
                     />
                 </FormControl>
 
@@ -140,7 +139,7 @@ const AsClient = ({classes, setUserType, userType}) => {
                         autoComplete="off"
                         className={classes.inputs}
                         disableUnderline
-                        onChange={handleChange("login")}
+                        onChange={handleChange}
                     />
                 </FormControl>
                 <FormControl required fullWidth margin="normal">
@@ -152,26 +151,23 @@ const AsClient = ({classes, setUserType, userType}) => {
                         autoComplete="off"
                         className={classes.inputs}
                         disableUnderline
-                        onChange={handleChange("password")}
+                        onChange={handleChange}
                         type={state.hidePassword ? "password" : "input"}
                         endAdornment={
-                            state.hidePassword ? (
                                 <InputAdornment position="end">
-                                    <VisibilityOffTwoTone
-                                        fontSize="medium"
-                                        className={classes.passwordEye}
-                                        onClick={showPassword}
-                                    />
+                                    {state.hidePassword ?
+                                        <VisibilityOffTwoTone
+                                            fontSize="medium"
+                                            className={classes.passwordEye}
+                                            onClick={showPassword}
+                                        /> :
+                                        <VisibilityTwoTone
+                                            fontSize="medium"
+                                            className={classes.passwordEye}
+                                            onClick={showPassword}
+                                        />
+                                    }
                                 </InputAdornment>
-                            ) : (
-                                <InputAdornment position="end">
-                                    <VisibilityTwoTone
-                                        fontSize="medium"
-                                        className={classes.passwordEye}
-                                        onClick={showPassword}
-                                    />
-                                </InputAdornment>
-                            )
                         }
                     />
                 </FormControl>

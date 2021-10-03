@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 import { getOneHairstyle } from "../../../redux/feautures/hairstyles";
 import Header from "../Header";
-import Map from "../Map.jsx";
 import {Dialog, IconButton, Slide} from "@mui/material";
 import {Room, RoomOutlined} from "@mui/icons-material";
 import Image from "../../../image/imgonline.png"
@@ -26,10 +25,7 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 function OneHairStyle(props) {
   const { loading, currentHairstyle } = useSelector((store) => store.hairstyles);
-  const [openMap, setOpenMap] = useState();
-
-  const handleOpenMap = () => setOpenMap(!openMap);
-
+  
   const classes = useStyles();
 
   const { hairstyleId } = useParams();
@@ -62,6 +58,7 @@ function OneHairStyle(props) {
             <Typography gutterBottom variant="h5">
               Цена: {currentHairstyle?.price} ₽
             </Typography>
+
             <Fab
               variant="extended"
               size="small"

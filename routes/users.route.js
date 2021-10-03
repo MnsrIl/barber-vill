@@ -9,6 +9,7 @@ router.post("/login", usersController.login);
 router.post("/logout", usersController.logout);
 router.get("/profile", authMiddleware, usersController.getAuthorizedUser);
 router.patch("/updateData", authMiddleware, usersController.updateUserDataBarber);
+router.delete("/deleteAccount", authMiddleware, usersController.removeUser)
 
 // router.get("/users",usersController.getUsers)
 
@@ -16,6 +17,6 @@ router.patch("/updateData", authMiddleware, usersController.updateUserDataBarber
 router.get("/barbers", usersController.getBarbers);
 router.get("/barber/:id", usersController.getBarberById)
 router.patch("/barbers/updateAvatar", authMiddleware, usersController.updateImage);
-router.delete("/deleteAccount", authMiddleware, usersController.removeUser)
+router.post("/barbers/addDescription", authMiddleware, usersController.addDescriptionToBarber);
 
 module.exports = router;
