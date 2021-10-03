@@ -14,7 +14,7 @@ import { getOneHairstyle } from "../../../redux/feautures/hairstyles";
 import Header from "../Header";
 import ModalPage from "../Requests/Modal";
 
-export const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     justifyContent: "center",
     backgroundColor: "rgba(0,0,0, 0.8)",
@@ -32,6 +32,7 @@ export const useStyles = makeStyles((theme) => ({
   image: {
     width: 600,
     height: 600,
+    marginLeft:"20px"
   },
  
 }));
