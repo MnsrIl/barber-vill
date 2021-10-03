@@ -1,31 +1,45 @@
-import { Box, CardMedia, Fab, Grid, makeStyles, Typography } from "@material-ui/core";
-import {forwardRef, useEffect, useState} from "react";
+import {
+  Box,
+  Button,
+  CardMedia,
+  Fab,
+  Grid,
+  makeStyles,
+  Typography,
+} from "@material-ui/core";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { getOneHairstyle } from "../../../redux/feautures/hairstyles";
 import Header from "../Header";
-import {Dialog, IconButton, Slide} from "@mui/material";
-import {Room, RoomOutlined} from "@mui/icons-material";
-import Image from "../../../image/imgonline.png"
+import ModalPage from "../Requests/Modal";
 
 export const useStyles = makeStyles((theme) => ({
-  image:{
-    width:600,
-    height:600
+  container: {
+    justifyContent: "center",
+    backgroundColor: "rgba(0,0,0, 0.8)",
+    width: "75%",
+    margin: "0 auto",
+    padding: 40,
+    borderRadius: 40,
+    boxShadow: "0px 1px 5px 2px grey",
   },
-  name:{
-  //  textAlign:"center",
-  //  fontSize:30
-  }
+  loading:{
+    display:"flex",
+    justifyContent:"center",
+    fontSize:"50px"
+  },
+  image: {
+    width: 600,
+    height: 600,
+  },
+ 
 }));
 
-const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-
 function OneHairStyle(props) {
+
   const { loading, currentHairstyle } = useSelector((store) => store.hairstyles);
-  
+
   const classes = useStyles();
 
   const { hairstyleId } = useParams();
@@ -37,49 +51,46 @@ function OneHairStyle(props) {
   }, [hairstyleId, dispatch]);
 
   return (
-    <Grid style={{color:"white", 
-    // backgroundColor:"#150909"
-    // backgroundImage:`url(${Image})`, backgroundSize:"100%", backgroundRepeat:"no-repeat", height:800
-    }}>
+    <Grid style={{ color: "white", minHeight: 800 }}>
       <Header />
-        {loading ? (
-          <Box>
-            <h1>Идет загрузка...</h1>
-          </Box>
-        ) : (
-          <Grid container style={{justifyContent:"center", backgroundColor:"rgba(0,0,0, 0.7)", width:'75%',margin:"0 auto", padding:40, borderRadius:40,}}>
-           <Grid item xs={12} sm={4} style={{position:'relative'}}>
-            <Typography gutterBottom variant="h3" className={classes.name}>
+      {loading ? (
+        <Box className={classes.loading}>
+          Идет загрузка...
+        </Box>
+      ) : (
+        <Grid container className={classes.container}>
+          <Grid item xs={12} sm={4} style={{ position: "relative" }}>
+            <Typography gutterBottom variant="h3">
               {currentHairstyle?.name}
             </Typography>
-            <Typography gutterBottom variant="h5">
+            <Typography gutterBottom variant="h5" style={{borderBottom:'1px solid grey'}}>
               Категория: {currentHairstyle?.categoryId.name}
             </Typography>
-            <Typography gutterBottom variant="h5">
+            <Typography gutterBottom variant="h5" style={{borderBottom:'1px solid grey'}}>
               Цена: {currentHairstyle?.price} ₽
             </Typography>
 
             <Fab
               variant="extended"
               size="small"
-              color="primary"
+              color="secondary"
               aria-label="add"
-              style={{position:'absolute', bottom:'2%'}}
+              style={{ position: "absolute", bottom: "2%" }}
             >
-              <Link to={`/`}>
-              Оставить заявку
-              </Link>
-            </Fab> 
-            </Grid>
-             <Grid item xs={12} sm={6}>
-              <CardMedia
-                className={classes.image}
-                component={"img"}
-                src={currentHairstyle?.image}
-              />
-            </Grid>
+              <Button>
+                <ModalPage />
+              </Button>
+            </Fab>
           </Grid>
-        )}
+          <Grid item xs={12} sm={6}>
+            <CardMedia
+              className={classes.image}
+              component={"img"}
+              src={currentHairstyle?.image}
+            />
+          </Grid>
+        </Grid>
+      )}
     </Grid>
   );
 }
