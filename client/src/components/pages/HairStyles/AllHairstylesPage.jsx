@@ -2,8 +2,8 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllHairstyles } from "../../../redux/feautures/hairstyles";
 import {
+  Button,
   Card,
-  CardActions,
   CardContent,
   CardMedia,
   Grid,
@@ -13,8 +13,8 @@ import {
 import { NavLink } from "react-router-dom";
 import { Skeleton, Box } from "@mui/material";
 import useQuery from "../../../hooks/useQuery";
-import Requests from "../Requests";
 import InfoIcon from "@mui/icons-material/Info";
+import ModalPage from "../Requests/Modal";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -140,10 +140,10 @@ const AllHairstylesPage = (props) => {
                         </NavLink>
                       </Box>
                     </CardContent>
-
-                    <CardActions>
-                      <Requests />
-                    </CardActions>
+                    <Button variant="text"
+                        style={{ paddingLeft:120}}>
+                        <ModalPage />
+                      </Button>
                   </Card>
                 </Grid>
               ))}
