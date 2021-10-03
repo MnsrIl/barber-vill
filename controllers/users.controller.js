@@ -90,8 +90,12 @@ module.exports.usersController = {
             else if (role === "Barber") { //Если пользователь регистрируется как парикмахер, то...
                 //console.log("Этап 6");
 
-                const {lastname, email, telegram} = req.body;
+                const {lastname, email, telegram, lat, lng} = req.body;
                 const avatar = req.files?.avatar;
+
+                if (!lat && !lng) {
+                    return res.status(400).json({error: "Необходимо указать корректное местоположение!"});
+                }
 
                 if (!email) {
                     return res.status(404).json({error: "Необходимо указать почту!"});
@@ -117,7 +121,7 @@ module.exports.usersController = {
                     filePath = "/assets/images/avatars/" + Math.random() + ext;
                 }
 
-                const barber = await Barber.create({lastname, avatar: filePath, email, telegram });
+                const barber = await Barber.create({lastname, avatar: filePath, email, telegram, location: {lat, lng} });
                 user = await User.create({name, login, password: hashedPassword, role, personal: barber.id});
 
                 //Ниже всех, чтобы сохранять фотографию только тогда, когда пользователь успешно зарегистрирован

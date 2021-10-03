@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import {forwardRef, useState} from 'react';
 import {
     Avatar,
     Button,
@@ -10,13 +10,25 @@ import {
     withStyles
 } from "@material-ui/core";
 import { register } from "../RegistrationStyles";
-import {Checkbox, Collapse, IconButton, Snackbar, SnackbarContent, Tooltip, Typography} from "@mui/material";
+import {
+    Checkbox,
+    Collapse,
+    Dialog,
+    IconButton,
+    Slide,
+    Snackbar,
+    SnackbarContent,
+    Tooltip,
+    Typography
+} from "@mui/material";
 import {PeopleAlt, VisibilityOffTwoTone, VisibilityTwoTone} from "@material-ui/icons";
-import {Close, Error, Telegram} from "@mui/icons-material";
+import {Close, Error, Room, Telegram} from "@mui/icons-material";
 import {blue, green} from "@mui/material/colors";
 import {useDispatch, useSelector} from "react-redux";
 import {useHistory} from "react-router-dom";
 import {createNewUser} from "../../../../redux/feautures/auth";
+import Map from "../../Map";
+import SetBarberLocation from "../../../Map/setBarberLocation";
 
 const SignUpAvatar = ({classes, state}) => (
     <Tooltip title={"Выберите аватарку"}>
@@ -27,6 +39,10 @@ const SignUpAvatar = ({classes, state}) => (
         </Avatar>
     </Tooltip>
 );
+
+const Transition = forwardRef(function Transition(props, ref) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const AsBarber = ({classes, userType, setUserType}) => {
 
@@ -43,15 +59,34 @@ const AsBarber = ({classes, userType, setUserType}) => {
         password: null,
         telegram: "",
         avatar: null,
+        location: null,
         hidePassword: true,
         statusMessageOpen: false
     })
-
+    const [openMap, setOpenMap] = useState(false);
     const [hasTelegram, setHasTelegram] = useState(false);
+    const [hasLocation, setHasLocation] = useState(false);
 
     const handleChangeChecked = (e) => {
         setHasTelegram(e.target.checked);
         hasTelegram && closeTelegram()
+    };
+
+    const handleSetLocation = (data) => {
+        setState({...state, location: data});
+        setHasLocation(true);
+        console.log('killed x2')
+        if (data) {
+            setHasLocation(true)
+            handleOpenMap()
+        } else {
+            setHasLocation(false)
+        };
+    }
+
+    const handleChangeLocation = (e) => {
+        setOpenMap(true)
+        // setHasLocation(e.target.checked);
     };
 
     const closeStatusMessage = () => {
@@ -64,11 +99,15 @@ const AsBarber = ({classes, userType, setUserType}) => {
         }
     };
 
-    const handleChange = (name, option = "value") => e => {
+    const handleChange = e => {
         setState({...state,
-            [name]: e.target[option]
+            [e.target.name]: e.target.value
         });
     };
+
+    const handleChangeFile = e => {
+        setState({...state, [e.target.name]: e.target.files})
+    }
 
     const showPassword = () => {
         setState({...state, hidePassword: !state.hidePassword });
@@ -78,18 +117,21 @@ const AsBarber = ({classes, userType, setUserType}) => {
         setState({...state, telegram: ""});
     }
 
-    const submitRegistration = e => {
+    const submitRegistration = async (e) => {
         e.preventDefault();
-        const {name, lastname, avatar, telegram, email, login, password} = state;
-        const newUserCredentials = {name, lastname, avatar, telegram, email, login, password, role: userType};
-
-        dispatch(createNewUser(newUserCredentials));
+        const {hidePassword, statusMessageOpen, ...newCredentials} = state;//{...state, role: userType, hidePassword: undefined, statusMessageOpen: undefined};
+        newCredentials.role = userType;
+        await dispatch(createNewUser(newCredentials));
         setState({...state, statusMessageOpen: true});
     };
 
+    const handleOpenMap = () => {
+        setOpenMap(!openMap)
+    }
+
     return (
         <>
-            {(error || success) && <Snackbar
+            <Snackbar
                 variant={error ? "error" : "success"}
                 key={error || success}
                 anchorOrigin={{
@@ -121,7 +163,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
                         </IconButton>
                     ]}
                 />
-            </Snackbar>}
+            </Snackbar>
 
 
             <FormControlLabel
@@ -130,7 +172,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
                     <input name="avatar" accept="image/*" className={classes.fileInput} type="file" />
                 }
                 label={<SignUpAvatar classes={classes} state={state} />}
-                onChange={handleChange("avatar", "files")}
+                onChange={handleChangeFile}
             />
 
             <Typography>Регистрация</Typography>
@@ -139,7 +181,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
                 className={classes.form}
                 onSubmit={() => submitRegistration}
             >
-                <FormControl required margin="normal">
+                <FormControl required margin="normal" style={{width: "160px"}}>
                     <InputLabel htmlFor="name" className={classes.labels}>
                         имя
                     </InputLabel>
@@ -149,10 +191,11 @@ const AsBarber = ({classes, userType, setUserType}) => {
                         autoComplete="off"
                         className={classes.inputs}
                         disableUnderline
-                        onChange={handleChange("name")}
+                        onChange={handleChange}
                     />
                 </FormControl>
-                <FormControl required margin="normal">
+
+                <FormControl required margin="normal" style={{width: "160px"}}>
                     <InputLabel htmlFor="lastname" className={classes.labels}>
                         фамилия
                     </InputLabel>
@@ -162,9 +205,10 @@ const AsBarber = ({classes, userType, setUserType}) => {
                         autoComplete="off"
                         className={classes.inputs}
                         disableUnderline
-                        onChange={handleChange("lastname")}
+                        onChange={handleChange}
                     />
                 </FormControl>
+
                 <FormControl required fullWidth margin="normal">
                     <InputLabel htmlFor="email" className={classes.labels}>
                         почта
@@ -175,7 +219,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
                         autoComplete="off"
                         className={classes.inputs}
                         disableUnderline
-                        onChange={handleChange("email")}
+                        onChange={handleChange}
                     />
                 </FormControl>
 
@@ -189,7 +233,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
                         autoComplete="off"
                         className={classes.inputs}
                         disableUnderline
-                        onChange={handleChange("login")}
+                        onChange={handleChange}
                     />
                 </FormControl>
 
@@ -202,27 +246,23 @@ const AsBarber = ({classes, userType, setUserType}) => {
                         autoComplete="off"
                         className={classes.inputs}
                         disableUnderline
-                        onChange={handleChange("password")}
+                        onChange={handleChange}
                         type={state.hidePassword ? "password" : "text"}
                         endAdornment={
-                            state.hidePassword ? (
-                                <InputAdornment position="end">
+                            <InputAdornment position="end">
+                                {state.hidePassword ?
                                     <VisibilityOffTwoTone
                                         fontSize="medium"
                                         className={classes.passwordEye}
                                         onClick={showPassword}
-                                    />
-                                </InputAdornment>
-                            ) : (
-                                <InputAdornment position="end">
+                                    /> :
                                     <VisibilityTwoTone
                                         fontSize="medium"
                                         className={classes.passwordEye}
                                         onClick={showPassword}
                                     />
-                                </InputAdornment>
-                            )
-                        }
+                                }
+                            </InputAdornment>}
                     />
                 </FormControl>
 
@@ -238,22 +278,41 @@ const AsBarber = ({classes, userType, setUserType}) => {
                             autoComplete="off"
                             className={classes.inputs}
                             disableUnderline
-                            onChange={handleChange("telegram")}
+                            onChange={handleChange}
                         />
                     </FormControl>
                 </Collapse>
 
                 <FormControlLabel label={!hasTelegram && "Есть телеграмм?"} style={{marginLeft: 0}} control={
                     <Checkbox
-                        style={{color: "rgba(206,212,218, .993)"}}
                         className={classes.telegramCheckbox}
                         icon={<Telegram />}
                         checkedIcon={<Telegram sx={{color: blue[500]}} />}
                         checked={hasTelegram}
                         onChange={handleChangeChecked}
                         inputProps={{ 'aria-label': 'controlled' }}
-                    />
-                } />
+                    />}
+                />
+
+                <Dialog
+                    fullScreen
+                    open={openMap}
+                    onClose={handleOpenMap}
+                    TransitionComponent={Transition}
+                >
+                    <SetBarberLocation handleCloseMap={handleOpenMap} handleSetLocation={handleSetLocation} location={state.location} />
+                </Dialog>
+
+                <FormControlLabel label={!hasLocation && "Укажите ваше расположение"} style={{marginLeft: 0, width: "100%"}} control={
+                    <Checkbox
+                        className={classes.telegramCheckbox}
+                        icon={<Room />}
+                        checkedIcon={<Room sx={{color: blue[500]}} />}
+                        checked={hasLocation}
+                        onChange={handleChangeLocation}
+                        inputProps={{ 'aria-label': 'controlled' }}
+                    />}
+                />
 
                 <div /> <br />
 

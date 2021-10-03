@@ -16,10 +16,15 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 function OneHairStyle(props) {
   const { loading, currentHairstyle } = useSelector((store) => store.hairstyles);
-  const [openMap, setOpenMap] = useState();
-
-  const handleOpenMap = () => setOpenMap(!openMap);
-
+  // const [openMap, setOpenMap] = useState();
+  // const [location, setLocation] = useState(null);
+  //
+  // const handleOpenMap = () => setOpenMap(!openMap);
+  //
+  // const handleSetLocation = (location) => {
+  //   handleOpenMap(false);
+  //   setLocation(location);
+  // }
   const classes = useStyles();
 
   const { hairstyleId } = useParams();
@@ -61,17 +66,22 @@ function OneHairStyle(props) {
             <Typography gutterBottom component="h2">
               {currentHairstyle?.price} ₽
             </Typography>
-              <IconButton onClick={handleOpenMap}>
-                  <RoomOutlined />
-              </IconButton>
-            <Dialog
-              fullScreen
-              open={openMap}
-              onClose={handleOpenMap}
-              TransitionComponent={Transition}
-            >
-              <Map handleClose={handleOpenMap} />
-            </Dialog>
+            {/*<IconButton onClick={handleOpenMap}>*/}
+            {/*    <RoomOutlined htmlColor={"#fafafa"} />*/}
+            {/*</IconButton>*/}
+            {/*<Typography color={"error"}>*/}
+            {/*  Текущее местонахождение: <br />*/}
+            {/*  lng = {location?.lng} <br />*/}
+            {/*  lat = {location?.lat}*/}
+            {/*</Typography>*/}
+            {/*<Dialog*/}
+            {/*  fullScreen*/}
+            {/*  open={openMap}*/}
+            {/*  onClose={handleOpenMap}*/}
+            {/*  TransitionComponent={Transition}*/}
+            {/*>*/}
+            {/*  <Map handleClose={handleSetLocation} />*/}
+            {/*</Dialog>*/}
 
             <Fab
               variant="extended"

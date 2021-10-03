@@ -104,11 +104,16 @@ export const createNewUser = (data) => async (dispatch) => {
     dispatch({type: "auth/createNewUser/pending"});
 
     const formData = new FormData();
-    const { avatar } = data;
+    const { avatar, location } = data;
 
     for (let key in data ) {
         if (key === "avatar" && avatar) {
             formData.set("avatar", avatar[0]);
+        }
+        else if (key === "location" && location) {
+            for (let locationKey in location) {
+                formData.set(locationKey, location[locationKey])
+            }
         } else {
             formData.set(key, data[key]);
         }
