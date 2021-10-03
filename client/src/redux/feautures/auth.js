@@ -20,6 +20,10 @@ const reducer = (state = initialState, action) => {
             Cookies.remove("token");
             return {...state, isLoggedIn: false, token: null, person: null}
         }
+        //Очистка
+        case "auth/dataClear" : {
+            return {...state, success: null, error: null}
+        }
         //Загрузка информации о авторизованном пользователе
         case "auth/loadUser/pending" :
             return {...state, userLoading: true}
@@ -27,6 +31,22 @@ const reducer = (state = initialState, action) => {
             return {...state, error: action.error, userLoading: undefined}
         case "auth/loadUser/fulfilled" :
             return {...state, person: action.payload.user, userLoading: undefined}
+
+        //Загрузка информации о авторизованном пользователе
+        case "auth/addDescription/pending" :
+            return {...state, addingDescription: true}
+        case "auth/addDescription/rejected" :
+            return {...state, error: action.error, addingDescription: undefined}
+        case "auth/addDescription/fulfilled" : {
+            const {desc, success} = action.payload;
+            return {
+                ...state, success, addingDescription: undefined,
+                person: {
+                    ...state.person,
+                    personal: {...state.person.personal, desc}
+                }
+            };
+        }
 
         //Обновление данных пользователя
         case "auth/updateUserData/pending" :
@@ -231,6 +251,27 @@ export const updateUserData = (data) => async (dispatch, getStore) => {
         dispatch({type: "auth/updateUserData/rejected", error: json.error});
     } else {
         dispatch({type: "auth/updateUserData/fulfilled", payload: {success: json.success, data}});
+    }
+}
+
+export const addDescription = (desc) => async (dispatch, getStore) => {
+    const store = getStore();
+    dispatch({type: "auth/addDescription/pending"});
+
+    const res = await fetch("/api/barbers/addDescription", {
+        method: "POST",
+        body: JSON.stringify({desc}),
+        headers: {
+            "Content-Type": "application/json",
+            Authorization: store.auth.token
+        }
+    });
+    const json = await res.json();
+
+    if (json.error) {
+        dispatch({type: "auth/addDescription/rejected", error: json.error});
+    } else {
+        dispatch({type: "auth/addDescription/fulfilled", payload: {success: json.success, desc}});
     }
 }
 

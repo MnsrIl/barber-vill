@@ -9,7 +9,8 @@ const barberSchema = new Schema({
         type: String,
     },
     desc: {
-        type: String
+        type: String,
+        default: ""
     },
     email: {
         type: String,
@@ -22,16 +23,16 @@ const barberSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Review"
     }],
-    location: new Schema({
+    location: {
         lng: {
-            type: String,
+            type: Number,
             required: true
         },
         lat: {
-            type: String,
+            type: Number,
             required: true
         }
-    })
+    }
 });
 
 module.exports.Barber = model("Barber", barberSchema);

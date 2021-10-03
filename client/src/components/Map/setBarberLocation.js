@@ -157,7 +157,6 @@ const SetBarberLocation = ({handleCloseMap, handleSetLocation, location}) => {
             }
         });
     }
-    console.log(mapRef, viewport)
 
     useEffect(() => {
         if (location) {

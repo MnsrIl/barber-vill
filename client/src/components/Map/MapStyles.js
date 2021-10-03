@@ -11,7 +11,7 @@ const styles = {
         boxShadow: 'rgba(149, 157, 165, 0.2) 0px 8px 24px;'
     },
     myLocationButton: {
-        position: "absolute",
+        position: "absolute !important",
         right: 0,
         top: 50,
         zIndex: 3,
@@ -20,6 +20,11 @@ const styles = {
     mapContainer: {
         width: "100%",
         height: "100vh"
+    },
+    container: {
+        width: "80%",
+        height: "400px",
+        border: "1px solid #fafafa"
     }
 };
 

@@ -19,6 +19,7 @@ import studio1 from "../../../image/studio-1.jpg";
 import studio2 from "../../../image/studio-2.jpg";
 import studio4 from "../../../image/studio-4.jpg";
 import studio5 from "../../../image/studio-5.jpg";
+import BarberProfileMap from "../../Map/BarberProfileMap";
 
 
 const useStyles = styles;
@@ -72,6 +73,7 @@ function BarberModelPage(props) {
                           margin: "4px 0",
                         }}
                       >
+                            <p>{currentBarber?.personal.desc || "Описание отсутствует.."}</p>
                       </h6>
                     </div>
                   </div>
@@ -107,9 +109,13 @@ function BarberModelPage(props) {
                         tabIcon: Room,
                         tabContent: (
                           <GridContainer justifyContent="center">
-                            <GridItem xs={12} sm={12} md={4}>
-                             {/* здесь будет карта */}
-                            </GridItem>
+
+                              {
+                                currentBarber?.personal.location ?
+                                    <BarberProfileMap location={currentBarber.personal.location} /> :
+                                    <div>К сожалению, парикмахер не указал своё местоположение</div>
+                              }
+
                           </GridContainer> ),
                       },
                       {
