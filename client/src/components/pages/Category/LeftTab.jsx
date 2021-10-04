@@ -48,6 +48,7 @@ function VerticalTabs(props) {
   const [value, setValue] = useState(0);
   const categories = useSelector((store) => store.categories.allCategories);
   const loading = useSelector((store) => store.categories.loading);
+  const { text } = useSelector((store) => store.languages);
 
   const dispatch = useDispatch();
   const gender = useQuery("gender");
@@ -71,7 +72,7 @@ function VerticalTabs(props) {
           aria-label="Vertical tabs example"
           sx={{ borderRight: 1, borderColor: "divider", }}
         >
-          <Tab label="Все" {...a11yProps(0)} style={{color:"white"}}/>
+          <Tab label={text.categoryAll} {...a11yProps(0)} style={{color:"white"}}/>
           {loading ? (
             <Box textAlign="center">
               <CircularProgress />

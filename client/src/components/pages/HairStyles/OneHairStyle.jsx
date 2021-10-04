@@ -44,6 +44,8 @@ function OneHairStyle(props) {
 
   const { loading, currentHairstyle } = useSelector((store) => store.hairstyles);
 
+  const { text } = useSelector((store) => store.languages);
+
   const classes = useStyles();
 
   const [state, setState] = useState({x: 0, y: 0, z: 0});
@@ -77,7 +79,7 @@ function OneHairStyle(props) {
     
       {loading ? (
         <Box className={classes.loading}>
-          Идет загрузка...
+          {text.load}
         </Box>
       ) : (
         <Grid container className={classes.container}>
@@ -86,10 +88,10 @@ function OneHairStyle(props) {
               {hairstyleId === 'kladka' ? 'Кладка' : currentHairstyle?.name}
             </Typography>
             <Typography gutterBottom variant="h5" style={{borderBottom:'1px solid grey'}}>
-              Категория: {hairstyleId === 'kladka' ? 'Короткие' : currentHairstyle?.categoryId.name}
+              {text.category} {hairstyleId === 'kladka' ? 'Короткие' : currentHairstyle?.categoryId.name}
             </Typography>
             <Typography gutterBottom variant="h5" style={{borderBottom:'1px solid grey'}}>
-              Цена: {hairstyleId === 'kladka' ? '5000' : currentHairstyle?.price} ₽
+              {text.price} {hairstyleId === 'kladka' ? '5000' : currentHairstyle?.price} ₽
             </Typography>
 
             <Fab

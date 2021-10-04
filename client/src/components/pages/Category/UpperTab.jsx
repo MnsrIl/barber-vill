@@ -4,10 +4,12 @@ import {useState} from "react";
 import LeftTab from "./LeftTab";
 import {useHistory} from "react-router-dom";
 import useQuery from "../../../hooks/useQuery";
+import { useSelector } from 'react-redux';
 
 function UpperTab() {
     const gender = useQuery("gender") || "М";
     const [value, setValue] = useState(gender);
+    const { text } = useSelector((store) => store.languages);
 
     const history = useHistory();
     const handleChange = (event, newValue) => {
@@ -20,8 +22,8 @@ function UpperTab() {
             <TabContext value={value}>
                 <Box sx={{backgroundColor:"#1b2735", p:2 }}>
                     <TabList onChange={handleChange} aria-label="lab API tabs example" >
-                        <Tab label="Мужские" value="М" style={{color:"white"}}/>
-                        <Tab label="Женские" value="Ж" style={{color:"white"}}/>
+                        <Tab label={text.men} value="М" style={{color:"white"}}/>
+                        <Tab label={text.woman} value="Ж" style={{color:"white"}}/>
                     </TabList>
                 </Box>
                 <TabPanel value="М" style={{padding:0}}>

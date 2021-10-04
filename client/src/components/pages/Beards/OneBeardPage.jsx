@@ -41,6 +41,8 @@ function OneBeard(props) {
 
   const { loading, currentBeards } = useSelector((store) => store.beards);
 
+  const { text } = useSelector((store) => store.languages);
+
   const { beardId } = useParams();
 
   const dispatch = useDispatch();
@@ -53,7 +55,7 @@ function OneBeard(props) {
     <Grid style={{ color: "white", minHeight: 800 }}>
       <Header />
       {loading ? (
-        <Box className={classes.loading}>Идет загрузка...</Box>
+        <Box className={classes.loading}>{text.load}</Box>
       ) : (
         <Grid container className={classes.container}>
           <Grid item xs={12} sm={4} style={{ position: "relative" }}>
@@ -65,7 +67,7 @@ function OneBeard(props) {
               variant="h5"
               style={{ borderBottom: "1px solid grey" }}
             >
-              Цена: {currentBeards?.price} ₽
+              {text.price} {currentBeards?.price} ₽
             </Typography>
 
             <Fab

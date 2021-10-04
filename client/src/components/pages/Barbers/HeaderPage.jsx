@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from "react-redux";
 import { Home } from "@mui/icons-material";
 import { List, ListItem, Tooltip } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -9,6 +10,8 @@ import Parallax from "../MyProfile/CustomComponents/Parallax/Parallax";
 const useStyles = styles;
 
 export default function HeaderPage(props) {
+
+  const { text } = useSelector((store) => store.languages);
   
     const { ...rest } = props;
 
@@ -16,7 +19,7 @@ export default function HeaderPage(props) {
       <>
       <Header
       color="transparent"
-      brand="Мой профиль"
+      brand={text.myProfile}
       rightLinks={<NavBar />}
       fixed
       changeColorOnScroll={{ height: 200, color: "white" }}
@@ -31,12 +34,14 @@ export default function HeaderPage(props) {
 
 export function NavBar(props) {
  const classes = useStyles();
+
+ const { text } = useSelector((store) => store.languages);
  
  return (
       <List className={classes.list}>
           <ListItem className={classes.listItem}>
             <Tooltip
-                title="Главная"
+                title={text.home}
                 placement={window.innerWidth > 959 ? "top" : "left"}
                 classes={{ tooltip: classes.tooltip }}
             >

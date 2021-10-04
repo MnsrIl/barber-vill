@@ -21,6 +21,7 @@ import {
   Menu as MenuIcon,
   Close as CloseIcon,
 } from "@mui/icons-material";
+import { useDispatch, useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   headerInfo: {
@@ -61,11 +62,19 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 function Header() {
   const classes = useStyles();
 
+  const dispatch = useDispatch();
+
   const [open, setOpen] = React.useState(false);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const openLanguage = Boolean(anchorEl);
+
+  const { text } = useSelector((store) => store.languages);
+
+  const changeLanguage = (e) => {
+    dispatch({ type: "language/setLanguage", language: e.target.value});
+  };
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -140,7 +149,7 @@ function Header() {
                   <ListItemIcon>
                     <HomeIcon style={{ color: "white" }} />
                   </ListItemIcon>
-                  <ListItemText primary="Главная" />
+                  <ListItemText primary={text.home} />
                 </NavLink>
               </ListItemButton>
 
@@ -154,7 +163,7 @@ function Header() {
                   <ListItemIcon>
                     <PeopleIcon style={{ color: "white" }} />
                   </ListItemIcon>
-                  <ListItemText primary="Парикмахеры" />
+                  <ListItemText primary={text.barbers} />
                 </NavLink>
               </ListItemButton>
 
@@ -168,7 +177,7 @@ function Header() {
                   <ListItemIcon>
                     <InfoIcon style={{ color: "white" }} />
                   </ListItemIcon>
-                  <ListItemText primary="О сервисе" />
+                  <ListItemText primary={text.service} />
                 </NavLink>
               </ListItemButton>
             </List>
@@ -176,6 +185,7 @@ function Header() {
               component="div"
               disablePadding
               style={{ position: "absolute", bottom: 0, height: "70px" }}
+              // onChange={changeLanguage}
             >
               <ListItemButton
                 sx={{ pl: 4, color: "white" }}
@@ -183,12 +193,13 @@ function Header() {
                 aria-controls="basic-menu"
                 aria-haspopup="true"
                 aria-expanded={openLanguage ? "true" : undefined}
-                onClick={handleClick}
+                onClick={handleClick} 
+                
               >
-                <ListItemIcon>
+                <ListItemIcon >
                   <GTranslateIcon style={{ color: "white" }} />
                 </ListItemIcon>
-                <ListItemText primary=" Язык" />
+                <ListItemText primary={text.language} />
               </ListItemButton>
 
               <Menu
@@ -207,7 +218,7 @@ function Header() {
                     style={{ textDecoration: "none", padding: "0 12px" }}
                     activeStyle={{ color: "red", fontWeight: "bold" }}
                   >
-                    <ListItemText primary="English" />
+                    <ListItemText value={"en"} primary="English" />
                   </NavLink>
                 </MenuItem>
                 <MenuItem onClick={handleClose}>
@@ -216,7 +227,7 @@ function Header() {
                     style={{ textDecoration: "none", padding: "0 12px" }}
                     activeStyle={{ color: "red", fontWeight: "bold" }}
                   >
-                    <ListItemText primary="Русский" />
+                    <ListItemText value={"ru"} primary="Русский" />
                   </NavLink>
                 </MenuItem>
               </Menu>
