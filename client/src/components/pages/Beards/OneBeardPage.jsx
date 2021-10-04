@@ -11,7 +11,6 @@ import {useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Header from "../Header";
-import ModalPage from "../Requests/RequestModal";
 import { getOneBeard } from "../../../redux/feautures/beards";
 import RequestModal from "../Requests/RequestModal";
 
@@ -42,6 +41,8 @@ function OneBeard(props) {
 
   const { loading, currentBeards } = useSelector((store) => store.beards);
 
+  const { text } = useSelector((store) => store.languages);
+
   const { beardId } = useParams();
 
   const dispatch = useDispatch();
@@ -60,7 +61,7 @@ function OneBeard(props) {
     <Grid style={{ color: "white", minHeight: 800 }}>
       <Header />
       {loading ? (
-        <Box className={classes.loading}>Идет загрузка...</Box>
+        <Box className={classes.loading}>{text.load}</Box>
       ) : (
           <>
           {openModal && <RequestModal handleClose={handleClose} opened={openModal} />}
@@ -75,7 +76,7 @@ function OneBeard(props) {
                   variant="h5"
                   style={{ borderBottom: "1px solid grey" }}
                 >
-                  Цена: {currentBeards?.price} ₽
+                  {text.price} {currentBeards?.price} ₽
                 </Typography>
 
                 <Fab

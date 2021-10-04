@@ -4,8 +4,9 @@ import { getAllHairstyles } from "../../../redux/feautures/hairstyles";
 import {
   Button,
   Card,
+  CardActions,
   CardContent,
-  CardMedia,
+  CardMedia, Fab,
   Grid,
   makeStyles,
   Typography,
@@ -14,7 +15,6 @@ import { NavLink } from "react-router-dom";
 import {Skeleton, Box, CardActions} from "@mui/material";
 import useQuery from "../../../hooks/useQuery";
 import InfoIcon from "@mui/icons-material/Info";
-import ModalPage from "../Requests/RequestModal";
 import RequestModal from "../Requests/RequestModal";
 
 const useStyles = makeStyles((theme) => ({
@@ -117,7 +117,16 @@ const AllHairstylesPage = (props) => {
                   </CardContent>
 
                   <CardActions>
-                    <Button onClick={handleOpen}>Записаться на причёску</Button>
+                    <Fab
+                        variant="extended"
+                        size="small"
+                        color="secondary"
+                        aria-label="add"
+                        style={{ position: "absolute", bottom: "2%" }}
+                        onClick={handleOpen}
+                    >
+                      Записаться на причёску
+                    </Fab>
                   </CardActions>
                 </Card>
               </Grid>}
@@ -146,9 +155,16 @@ const AllHairstylesPage = (props) => {
                         </NavLink>
                       </Box>
                     </CardContent>
-                    <Button variant="text" style={{ paddingLeft: 120}} onClick={handleOpen}>
-                        Modal
-                    </Button>
+                    <Fab
+                        variant="extended"
+                        size="small"
+                        color="secondary"
+                        aria-label="add"
+                        style={{ position: "absolute", bottom: "2%" }}
+                        onClick={handleOpen}
+                    >
+                      Записаться на причёску
+                    </Fab>
                   </Card>
                 </Grid>
               ))}

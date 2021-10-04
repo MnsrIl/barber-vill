@@ -16,7 +16,7 @@ import {topUpBalance} from "../../redux/feautures/clients";
 const useStyles = makeStyles({
   card: {
     position: "absolute",
-    left: 0,
+    left: 10,
     right: 0,
     bottom: 0,
     top: 30,
@@ -58,6 +58,8 @@ const useStyles = makeStyles({
   },
   submitBtn: {
     marginTop: 20,
+    display:"flex",
+    justifyContent:"space-evenly"
   },
   textInput: {
     width: "95%",
@@ -229,13 +231,14 @@ function Balance(props) {
                   label={"Введите сумму"}
                   variant="outlined"
                   name={'balance'}
+                  style={{marginLeft: '150px'}}
                   onChange={handleChangeInfo}
               />
               <Button
                   disabled={topUpping || false}
                   variant={"contained"}
                   color={"primary"}
-                  style={{ padding: 15 }}
+                  style={{height:40, marginTop:8}}
                   onClick={handleSubmit}
               >
                 Пополнить

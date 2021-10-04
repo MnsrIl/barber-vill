@@ -33,6 +33,8 @@ function BarberModelPage(props) {
 
   const { loading, currentBarber } = useSelector((store) => store.barbers);
 
+  const { text } = useSelector((store) => store.languages);
+
   useEffect(() => {
     dispatch(getOneBarber(id));
   }, [id, dispatch]);
@@ -53,7 +55,7 @@ function BarberModelPage(props) {
       >
         {loading ? (
           <Box display = "flex" justifyContent = "center">
-            <h1>Идет загрузка</h1>
+            <h1>{text.load}</h1>
           </Box>
         ) : (
           <div sx={{ pb: 8, mb: 8 }}>
@@ -114,7 +116,7 @@ function BarberModelPage(props) {
                               {
                                 currentBarber?.personal.location ?
                                     <BarberProfileMap location={currentBarber.personal.location} /> :
-                                    <div>К сожалению, парикмахер не указал своё местоположение</div>
+                                    <div>{text.description}</div>
                               }
 
                           </GridContainer> ),

@@ -11,6 +11,8 @@ const ProfileIcon = () => {
 
     const {isLoggedIn, person} = useSelector(store => store.auth);
 
+    const { text } = useSelector((store) => store.languages);
+
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -75,27 +77,27 @@ const ProfileIcon = () => {
                 {isLoggedIn ?
                     <>
                         <MenuItem>
-                            Роль: {person?.role}
+                            {text.role} {person?.role}
                         </MenuItem>
                         <MenuItem>
                             <ListItemIcon>
                                 {person?.role === 'Barber' ? <Avatar src={person.personal?.avatar} /> :
                                     <FaceRetouchingNatural />}
                             </ListItemIcon>
-                            {person? `Имя: ${(person.name || person.login)}` : null}
+                            {person? `${text.name} ${(person.name || person.login)}` : null}
                         </MenuItem>
                         <MenuItem onClick={() => sendToAddress("/profile")}>
                             <ListItemIcon>
                                 <ManageAccounts fontSize="medium" />
                             </ListItemIcon>
-                            Профиль
+                            {text.profile}
                         </MenuItem>
                         <Divider />
                         <MenuItem onClick={handleSignOut}>
                             <ListItemIcon>
                             <Logout fontSize="small" />
                             </ListItemIcon>
-                            Выйти
+                            {text.logOut}
                         </MenuItem>
                     </>
                 :
@@ -104,13 +106,13 @@ const ProfileIcon = () => {
                             <ListItemIcon>
                                 <VpnKey fontSize="medium" />
                             </ListItemIcon>
-                            Log In
+                            {text.LogIn}
                         </MenuItem>
                         <MenuItem onClick={() => sendToAddress("/signup")}>
                             <ListItemIcon>
                                 <LockOpen fontSize="small" />
                             </ListItemIcon>
-                            Sign Up
+                            {text.SignUp}
                         </MenuItem>
                     </>
                 }

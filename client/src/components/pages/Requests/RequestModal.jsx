@@ -10,7 +10,6 @@ import {
   ListItemText,
   OutlinedInput,
   Select,
-  Backdrop,
   Modal,
   Fade,
   Button, Snackbar,
@@ -25,6 +24,7 @@ import { getAllBarbers } from "../../../redux/feautures/barbers";
 import {useEffect, useState} from "react";
 import {Error} from "@mui/icons-material";
 import {sendRequest} from "../../../redux/feautures/clients";
+import ForwardRoundedIcon from '@mui/icons-material/ForwardRounded';
 
 export const useStyles = makeStyles((theme) => ({
   container: {
@@ -40,6 +40,9 @@ export const useStyles = makeStyles((theme) => ({
   title: {
     textAlign: "center",
   },
+  balance:{
+    textAlign:"end"
+  },  
   data:{
     display: "flex",
     justifyContent: "center",
@@ -125,11 +128,11 @@ function ModalPage(props) {
         <Fade in={props.opened}>
 
           <Grid xs={10} className={classes.container}>
+            <Typography className={classes.balance}>
+              Баланс: {person?.personal?.balance}$
+            </Typography>
             <Typography variant="h2" className={classes.title}>
               Оформление заявки
-            </Typography>
-            <Typography variant="h6">
-              Ваш баланс: {person?.personal?.balance}$
             </Typography>
 
             <Box display="flex" justifyContent="center" mt="30px">
@@ -152,6 +155,9 @@ function ModalPage(props) {
                   </Collapse>
                 </Select>
               </FormControl>
+              <Box pt="17px">
+                  <ForwardRoundedIcon fontSize="large"/>
+              </Box>
             </Box>
 
             <Typography variant="h6" className={classes.data}>

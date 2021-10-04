@@ -4,10 +4,13 @@ import { GitHub as GitHubIcon, Female as FemaleIcon, Male as MaleIcon} from "@mu
 import Header from "../Header";
 import hairstyles from "../../../image/hairstyles1.jpg";
 import useStyles from "./classes";
+import { useSelector } from "react-redux";
 
 function HomePage() {
   const classes = useStyles();
   const history = useHistory();
+
+  const { text } = useSelector((store) => store.languages);
 
   return (
     <Grid className={classes.main}>
@@ -16,12 +19,12 @@ function HomePage() {
         <Grid item xs={12} sm={5}>
           <Box className={classes.contenText}>
             <Box>
-              <h1>Хочешь выглядеть как Султан?</h1>
+              <h1>{text.title1}</h1>
             </Box>
             <Box>
-              Сделай причёску, которая <br /> изменит твою жизнь. <br />
-              Жизнь больше не станет прежней, ибо ты будешь выглядеть как -
-              НурСултан!
+             {text.title2}<br/> 
+             {text.title3} <br/>
+             {text.title4}
             </Box>
           </Box>
           <Box className={classes.blockCard}>
@@ -29,13 +32,13 @@ function HomePage() {
               className={classes.triangle}
               onClick={() => history.push("/hairstyles")}
             >
-              Все прически
+              {text.btnHairStyles}
             </Button>
             <Button
               className={classes.triangleB}
               onClick={() => history.push("/beards")}
             >
-              Все бороды
+              {text.btnBeards}
             </Button>
           </Box>
         </Grid>
