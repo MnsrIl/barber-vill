@@ -21,6 +21,7 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DateTimePicker from "@mui/lab/DateTimePicker";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBarbers } from "../../../redux/feautures/barbers";
+import ForwardRoundedIcon from '@mui/icons-material/ForwardRounded';
 
 export const useStyles = makeStyles((theme) => ({
   container: {
@@ -111,6 +112,9 @@ function ModalPage(props) {
                   </Collapse>
                 </Select>
               </FormControl>
+              <Box pt="17px">
+                  <ForwardRoundedIcon fontSize="large"/>
+              </Box>
             </Box>
 
             <Typography variant="h6" className={classes.data}>
