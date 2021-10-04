@@ -4,6 +4,7 @@ import { getAllHairstyles } from "../../../redux/feautures/hairstyles";
 import {
   Button,
   Card,
+  CardActions,
   CardContent,
   CardMedia,
   Grid,
@@ -111,7 +112,7 @@ const AllHairstylesPage = (props) => {
                   </CardContent>
 
                   <CardActions>
-                    <Requests/>
+                    <ModalPage/>
                   </CardActions>
                 </Card>
               </Grid>}

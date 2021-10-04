@@ -10,7 +10,6 @@ import {
   ListItemText,
   OutlinedInput,
   Select,
-  Backdrop,
   Modal,
   Fade,
   Button,
@@ -37,6 +36,9 @@ export const useStyles = makeStyles((theme) => ({
   title: {
     textAlign: "center",
   },
+  balance:{
+    textAlign:"end"
+  },  
   data:{
     display: "flex",
     justifyContent: "center",
@@ -80,18 +82,14 @@ function ModalPage(props) {
         open={open}
         onClose={handleClose}
         closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
       >
         <Fade in={open}>
           <Grid xs={10} className={classes.container}>
+            <Typography className={classes.balance}>
+              Баланс: {person?.personal?.balance}$
+            </Typography>
             <Typography variant="h2" className={classes.title}>
               Оформление заявки
-            </Typography>
-            <Typography variant="h6">
-              Ваш баланс: {person?.personal?.balance}$
             </Typography>
             <Box display="flex" justifyContent="center" mt="30px">
               <FormControl sx={{ m: 1, width: 300 }}>
@@ -130,7 +128,7 @@ function ModalPage(props) {
               </LocalizationProvider>
             </Box>
             <Box className={classes.sendBtn}>
-            <Button variant="contained" size="large" color="error">Отправить</Button>
+            <Button variant="contained" size="large" color="primary">Отправить</Button>
             </Box>
           </Grid>
         </Fade>
