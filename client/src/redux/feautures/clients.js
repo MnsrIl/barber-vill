@@ -11,6 +11,14 @@ const reducer = (state = initialState, action) => {
         case "client/clearData" :
             return {...state, error: null, success: null}
 
+        //Добавление заявки
+        case "clients/sendRequest/pending" :
+            return {...state, sendingRequest: true}
+        case "clients/sendRequest/rejected" :
+            return {...state, sendingRequest: false, error: action.error}
+        case "clients/sendRequest/fulfilled" :
+            return {...state, sendingRequest: false, success: action.success}
+
         //Пополнение баланса
         case "client/topUpBalance/pending" :
             return {...state, topUpping: true}
@@ -56,6 +64,32 @@ export const addReviews = (text) => async (dispatch, getStore) => {
         });
     }
 };
+
+
+
+export const sendRequest = (data) => async (dispatch, getStore) => {
+  dispatch({type: "clients/sendRequest/pending"});
+
+  const store = getStore();
+
+  const res = await fetch("/api/requests", {
+      method: "POST",
+      body: JSON.stringify(data),
+      headers: {
+          'Content-Type' : 'application/json',
+          Authorization: store.auth.token
+      }
+  });
+  const json = await res.json();
+
+  if (json.error) {
+      dispatch({type: "clients/sendRequest/rejected", error: json.error});
+  } else {
+      dispatch({type: "clients/sendRequest/fulfilled", payload: {success: json.success}});
+  }
+};
+
+
 
 export const topUpBalance = (balance) => async (dispatch, getStore) => {
 

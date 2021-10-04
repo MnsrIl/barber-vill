@@ -7,12 +7,13 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import { useEffect } from "react";
+import {useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import Header from "../Header";
-import ModalPage from "../Requests/Modal";
+import ModalPage from "../Requests/RequestModal";
 import { getOneBeard } from "../../../redux/feautures/beards";
+import RequestModal from "../Requests/RequestModal";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -45,6 +46,12 @@ function OneBeard(props) {
 
   const dispatch = useDispatch();
 
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleClose = () => setOpenModal(false);
+
+  const handleOpenModal = () => setOpenModal(true);
+
   useEffect(() => {
     dispatch(getOneBeard(beardId));
   }, [beardId, dispatch]);
@@ -55,39 +62,42 @@ function OneBeard(props) {
       {loading ? (
         <Box className={classes.loading}>Идет загрузка...</Box>
       ) : (
-        <Grid container className={classes.container}>
-          <Grid item xs={12} sm={4} style={{ position: "relative" }}>
-            <Typography gutterBottom variant="h3">
-              {currentBeards?.name}
-            </Typography>
-            <Typography
-              gutterBottom
-              variant="h5"
-              style={{ borderBottom: "1px solid grey" }}
-            >
-              Цена: {currentBeards?.price} ₽
-            </Typography>
+          <>
+          {openModal && <RequestModal handleClose={handleClose} opened={openModal} />}
 
-            <Fab
-              variant="extended"
-              size="small"
-              color="secondary"
-              aria-label="add"
-              style={{ position: "absolute", bottom: "2%" }}
-            >
-              <Button>
-                <ModalPage />
-              </Button>
-            </Fab>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <CardMedia
-              className={classes.image}
-              component={"img"}
-              src={currentBeards?.image}
-            />
-          </Grid>
-        </Grid>
+            <Grid container className={classes.container}>
+              <Grid item xs={12} sm={4} style={{ position: "relative" }}>
+                <Typography gutterBottom variant="h3">
+                  {currentBeards?.name}
+                </Typography>
+                <Typography
+                  gutterBottom
+                  variant="h5"
+                  style={{ borderBottom: "1px solid grey" }}
+                >
+                  Цена: {currentBeards?.price} ₽
+                </Typography>
+
+                <Fab
+                  variant="extended"
+                  size="small"
+                  color="secondary"
+                  aria-label="add"
+                  style={{ position: "absolute", bottom: "2%" }}
+                  onClick={handleOpenModal}
+                >
+                  Оставить заявку
+                </Fab>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <CardMedia
+                  className={classes.image}
+                  component={"img"}
+                  src={currentBeards?.image}
+                />
+              </Grid>
+            </Grid>
+          </>
       )}
     </Grid>
   );

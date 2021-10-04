@@ -1,14 +1,24 @@
 const Request = require('../models/Request.model')
 
 module.exports.requestsController = {
-  sendRequest: async (req, res) => {
-    const { userId, barberId, hairstyleId, date, text } = req.body
+  createRequest: async (req, res) => {
     try {
-      await Request.create({ userId, barberId, hairstyleId, date, text })
-      return res.status(200).json(`request was successfully sent`)
+      const {personal} = req.user;
+      const { barberId, hairstyle, beard, date } = req.body;
+
+      if (!barberId) {
+        return res.status(400).json({error: "Необходимо выбрать парикмахера!"});
+      }
+
+      await Request.create({
+        clientId: personal._id, barberId,
+        requestData: {hairstyle: hairstyle._id, beard: beard._id, total: hairstyle?.price + beard?.price },
+        date
+      });
+
+      return res.status(200).json({success: "Ваша заявка успешно отправлена! Приходите вовремя :)"});
     } catch (e) {
-      console.log(e)
-      return res.status(400).json(`error while sending the request: ${e.toString()}`)
+      return res.status(400).json({error: e});
     }
   },
   getRequestsForBarber: async (req, res) => {

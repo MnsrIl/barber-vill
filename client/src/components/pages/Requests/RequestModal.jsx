@@ -13,7 +13,7 @@ import {
   Backdrop,
   Modal,
   Fade,
-  Button,
+  Button, Snackbar,
 } from "@mui/material";
 import { makeStyles, TextField, Typography } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
@@ -22,6 +22,9 @@ import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DateTimePicker from "@mui/lab/DateTimePicker";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBarbers } from "../../../redux/feautures/barbers";
+import {useEffect, useState} from "react";
+import {Error} from "@mui/icons-material";
+import {sendRequest} from "../../../redux/feautures/clients";
 
 export const useStyles = makeStyles((theme) => ({
   container: {
@@ -50,42 +53,77 @@ export const useStyles = makeStyles((theme) => ({
 
 function ModalPage(props) {
   const person = useSelector((store) => store.auth.person);
-
-  const { barbers } = useSelector((store) => store.barbers);
+  const barbers = useSelector((store) => store.barbers.barbers);
+  const sending = useSelector(store => store.clients.sendingRequest);
+  const success = useSelector(store => store.clients.success);
+  const error = useSelector(store => store.clients.error);
 
   const classes = useStyles();
-
   const dispatch = useDispatch();
 
-  const [open, setOpen] = React.useState(false);
+  const [state, setState] = useState({
+    date: new Date(Date.now()),
+    beard: null,
+    hairstyle: null,
+    barberId: null,
+  });
 
-  const handleOpen = () => setOpen(true);
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
 
-  const handleClose = () => setOpen(false);
+    dispatch(sendRequest(state));
+  }
 
-  const [value, setValue] = React.useState(
-    new Date("2021-01-01T00:00:00.000Z")
-  );
+  const [snackOpen, setSnackOpen] = useState(false);
 
-  React.useEffect(() => {
-    dispatch(getAllBarbers());
+  const handleCloseSnack = () => {
+    setSnackOpen(false)
+    dispatch({type: "client/clearData"});
+  }
+
+  useEffect(() => {
+
+        dispatch(getAllBarbers());
+
   }, [dispatch]);
 
+  useEffect(() => {
+    if ((error || success) && props.opened) {
+      setSnackOpen(true)
+    }
+  }, [success, error, props.opened])
+
+  const handleChangeDate = (newDate) => {
+    setState({...state, date: newDate});
+  }
+
   return (
-    <div>
-      <Button onClick={handleOpen}>Оставить заявку</Button>
       <Modal
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
-        open={open}
-        onClose={handleClose}
+        open={props.opened}
+        onClose={props.handleClose}
         closeAfterTransition
-        BackdropComponent={Backdrop}
-        BackdropProps={{
-          timeout: 500,
-        }}
       >
-        <Fade in={open}>
+      <div>
+        <Snackbar
+            open={snackOpen}
+            autoHideDuration={3000}
+            variant={error ? "error" : "success"}
+            onClose={handleCloseSnack}
+            message={
+              <div>
+              <span style={{ marginRight: "8px" }}>
+                <Error fontSize="large" color={error ? "error" : "success"} />
+              </span>
+                <span> {error?.toString() || success?.toString()} </span>
+              </div>
+            }
+        />
+
+        <Fade in={props.opened}>
+
           <Grid xs={10} className={classes.container}>
             <Typography variant="h2" className={classes.title}>
               Оформление заявки
@@ -93,6 +131,7 @@ function ModalPage(props) {
             <Typography variant="h6">
               Ваш баланс: {person?.personal?.balance}$
             </Typography>
+
             <Box display="flex" justifyContent="center" mt="30px">
               <FormControl sx={{ m: 1, width: 300 }}>
                 <InputLabel id="demo-multiple-name-label">
@@ -100,9 +139,9 @@ function ModalPage(props) {
                 </InputLabel>
 
                 <Select input={<OutlinedInput label="Выберите парикмахера" />}>
-                  <Collapse in={open} timeout="auto" unmountOnExit>
+                  <Collapse in={props.opened} timeout="auto" unmountOnExit>
                     {barbers.map((item) => (
-                      <List component="div" disablePadding>
+                      <List component="div" disablePadding key={item._id}>
                         <ListItemButton sx={{ pl: 4 }}>
                           <NavLink to="" style={{ textDecoration: "none"}}>
                             <ListItemText primary={item?.name} />
@@ -122,20 +161,28 @@ function ModalPage(props) {
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker
                   renderInput={(params) => <TextField {...params} />}
-                  value={value}
-                  onChange={(newValue) => {
-                    setValue(newValue);
-                  }}
+                  value={state.date}
+                  onChange={handleChangeDate}
                 />
               </LocalizationProvider>
             </Box>
+
             <Box className={classes.sendBtn}>
-            <Button variant="contained" size="large" color="error">Отправить</Button>
+            <Button
+                variant="contained"
+                size="large"
+                color="error"
+                disabled={sending || false}
+                onClick={handleSubmit}
+            >
+              Отправить
+            </Button>
             </Box>
+
           </Grid>
         </Fade>
+        </div>
       </Modal>
-    </div>
   );
 }
 

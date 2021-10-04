@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, {useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {NavLink, useHistory} from "react-router-dom";
 import {
@@ -18,7 +18,8 @@ import InfoIcon from "@mui/icons-material/Info";
 import Header from "../Header";
 import Tab from "@mui/material/Tab";
 import {a11yProps} from "../Category/LeftTab";
-import ModalPage from "../Requests/Modal";
+import ModalPage from "../Requests/RequestModal";
+import RequestModal from "../Requests/RequestModal";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -53,6 +54,16 @@ function AllBeardsPage(props) {
   const classes = useStyles();
 
   const { loading, beards } = useSelector((store) => store.beards);
+
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleClose = () => {
+    setOpenModal(false);
+  }
+
+  const handleOpenModal = () => {
+    setOpenModal(true);
+  }
 
   const dispatch = useDispatch();
   const history = useHistory()
@@ -89,40 +100,53 @@ function AllBeardsPage(props) {
             )}
           </Grid>
         ) : (
-          <Grid container
-            style={{ display: "flex", justifyContent: "space-around" }}
-          >
-            {beards.map((item) => (
-              <Grid key={item._id} item xs={12} sm={3} className={classes.cardBox}>
-                <Card className={classes.card}>
-                  <CardMedia
-                    component={"img"}
-                    src={item.image}
-                    className={classes.img}
-                  />
-                  <CardContent className={classes.content}>
-                    <Box>
-                      <Typography gutterBottom variant="h5" component="h2">
-                        {item.name}
-                      </Typography>
-                      <Typography gutterBottom component="h2">
-                        {item.price} ₽
-                      </Typography>
-                    </Box>
-                    <Box>
-                      <NavLink title={"Подробнее"} to={`/beards/${item._id}`}>
-                        <InfoIcon fontSize="large" />
-                      </NavLink>
-                    </Box>
-                  </CardContent>
-                      <Button variant="text"
-                        style={{ paddingLeft:120}}>
-                        <ModalPage />
-                      </Button>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+            <>
+              {openModal && <RequestModal opened={openModal} handleClose={handleClose} />}
+
+              <Grid container
+                style={{ display: "flex", justifyContent: "space-around" }}
+              >
+                {beards.map((item) => (
+                  <Grid key={item._id} item xs={12} sm={3} className={classes.cardBox}>
+                    <Card className={classes.card}>
+                      <CardMedia
+                        component={"img"}
+                        src={item.image}
+                        className={classes.img}
+                      />
+                      <CardContent className={classes.content}>
+                        <Box>
+                          <Typography gutterBottom variant="h5" component="h2">
+                            {item.name}
+                          </Typography>
+                          <Typography gutterBottom component="h2">
+                            {item.price} ₽
+                          </Typography>
+                        </Box>
+                        <Box>
+                          <NavLink title={"Подробнее"} to={`/beards/${item._id}`}>
+                            <InfoIcon fontSize="large" />
+                          </NavLink>
+                        </Box>
+                      </CardContent>
+
+                      <CardActions>
+                        <Fab
+                            variant="extended"
+                            size="small"
+                            color="secondary"
+                            aria-label="add"
+                            style={{ position: "absolute", bottom: "2%" }}
+                            onClick={handleOpenModal}
+                        >
+                          Оставить заявку
+                        </Fab>
+                      </CardActions>
+                    </Card>
+                  </Grid>
+              ))}
+            </Grid>
+          </>
         )}
       </Box>
     </>
