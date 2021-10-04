@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import {useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllHairstyles } from "../../../redux/feautures/hairstyles";
 import {
@@ -11,10 +11,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
-import { Skeleton, Box } from "@mui/material";
+import {Skeleton, Box, CardActions} from "@mui/material";
 import useQuery from "../../../hooks/useQuery";
 import InfoIcon from "@mui/icons-material/Info";
-import ModalPage from "../Requests/Modal";
+import ModalPage from "../Requests/RequestModal";
+import RequestModal from "../Requests/RequestModal";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -51,6 +52,12 @@ const AllHairstylesPage = (props) => {
 
   const { loading, hairstyles } = useSelector((store) => store.hairstyles);
 
+  const [opened, setOpen] = useState(false);
+
+  const handleClose = () => setOpen(false);
+
+  const handleOpen = () => setOpen(true);
+
   const gender = useQuery("gender");
 
   useEffect(() => {
@@ -80,6 +87,7 @@ const AllHairstylesPage = (props) => {
           </Grid>
         ) : (
           <>
+          <RequestModal opened={opened} handleClose={handleClose} />
             <Grid
               container
               style={{ display: "flex", justifyContent: "space-around", width: gender === 'Ж' ? '95vw' : "100%"}}
@@ -102,16 +110,14 @@ const AllHairstylesPage = (props) => {
                       </Typography>
                     </Box>
                     <Box>
-                      <NavLink title={"Подробнее"}
-                               to={`/hairstyles/kladka`}
-                      >
+                      <NavLink title={"Подробнее"} to={`/hairstyles/kladka`}>
                         <InfoIcon fontSize="large"/>
                       </NavLink>
                     </Box>
                   </CardContent>
 
                   <CardActions>
-                    <Requests/>
+                    <Button onClick={handleOpen}>Записаться на причёску</Button>
                   </CardActions>
                 </Card>
               </Grid>}
@@ -140,10 +146,9 @@ const AllHairstylesPage = (props) => {
                         </NavLink>
                       </Box>
                     </CardContent>
-                    <Button variant="text"
-                        style={{ paddingLeft:120}}>
-                        <ModalPage />
-                      </Button>
+                    <Button variant="text" style={{ paddingLeft: 120}} onClick={handleOpen}>
+                        Modal
+                    </Button>
                   </Card>
                 </Grid>
               ))}

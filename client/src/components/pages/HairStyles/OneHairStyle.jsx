@@ -7,7 +7,7 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import { useEffect } from "react";
+import {useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getOneHairstyle } from "../../../redux/feautures/hairstyles";
@@ -15,7 +15,8 @@ import Header from "../Header";
 import {Dialog, IconButton, Slide} from "@mui/material";
 import {Room, RoomOutlined} from "@mui/icons-material";
 import {OBJModel, Tick} from "react-3d-viewer";
-import ModalPage from "../Requests/Modal";
+import ModalPage from "../Requests/RequestModal";
+import RequestModal from "../Requests/RequestModal";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -62,6 +63,14 @@ function OneHairStyle(props) {
     }, [state]);
 
   const { hairstyleId } = useParams();
+  const [open, setOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setOpen(true);
+  }
+  const handleCloseModal = () => {
+    setOpen(false)
+  }
 
   const dispatch = useDispatch();
 
@@ -80,49 +89,52 @@ function OneHairStyle(props) {
           Идет загрузка...
         </Box>
       ) : (
-        <Grid container className={classes.container}>
-          <Grid item xs={12} sm={4} style={{ position: "relative" }}>
-            <Typography gutterBottom variant="h3">
-              {hairstyleId === 'kladka' ? 'Кладка' : currentHairstyle?.name}
-            </Typography>
-            <Typography gutterBottom variant="h5" style={{borderBottom:'1px solid grey'}}>
-              Категория: {hairstyleId === 'kladka' ? 'Короткие' : currentHairstyle?.categoryId.name}
-            </Typography>
-            <Typography gutterBottom variant="h5" style={{borderBottom:'1px solid grey'}}>
-              Цена: {hairstyleId === 'kladka' ? '5000' : currentHairstyle?.price} ₽
-            </Typography>
+          <>
+          {open && <RequestModal handleClose={handleCloseModal} opened={open} />}
 
-            <Fab
-              variant="extended"
-              size="small"
-              color="secondary"
-              aria-label="add"
-              style={{ position: "absolute", bottom: "2%" }}
-            >
-              <Button>
-                <ModalPage />
-              </Button>
-            </Fab>
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            {
-                 hairstyleId === 'kladka' ?
-                     <OBJModel
-                         background={'#5d3939'}
-                         className={classes.image}
-                         src={'/assets/models/FemaleHairBlender.obj'}
-                         position={{x:0, y: -46, z: -10}}
-                         rotation={state}
-                     />
-                       :
-                     <CardMedia
-                         className={classes.image}
-                         component={"img"}
-                         src={currentHairstyle?.image}
-                     />
-               }
-          </Grid>
-        </Grid>
+            <Grid container className={classes.container}>
+              <Grid item xs={12} sm={4} style={{ position: "relative" }}>
+                <Typography gutterBottom variant="h3">
+                  {hairstyleId === 'kladka' ? 'Кладка' : currentHairstyle?.name}
+                </Typography>
+                <Typography gutterBottom variant="h5" style={{borderBottom:'1px solid grey'}}>
+                  Категория: {hairstyleId === 'kladka' ? 'Короткие' : currentHairstyle?.categoryId.name}
+                </Typography>
+                <Typography gutterBottom variant="h5" style={{borderBottom:'1px solid grey'}}>
+                  Цена: {hairstyleId === 'kladka' ? '5000' : currentHairstyle?.price} ₽
+                </Typography>
+
+                <Fab
+                  variant="extended"
+                  size="small"
+                  color="secondary"
+                  aria-label="add"
+                  style={{ position: "absolute", bottom: "2%" }}
+                  onClick={handleOpenModal}
+                >
+                  Оставить заявку
+                </Fab>
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                {
+                     hairstyleId === 'kladka' ?
+                         <OBJModel
+                             background={'#5d3939'}
+                             className={classes.image}
+                             src={'/assets/models/FemaleHairBlender.obj'}
+                             position={{x:0, y: -46, z: -10}}
+                             rotation={state}
+                         />
+                           :
+                         <CardMedia
+                             className={classes.image}
+                             component={"img"}
+                             src={currentHairstyle?.image}
+                         />
+                   }
+              </Grid>
+            </Grid>
+          </>
       )}
     </Grid>
   );

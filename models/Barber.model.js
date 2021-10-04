@@ -32,6 +32,10 @@ const barberSchema = new Schema({
             type: Number,
             required: true
         }
+    },
+    balance: {
+        type: Number,
+        default: 0
     }
 });
 
