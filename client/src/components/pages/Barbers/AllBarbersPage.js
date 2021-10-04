@@ -21,6 +21,8 @@ function AllBarbersPage() {
 
   const { loading, barbers } = useSelector((store) => store.barbers);
 
+  const { text } = useSelector((store) => store.languages);
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -40,7 +42,7 @@ function AllBarbersPage() {
           </Grid>
           <Grid item xs={12} style={{ margin: 100, textAlign: "center" }}>
             <Typography variant="h2" style={{ color: "white" }}>
-              Все парикмахеры
+              {text.allBarbers}
             </Typography>
           </Grid>
           <Grid container style={{ display: "flex", justifyContent: "center" }}>
@@ -59,7 +61,7 @@ function AllBarbersPage() {
                       <Button
                         style={{ cursor: "pointer" }}
                         onClick={() => history.push(`/barber/${item._id}`)}>
-                          Подробнее
+                          {text.btnMore}
                       </Button>
                     </Box>
                     <CardContent>

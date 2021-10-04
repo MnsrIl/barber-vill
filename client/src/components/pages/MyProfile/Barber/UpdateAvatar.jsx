@@ -12,6 +12,8 @@ const UpdateAvatar = ({person, useStyles}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
+  const { text } = useSelector((store) => store.languages);
+
   const imageClasses = classNames(classes.imgRaised, classes.imgRoundedCircle, classes.imgFluid);
   const imgSrc = avatar?.length ? URL.createObjectURL(avatar[0]) : person.personal?.avatar || avatarImage;
 
@@ -34,7 +36,7 @@ const UpdateAvatar = ({person, useStyles}) => {
                   interactive
                   placement={"top"}
                   classes={{tooltip: classes.tooltip}}
-                  title={<span onClick={handleSubmit} >Сохранить изменения</span>}
+                  title={<span onClick={handleSubmit} >{text.saveChange}</span>}
               >
                   <img src={imgSrc} alt="avatar" className={imageClasses} />
               </Tooltip>)

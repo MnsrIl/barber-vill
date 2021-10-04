@@ -7,7 +7,7 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getOneHairstyle } from "../../../redux/feautures/hairstyles";
@@ -15,7 +15,6 @@ import Header from "../Header";
 import {Dialog, IconButton, Slide} from "@mui/material";
 import {Room, RoomOutlined} from "@mui/icons-material";
 import {OBJModel, Tick} from "react-3d-viewer";
-import ModalPage from "../Requests/RequestModal";
 import RequestModal from "../Requests/RequestModal";
 
 const useStyles = makeStyles((theme) => ({
@@ -44,6 +43,8 @@ const useStyles = makeStyles((theme) => ({
 function OneHairStyle(props) {
 
   const { loading, currentHairstyle } = useSelector((store) => store.hairstyles);
+
+  const { text } = useSelector((store) => store.languages);
 
   const classes = useStyles();
 
@@ -86,7 +87,7 @@ function OneHairStyle(props) {
     
       {loading ? (
         <Box className={classes.loading}>
-          Идет загрузка...
+          {text.load}
         </Box>
       ) : (
           <>
