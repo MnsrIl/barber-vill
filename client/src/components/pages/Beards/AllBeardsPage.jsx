@@ -18,7 +18,6 @@ import InfoIcon from "@mui/icons-material/Info";
 import Header from "../Header";
 import Tab from "@mui/material/Tab";
 import {a11yProps} from "../Category/LeftTab";
-import ModalPage from "../Requests/RequestModal";
 import RequestModal from "../Requests/RequestModal";
 
 const useStyles = makeStyles((theme) => ({
@@ -56,12 +55,15 @@ function AllBeardsPage(props) {
   const { loading, beards } = useSelector((store) => store.beards);
 
   const [openModal, setOpenModal] = useState(false);
+  const [selectedBeard, setSelectedBeard] = useState({});
 
   const handleClose = () => {
+    setSelectedBeard({});
     setOpenModal(false);
   }
 
-  const handleOpenModal = () => {
+  const handleOpenModal = (item) => {
+    setSelectedBeard(item);
     setOpenModal(true);
   }
 
@@ -101,7 +103,14 @@ function AllBeardsPage(props) {
           </Grid>
         ) : (
             <>
-              {openModal && <RequestModal opened={openModal} handleClose={handleClose} />}
+              {openModal &&
+              <RequestModal
+                  opened={openModal}
+                  handleClose={handleClose}
+                  secondType={'hairstyles'}
+                  firstType={'beard'}
+                  firstItem={selectedBeard}
+              />}
 
               <Grid container
                 style={{ display: "flex", justifyContent: "space-around" }}
@@ -137,7 +146,7 @@ function AllBeardsPage(props) {
                             color="secondary"
                             aria-label="add"
                             style={{ position: "absolute", bottom: "2%" }}
-                            onClick={handleOpenModal}
+                            onClick={() => handleOpenModal(item)}
                         >
                           Оставить заявку
                         </Fab>

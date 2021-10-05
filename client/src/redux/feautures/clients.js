@@ -17,7 +17,7 @@ const reducer = (state = initialState, action) => {
         case "clients/sendRequest/rejected" :
             return {...state, sendingRequest: false, error: action.error}
         case "clients/sendRequest/fulfilled" :
-            return {...state, sendingRequest: false, success: action.success}
+            return {...state, sendingRequest: false, success: action.payload.success}
 
         //Пополнение баланса
         case "client/topUpBalance/pending" :
@@ -85,7 +85,8 @@ export const sendRequest = (data) => async (dispatch, getStore) => {
   if (json.error) {
       dispatch({type: "clients/sendRequest/rejected", error: json.error});
   } else {
-      dispatch({type: "clients/sendRequest/fulfilled", payload: {success: json.success}});
+      dispatch({type: "clients/sendRequest/fulfilled", payload: {success: json.success }});
+      dispatch({type: "auth/payForAppointment", payload: {balance: json.balance}})
   }
 };
 

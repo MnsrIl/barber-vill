@@ -7,7 +7,7 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getOneHairstyle } from "../../../redux/feautures/hairstyles";
@@ -65,8 +65,13 @@ function OneHairStyle(props) {
 
   const { hairstyleId } = useParams();
   const [open, setOpen] = useState(false);
+  const [selectedHairstyle, setSelectedHairstyle] = useState({})
+
 
   const handleOpenModal = () => {
+    const kladkaObject = {name: 'Кладка', price: 5000, image: 'https://img1.cgtrader.com/items/2545492/142564a2a7/female-hair-bun-3d-model-obj-fbx-blend.jpg' }
+    const hairstyleObject = hairstyleId === 'kladka' ? kladkaObject : currentHairstyle;
+    setSelectedHairstyle(hairstyleObject);
     setOpen(true);
   }
   const handleCloseModal = () => {
@@ -91,7 +96,14 @@ function OneHairStyle(props) {
         </Box>
       ) : (
           <>
-          {open && <RequestModal handleClose={handleCloseModal} opened={open} />}
+            {open &&
+            <RequestModal
+                opened={open}
+                handleClose={handleCloseModal}
+                secondType={'beards'}
+                firstType={'hairstyle'}
+                firstItem={selectedHairstyle}
+            />}
 
             <Grid container className={classes.container}>
               <Grid item xs={12} sm={4} style={{ position: "relative" }}>

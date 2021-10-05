@@ -185,6 +185,10 @@ const BarberProfile = (props) => {
                                             </Tooltip>}
                                         </h6>
 
+                                        <h4 className={classes.title}>
+                                            Ваш баланс: {person?.personal.balance}$  {/*Баланс*/}
+                                        </h4>
+
                                     </div>
                                 </div>
                             </GridItem>
