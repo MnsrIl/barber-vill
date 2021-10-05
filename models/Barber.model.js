@@ -36,7 +36,13 @@ const barberSchema = new Schema({
     balance: {
         type: Number,
         default: 0
-    }
+    },
+    requests: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "Request"
+        }
+    ]
 });
 
 module.exports.Barber = model("Barber", barberSchema);

@@ -64,7 +64,7 @@ function OneBeard(props) {
         <Box className={classes.loading}>{text.load}</Box>
       ) : (
           <>
-          {openModal && <RequestModal handleClose={handleClose} opened={openModal} />}
+          {openModal && <RequestModal handleClose={handleClose} opened={openModal} secondType={'hairstyles'} firstType={'beard'} firstItem={currentBeards} />}
 
             <Grid container className={classes.container}>
               <Grid item xs={12} sm={4} style={{ position: "relative" }}>

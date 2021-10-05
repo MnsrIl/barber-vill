@@ -1,10 +1,9 @@
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllHairstyles } from "../../../redux/feautures/hairstyles";
 import {
   Button,
   Card,
-  CardActions,
   CardContent,
   CardMedia, Fab,
   Grid,
@@ -53,10 +52,14 @@ const AllHairstylesPage = (props) => {
   const { loading, hairstyles } = useSelector((store) => store.hairstyles);
 
   const [opened, setOpen] = useState(false);
+  const [selectedHairstyle, setSelectedHairstyle] = useState({})
 
   const handleClose = () => setOpen(false);
 
-  const handleOpen = () => setOpen(true);
+  const handleOpenModal = (item) => {
+    setSelectedHairstyle(item);
+    setOpen(true)
+  };
 
   const gender = useQuery("gender");
 
@@ -87,7 +90,15 @@ const AllHairstylesPage = (props) => {
           </Grid>
         ) : (
           <>
-          <RequestModal opened={opened} handleClose={handleClose} />
+            {opened &&
+            <RequestModal
+                opened={opened}
+                handleClose={handleClose}
+                secondType={'beards'}
+                firstType={'hairstyle'}
+                firstItem={selectedHairstyle}
+            />}
+
             <Grid
               container
               style={{ display: "flex", justifyContent: "space-around", width: gender === 'Ж' ? '95vw' : "100%"}}
@@ -106,7 +117,7 @@ const AllHairstylesPage = (props) => {
                         {"Кладка"}
                       </Typography>
                       <Typography gutterBottom component="h2">
-                        {500} ₽
+                        {5000} ₽
                       </Typography>
                     </Box>
                     <Box>
@@ -123,7 +134,7 @@ const AllHairstylesPage = (props) => {
                         color="secondary"
                         aria-label="add"
                         style={{ position: "absolute", bottom: "2%" }}
-                        onClick={handleOpen}
+                        onClick={() => handleOpenModal({name: 'Кладка', price: 5000, image: 'https://img1.cgtrader.com/items/2545492/142564a2a7/female-hair-bun-3d-model-obj-fbx-blend.jpg', })}
                     >
                       Записаться на причёску
                     </Fab>
@@ -131,7 +142,7 @@ const AllHairstylesPage = (props) => {
                 </Card>
               </Grid>}
               {hairstyles.map((item) => (
-                <Grid item xs={12} sm={3} className={classes.cardBox}>
+                <Grid key={item._id} item xs={12} sm={3} className={classes.cardBox}>
                   <Card className={classes.card}>
                     <CardMedia
                       component={"img"}
@@ -161,7 +172,7 @@ const AllHairstylesPage = (props) => {
                         color="secondary"
                         aria-label="add"
                         style={{ position: "absolute", bottom: "2%" }}
-                        onClick={handleOpen}
+                        onClick={() => handleOpenModal(item)}
                     >
                       Записаться на причёску
                     </Fab>
