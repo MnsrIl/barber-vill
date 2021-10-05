@@ -1,7 +1,10 @@
+import Routes from "./routes";
+
 function App() {
-  return (
-    <div>Хай!</div>
-  );
+
+    return (
+        <Routes />
+    );
 }
 
 export default App;
