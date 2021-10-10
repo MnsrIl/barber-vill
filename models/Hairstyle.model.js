@@ -1,19 +1,17 @@
-const mongoose = require('mongoose')
+const {model, Schema} = require('mongoose')
 
-const hairstyleSchema = mongoose.Schema({
+const hairstyleSchema = new Schema({
   name: String,
   image: String,
   price: Number,
   categoryId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "Category"
   }
 },
   { timestamps: true }
 )
 
-const Hairstyle = mongoose.model('Hairstyle', hairstyleSchema)
+const Hairstyle = model('Hairstyle', hairstyleSchema);
 
-module.exports = Hairstyle
-
-// Возможно нужен еще один ключ "categoryId"
+module.exports = Hairstyle;

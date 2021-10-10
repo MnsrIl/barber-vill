@@ -17,9 +17,9 @@ const Routes = () => {
     const authList = isLoggedIn ? authorizedList : unauthorizedList;
     const routesList = [...allRoutesList, ...authList];
 
+
     return (
         <Switch>
-
             {routesList.map(route =>
                 <Route
                     key={route.name}
@@ -28,7 +28,6 @@ const Routes = () => {
                     component={route.component}
                 />)}
             <Redirect to="/" />
-
         </Switch>
     );
 };
