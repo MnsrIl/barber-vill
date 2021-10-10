@@ -1,4 +1,4 @@
-const Beard = require('../models/Beard.model')
+const Beard = require('../models/Beard.model');
 
 // возможно понадобится импорт модели "Category"
 

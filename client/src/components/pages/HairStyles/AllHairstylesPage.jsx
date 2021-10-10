@@ -114,10 +114,10 @@ const AllHairstylesPage = (props) => {
                   <CardContent className={classes.content}>
                     <Box>
                       <Typography gutterBottom variant="h5" component="h2">
-                        {"Кладка"}
+                        Кладка
                       </Typography>
                       <Typography gutterBottom component="h2">
-                        {5000} ₽
+                        5000 ₽
                       </Typography>
                     </Box>
                     <Box>

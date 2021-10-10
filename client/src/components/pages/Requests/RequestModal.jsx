@@ -29,6 +29,7 @@ import {getAllBeards} from "../../../redux/feautures/beards";
 import {getAllHairstyles} from "../../../redux/feautures/hairstyles";
 
 import "react-datepicker/dist/react-datepicker.css";
+import {setSnackbar} from "../../../redux/feautures/snackbar";
 
 export const useStyles = makeStyles((theme) => ({
   container: {
@@ -107,7 +108,7 @@ function ModalPage(props) {
   }
 
   const handleReset = () => {
-    setState({...state, date: null, total: 0, [state.secondType] : null});
+    setState({...state, date: null, total: 0, [state.secondType] : null, barberId: null});
   }
 
   const handleChangeDate = (date) => {
@@ -125,7 +126,8 @@ function ModalPage(props) {
 
   const [snackOpen, setSnackOpen] = useState(false);
 
-  const handleCloseSnack = () => {
+  const handleCloseSnack = (e, reason) => {
+    console.log(e, 'clicked', reason)
     setSnackOpen(false)
     dispatch({type: "client/clearData"});
   }
@@ -161,19 +163,16 @@ function ModalPage(props) {
     }
   }, [success])
 
-  useEffect(() => {
-    if ((error || success) && props.opened) {
-      setSnackOpen(true);
+  useEffect(async () => {
+    if (error || success) {
+      const message = error || success;
+      const type = error ? "error" : "success";
 
-      // if(success) {
-      //   console.log(props.firstType, state.secondType)
-      //   setState({
-      //     [props.firstType]: props.firstItem,
-      //     date: null, barberId: null,
-      //     [state.secondType.slice(0, -1)]: state[state.secondType.slice(0, -1)]})
-      // }
+      dispatch(setSnackbar(type, message));
+      dispatch({type: "client/clearData"});
     }
-  }, [success, error, props.opened]);
+
+  }, [success, error]);
 
   return (
       <Modal
@@ -184,20 +183,21 @@ function ModalPage(props) {
         closeAfterTransition
       >
       <div>
-        <Snackbar
-            open={snackOpen}
-            autoHideDuration={3000}
-            variant={error ? "error" : "success"}
-            onClose={handleCloseSnack}
-            message={
-              <div>
-              <span style={{ marginRight: "8px" }}>
-                <Error fontSize="large" color={error ? "error" : "success"} />
-              </span>
-                <span> {error?.toString() || success?.toString()} </span>
-              </div>
-            }
-        />
+        {/*<Snackbar*/}
+        {/*    disableWindowBlurListener*/}
+        {/*    open={snackOpen}*/}
+        {/*    autoHideDuration={3000}*/}
+        {/*    variant={error ? "error" : "success"}*/}
+        {/*    onClose={handleCloseSnack}*/}
+        {/*    message={*/}
+        {/*      <div>*/}
+        {/*      <span style={{ marginRight: "8px" }}>*/}
+        {/*        <Error fontSize="large" color={error ? "error" : "success"} />*/}
+        {/*      </span>*/}
+        {/*        <span> {error?.toString() || success?.toString()} </span>*/}
+        {/*      </div>*/}
+        {/*    }*/}
+        {/*/>*/}
 
         <Fade in={props.opened}>
           <Grid className={classes.container}>
