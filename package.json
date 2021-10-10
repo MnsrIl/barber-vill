@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "server": "nodemon index.js",
+    "start":  "node index.js",
+    "heroku-postbuild": "cd client && npm install && npm run build",
+    "server": "nodemon index.js --delay 0.1",
     "client": "cd client && npm start",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
@@ -18,7 +20,8 @@
     "express": "^4.17.1",
     "express-fileupload": "^1.2.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.0.6"
+    "mongoose": "^6.0.6",
+    "node-telegram-bot-api": "^0.54.0"
   },
   "devDependencies": {
     "concurrently": "^6.2.1",

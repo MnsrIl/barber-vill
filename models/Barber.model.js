@@ -45,4 +45,6 @@ const barberSchema = new Schema({
     ]
 });
 
-module.exports.Barber = model("Barber", barberSchema);
+const Barber = model("Barber", barberSchema);
+
+module.exports = Barber;

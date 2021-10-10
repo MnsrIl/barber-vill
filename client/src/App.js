@@ -1,9 +1,13 @@
 import Routes from "./routes";
+import ActionSnackbar from "./components/ActionStatusComponent/ActionSnackbar";
 
 function App() {
 
     return (
-        <Routes />
+        <>
+            <ActionSnackbar />
+            <Routes />
+        </>
     );
 }
 

@@ -12,4 +12,6 @@ const beardSchema = new Schema({
   { timestamps: true }
 );
 
-module.exports = model('Beard', beardSchema);
+const Beard = model('Beard', beardSchema);
+
+module.exports = Beard;

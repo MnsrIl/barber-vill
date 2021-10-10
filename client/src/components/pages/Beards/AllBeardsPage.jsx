@@ -112,8 +112,8 @@ function AllBeardsPage(props) {
                   firstItem={selectedBeard}
               />}
 
-              <Grid container
-                style={{ display: "flex", justifyContent: "space-around" }}
+              <Grid container justifyContent={'space-around'}
+                style={{ display: "flex", width: "90vw"}}
               >
                 {beards.map((item) => (
                   <Grid key={item._id} item xs={12} sm={3} className={classes.cardBox}>

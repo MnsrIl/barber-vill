@@ -1,5 +1,5 @@
-const Review = require("../models/Review.model")
-const {Barber} = require("../models/Barber.model")
+const Review = require("../models/Review.model");
+const Barber = require("../models/Barber.model");
 
 module.exports.reviewsController = {
   addReview: async (req, res) => {

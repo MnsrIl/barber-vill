@@ -1,6 +1,8 @@
-const Request = require('../models/Request.model')
-const {Client} = require("../models/Client.model");
-const {Barber} = require("../models/Barber.model");
+const Request = require('../models/Request.model');
+const Client = require("../models/Client.model");
+const Barber = require("../models/Barber.model");
+const User = require("../models/User.model");
+//const {sendRequestToAdmin} = require("../utils/bot");
 
 module.exports.requestsController = {
     createRequest: async (req, res) => {
@@ -36,7 +38,12 @@ module.exports.requestsController = {
       });
 
       await Barber.findByIdAndUpdate(barberId, {$push: {requests: newRequest._id}});
-      const updatedClient = await Client.findByIdAndUpdate(client._id, {balance: client.balance - totalPrice });
+
+      console.log('Object object', barber._id);
+      const requests = await Request.find().count();
+      const barberName = await User.findOne({personal: 'personal.name'});
+      console.log('Тут не сломался', requests, barberName)
+      //sendRequestToAdmin(requests, barberName.name, client._id, totalPrice);
 
       return res.status(200).json({success: "Ваша запись успешно оформлена! Приходите вовремя :)", balance: client.balance - totalPrice});
     } catch (e) {
