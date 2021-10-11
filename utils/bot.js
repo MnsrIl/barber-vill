@@ -15,17 +15,24 @@ bot.on('message', msg => {
         }
 });
 
-const sendRequestToAdmin = async (requestId, barberName, clientId, total) => {
-    await bot.sendMessage(adminId,
-        `📎 Заявка №${requestId}\n` +
-        `Парикмахер: ${barberName} [Иса](http://t.me/bisliew)\n` +
-        `🆔 клиента: --> ${clientId}\n` +
-        `На сумму: ${total}$`
-        , {parse_mode: 'markdown'});
+module.exports.botWithMyCommands = {
+    sendRequestToAdmin: async () => {
+        try {
+            console.log('ouch')
+            await bot.sendMessage(adminId, 'Новая заявка была успешно создана!');
+            console.log('happy')
+            // await bot.sendMessage(adminId,
+            //     `📎 Заявка №${requestId}\n` +
+            //     `Парикмахер: [${barberName}](${barberTelegramID && ("https://t.me/" + barberTelegramID)})\n` +
+            //     `🆔 клиента: --> ${clientId}\n` +
+            //     `На сумму: ${total}$`
+            //     , {parse_mode: 'markdown'});
+        } catch (e) {
+            console.log('Не удалось отправить сообщение', e)
+        }
+    }
 };
 
 bot.on("polling_error", console.log);
-
-module.exports.sendRequestToAdmin = sendRequestToAdmin;
 
 module.exports = bot;

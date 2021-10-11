@@ -9,7 +9,7 @@ const requestSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "Client"
     },
-    barbedId: {
+    barberId: {
         type: Schema.Types.ObjectId,
         ref: "Barber"
     },
