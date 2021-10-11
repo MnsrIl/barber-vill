@@ -2,7 +2,8 @@ import { useHistory } from "react-router-dom";
 import { Box, Button, Card, CardMedia, Grid } from "@material-ui/core";
 import { GitHub as GitHubIcon, Female as FemaleIcon, Male as MaleIcon} from "@mui/icons-material";
 import Header from "../Header";
-import hairstyles from "../../../image/hairstyles1.jpg";
+import ManCardImage from "../../../image/CardWithMan.png";
+import WomenCardImage from "../../../image/CardWithWoman.png";
 import useStyles from "./classes";
 import { useSelector } from "react-redux";
 
@@ -49,7 +50,7 @@ function HomePage() {
               <Box pb="30px" className={classes.cardLink}>
                 <CardMedia
                   component={"img"}
-                  src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6AD-sEMxJ8YXbi7d_5gSLTPf4PnzG5eES6uS7tel3MwlbTWaOUDfFnL6uoqgS0wXEa28&usqp=CAU"}
+                  src={WomenCardImage}
                   className={classes.cardImg}
                 />
                 <FemaleIcon
@@ -65,7 +66,7 @@ function HomePage() {
               <Box className={classes.cardLink}>
                 <CardMedia
                   component={"img"}
-                  src={hairstyles}
+                  src={ManCardImage}
                   className={classes.cardImg}
                 />
                 <MaleIcon
