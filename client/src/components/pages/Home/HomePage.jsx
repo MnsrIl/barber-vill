@@ -2,7 +2,8 @@ import { useHistory } from "react-router-dom";
 import { Box, Button, Card, CardMedia, Grid } from "@material-ui/core";
 import { GitHub as GitHubIcon, Female as FemaleIcon, Male as MaleIcon} from "@mui/icons-material";
 import Header from "../Header";
-import hairstyles from "../../../image/hairstyles1.jpg";
+import ManCardImage from "../../../image/CardWithMan.png";
+import WomenCardImage from "../../../image/CardWithWoman.png";
 import useStyles from "./classes";
 import { useSelector } from "react-redux";
 
@@ -46,27 +47,11 @@ function HomePage() {
         <Grid item xs={12} sm={6}>
           <Box display="flex" mt="103px">
             <Card className={classes.card}>
-              <Box pb="30px" className={classes.cardLink}>
-                <CardMedia
-                  component={"img"}
-                  src={"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6AD-sEMxJ8YXbi7d_5gSLTPf4PnzG5eES6uS7tel3MwlbTWaOUDfFnL6uoqgS0wXEa28&usqp=CAU"}
-                  className={classes.cardImg}
-                />
-                <FemaleIcon
-                  fontSize="large"
-                  className={classes.cardIcon}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => history.push("/hairstyles?gender=Ж")}
-                />
-              </Box>
-            </Card>
-
-            <Card className={classes.card}>
               <Box className={classes.cardLink}>
                 <CardMedia
-                  component={"img"}
-                  src={hairstyles}
-                  className={classes.cardImg}
+                    component={"img"}
+                    src={ManCardImage}
+                    className={classes.cardImg}
                 />
                 <MaleIcon
                     color={"primary"}
@@ -74,6 +59,22 @@ function HomePage() {
                     className={classes.cardIcon}
                     style={{ cursor: "pointer" }}
                     onClick={() => history.push("/hairstyles")}
+                />
+              </Box>
+            </Card>
+
+            <Card className={classes.card}>
+              <Box pb="30px" className={classes.cardLink}>
+                <CardMedia
+                  component={"img"}
+                  src={WomenCardImage}
+                  className={classes.cardImg}
+                />
+                <FemaleIcon
+                  fontSize="large"
+                  className={classes.cardIcon}
+                  style={{ cursor: "pointer" }}
+                  onClick={() => history.push("/hairstyles?gender=Ж")}
                 />
               </Box>
             </Card>

@@ -163,7 +163,7 @@ function ModalPage(props) {
     }
   }, [success])
 
-  useEffect(async () => {
+  useEffect( () => {
     if (error || success) {
       const message = error || success;
       const type = error ? "error" : "success";

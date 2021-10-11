@@ -7,12 +7,12 @@ import {
   makeStyles,
   Typography,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, {forwardRef, useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import { getOneHairstyle } from "../../../redux/feautures/hairstyles";
 import Header from "../Header";
-import {Dialog, IconButton, Slide} from "@mui/material";
+import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Slide} from "@mui/material";
 import {Room, RoomOutlined} from "@mui/icons-material";
 import {OBJModel, Tick} from "react-3d-viewer";
 import RequestModal from "../Requests/RequestModal";
@@ -40,10 +40,14 @@ const useStyles = makeStyles((theme) => ({
  
 }));
 
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 function OneHairStyle(props) {
 
   const { loading, currentHairstyle } = useSelector((store) => store.hairstyles);
-
+  const isLoggedIn = useSelector(store => store.auth.isLoggedIn);
   const { text } = useSelector((store) => store.languages);
 
   const classes = useStyles();
@@ -79,6 +83,7 @@ function OneHairStyle(props) {
   }
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     if (hairstyleId !== 'kladka') {
@@ -96,14 +101,38 @@ function OneHairStyle(props) {
         </Box>
       ) : (
           <>
-            {open &&
-            <RequestModal
-                opened={open}
-                handleClose={handleCloseModal}
-                secondType={'beards'}
-                firstType={'hairstyle'}
-                firstItem={selectedHairstyle}
-            />}
+            {open && (isLoggedIn ?
+                <RequestModal
+                    opened={open}
+                    handleClose={handleCloseModal}
+                    secondType={'beards'}
+                    firstType={'hairstyle'}
+                    firstItem={selectedHairstyle}
+                /> :
+                <Dialog
+                    open={open}
+                    TransitionComponent={Transition}
+                    keepMounted
+                    onClose={handleCloseModal}
+                    aria-labelledby="alert-dialog-slide-title"
+                    aria-describedby="alert-dialog-slide-description"
+                >
+                  <DialogTitle id="alert-dialog-slide-title">Вы не авторизованы!</DialogTitle>
+                  <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                      Упс.. Чтобы оставить заявку вам необходимо авторизоватсья
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button onClick={handleCloseModal} color="primary">
+                      Закрыть
+                    </Button>
+                    <Button onClick={() => history.push("/login")} color="primary">
+                      Авторизоваться
+                    </Button>
+                  </DialogActions>
+                </Dialog>)
+            }
 
             <Grid container className={classes.container}>
               <Grid item xs={12} sm={4} style={{ position: "relative" }}>
