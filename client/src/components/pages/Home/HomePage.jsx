@@ -47,6 +47,23 @@ function HomePage() {
         <Grid item xs={12} sm={6}>
           <Box display="flex" mt="103px">
             <Card className={classes.card}>
+              <Box className={classes.cardLink}>
+                <CardMedia
+                    component={"img"}
+                    src={ManCardImage}
+                    className={classes.cardImg}
+                />
+                <MaleIcon
+                    color={"primary"}
+                    fontSize="large"
+                    className={classes.cardIcon}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => history.push("/hairstyles")}
+                />
+              </Box>
+            </Card>
+
+            <Card className={classes.card}>
               <Box pb="30px" className={classes.cardLink}>
                 <CardMedia
                   component={"img"}
@@ -58,23 +75,6 @@ function HomePage() {
                   className={classes.cardIcon}
                   style={{ cursor: "pointer" }}
                   onClick={() => history.push("/hairstyles?gender=Ж")}
-                />
-              </Box>
-            </Card>
-
-            <Card className={classes.card}>
-              <Box className={classes.cardLink}>
-                <CardMedia
-                  component={"img"}
-                  src={ManCardImage}
-                  className={classes.cardImg}
-                />
-                <MaleIcon
-                    color={"primary"}
-                    fontSize="large"
-                    className={classes.cardIcon}
-                    style={{ cursor: "pointer" }}
-                    onClick={() => history.push("/hairstyles")}
                 />
               </Box>
             </Card>

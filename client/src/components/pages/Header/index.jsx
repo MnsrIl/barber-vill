@@ -50,6 +50,14 @@ const useStyles = makeStyles((theme) => ({
   theNameOfTheStyleClass: {
     backgroundColor: "rgba(20,20,20,0.9)",
   },
+  closeIconHover: {
+    "&:hover": {
+      backgroundColor: "rgb(216 49 49 / 7%)"
+    }
+  },
+  languagesListItem: {
+
+  }
 }));
 
 const DrawerHeader = styled("div")(({ theme }) => ({
@@ -72,8 +80,20 @@ function Header() {
 
   const { text } = useSelector((store) => store.languages);
 
-  const changeLanguage = (e) => {
-    dispatch({ type: "language/setLanguage", language: e.target.value});
+  const handleChangeLanguage = async (e) => {
+    let value = 'ru';
+
+    switch (e.target.textContent) {
+      case "English" :
+        value = "en"; break
+      case "Русский" :
+        value = "ru"; break
+      default :
+        break;
+    }
+
+    dispatch({type: "language/setLanguage", language: value});
+    handleClose()
   };
 
   const handleClick = (event) => {
@@ -125,7 +145,7 @@ function Header() {
             style={{ position: "relative" }}
           >
             <DrawerHeader>
-              <IconButton onClick={handleDrawerClose}>
+              <IconButton onClick={handleDrawerClose} classes={{root: classes.closeIconHover}}>
                 <CloseIcon
                   fontSize="large"
                   style={{
@@ -139,7 +159,7 @@ function Header() {
             <Divider />
 
             <List component="div" disablePadding>
-              <ListItemButton sx={{ pl: 4 }}>
+              <ListItemButton sx={{ pl: 4, "&:hover" : {backgroundColor: "rgb(216 49 49 / 15%)"} }}>
                 <NavLink
                   exact
                   to="/"
@@ -153,7 +173,7 @@ function Header() {
                 </NavLink>
               </ListItemButton>
 
-              <ListItemButton sx={{ pl: 4 }}>
+              <ListItemButton sx={{ pl: 4, "&:hover" : {backgroundColor: "rgb(216 49 49 / 15%)"} }}>
                 <NavLink
                   exact
                   to="/barbers"
@@ -167,7 +187,7 @@ function Header() {
                 </NavLink>
               </ListItemButton>
 
-              <ListItemButton sx={{ pl: 4 }}>
+              <ListItemButton sx={{ pl: 4, "&:hover" : {backgroundColor: "rgb(216 49 49 / 15%)"} }}>
                 <NavLink
                   exact
                   to="/beards"
@@ -184,17 +204,16 @@ function Header() {
             <List
               component="div"
               disablePadding
-              style={{ position: "absolute", bottom: 0, height: "70px" }}
-              // onChange={changeLanguage}
+              style={{ position: "absolute", bottom: 0, height: "70px", width: "100%" }}
             >
               <ListItemButton
-                sx={{ pl: 4, color: "white" }}
+                sx={{ pl: 4, color: "white", "&:hover" : {backgroundColor: "rgb(216 49 49 / 15%)"} }}
                 id="basic-button"
                 aria-controls="basic-menu"
                 aria-haspopup="true"
-                aria-expanded={openLanguage ? "true" : undefined}
-                onClick={handleClick} 
-                
+                aria-expanded={openLanguage ? "true" : "false"}
+                onClick={handleClick}
+
               >
                 <ListItemIcon >
                   <GTranslateIcon style={{ color: "white" }} />
@@ -212,23 +231,21 @@ function Header() {
                   "aria-labelledby": "basic-button",
                 }}
               >
-                <MenuItem onClick={handleClose}>
-                  <NavLink
-                    to=""
-                    style={{ textDecoration: "none", padding: "0 12px" }}
-                    activeStyle={{ color: "red", fontWeight: "bold" }}
-                  >
-                    <ListItemText value={"en"} primary="English" />
-                  </NavLink>
+                <MenuItem>
+                  <ListItemText
+                      style={{color: "peru", paddingLeft: "12px" }}
+                      value={"en"}
+                      primary="English"
+                      onClick={handleChangeLanguage}
+                  />
                 </MenuItem>
-                <MenuItem onClick={handleClose}>
-                  <NavLink
-                    to=""
-                    style={{ textDecoration: "none", padding: "0 12px" }}
-                    activeStyle={{ color: "red", fontWeight: "bold" }}
-                  >
-                    <ListItemText value={"ru"} primary="Русский" />
-                  </NavLink>
+                <MenuItem>
+                  <ListItemText
+                      style={{color: "peru", paddingLeft: "12px" }}
+                      value={"ru"}
+                      primary="Русский"
+                      onClick={handleChangeLanguage}
+                  />
                 </MenuItem>
               </Menu>
             </List>
