@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
     height: 800,
   },
   card: {
+    backgroundColor: "rgb(188 182 182 / 63%)",
     width: 250,
     marginLeft: 50,
     borderRadius: 15,
