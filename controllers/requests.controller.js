@@ -2,14 +2,14 @@ const Request = require('../models/Request.model');
 const Client = require("../models/Client.model");
 const Barber = require("../models/Barber.model");
 const User = require("../models/User.model");
-//const {sendRequestToAdmin} = require("../utils/bot");
 
 module.exports.requestsController = {
     createRequest: async (req, res) => {
     try {
-      const {_id, role,personal} = req.user;
+      const { role,personal } = req.user;
       const { barberId, hairstyle, beard, date } = req.body;
       const client = await Client.findById(personal._id);
+      const barber = await User.findById(barberId).populate("personal", "-password");
 
       if (role === 'Barber') {
         return res.status(400).json({error: "К сожалению, только клиент может оставить заявку"})
@@ -32,20 +32,24 @@ module.exports.requestsController = {
 
 
       const newRequest = await Request.create({
-        clientId: client._id, barberId,
-        requestData: {hairstyle: hairstyle?._id, beard: beard?._id, total: totalPrice },
-        date
+        date,
+        clientId: client._id,
+        barberId: barber.personal._id,
+        requestData: {hairstyleId: hairstyle?._id, beardId: beard?._id, total: totalPrice }
       });
 
-      await Barber.findByIdAndUpdate(barberId, {$push: {requests: newRequest._id}});
+      const updateOptions = {$push: {requests: newRequest._id}, $inc: {balance: totalPrice}};
 
-      console.log('Object object', barber._id);
-      const requests = await Request.find().count();
-      const barberName = await User.findOne({personal: 'personal.name'});
-      console.log('Тут не сломался', requests, barberName)
-      //sendRequestToAdmin(requests, barberName.name, client._id, totalPrice);
+      await Barber.findByIdAndUpdate(barber.personal._id, updateOptions);
+      await Client.findByIdAndUpdate(client._id, {$inc: {balance: -totalPrice}});
 
-      return res.status(200).json({success: "Ваша запись успешно оформлена! Приходите вовремя :)", balance: client.balance - totalPrice});
+      // const requestsCount = await Request.find().count();
+      //console.log(requestsCount, barber.name, barber.personal?.telegram, client._id, totalPrice);
+
+      return res.status(200).json({
+        success: "Ваша запись успешно оформлена! Приходите вовремя :)",
+        balance: client.balance - totalPrice
+      });
     } catch (e) {
       return res.status(400).json({error: e});
     }

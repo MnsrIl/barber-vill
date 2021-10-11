@@ -18,7 +18,7 @@ import {
   Button, Snackbar, MenuItem, IconButton, Tooltip,
 } from "@mui/material";
 import { makeStyles, TextField, Typography } from "@material-ui/core";
-import {NavLink, useHistory} from "react-router-dom";
+import {NavLink, useHistory, useLocation} from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBarbers } from "../../../redux/feautures/barbers";
 import {useEffect, useState} from "react";
@@ -75,40 +75,48 @@ function ModalPage(props) {
   const success = useSelector(store => store.clients.success);
   const error = useSelector(store => store.clients.error);
 
+  const location = useLocation();
+
+  //Getting first item type by checking location.pathname. If it's equal to 'hairstyle',
+  //then the other one will be equal to 'beard' && vice versa
+  const [types, setTypes] = useState({
+    firstItem: location.pathname.split('/')[1].slice(0, -1),
+    secondItem: location.pathname.split('/')[1].slice(0, -1) === 'hairstyle' ? 'beard' : 'hairstyle',
+  })
   const classes = useStyles();
   const dispatch = useDispatch();
-  const history = useHistory()
+  const history = useHistory();
 
   const [state, setState] = useState({
     date: null,
-    beard: null,
-    hairstyle: null,
+    beard: "",
+    hairstyle: "",
     barberId: null,
     secondType: "", //can be only 'beards' or 'hairstyles'
     total: 0
   });
 
   useEffect(() => {
-    setState({...state, secondType: props.secondType, [props.firstType]: props.firstItem, total: props.firstItem.price});
-  }, [props.secondType, props.firstItem])
+    setState({...state, [types.firstItem]: props.firstItem, total: props.firstItem.price});
+  }, [props.firstItem])
 
   const handleChangeBarber = (e) => {
     setState({...state, barberId: e.target.value})
   }
 
   const handleChangeSecondItem = (e) => {
+    const firstItem = state[types.firstItem]
+    const secondItemsArray = types.secondItem === 'hairstyle' ? hairstyles : beards;
+    const secondItem = secondItemsArray.find(item => item._id === e.target.value);
 
-      const type = state.secondType;
-      const firstItem = type === 'hairstyles' ? state.beard : state.hairstyle
-      const typeArray = type === 'hairstyles' ? hairstyles : beards;
-
-      const secondItem = typeArray.find(item => item._id === e.target.value);
-
-      return setState({...state, [type.slice(0, -1)]: secondItem, total: (secondItem ? secondItem?.price : 0) + firstItem.price});
+    return setState({...state,
+      [types.secondItem]: secondItem,
+      total: (secondItem?.price || 0) + firstItem.price
+    });
   }
 
   const handleReset = () => {
-    setState({...state, date: null, total: 0, [state.secondType] : null, barberId: null});
+    setState({...state, date: null, total: state[types.firstItem].price, [types.secondItem] : null, barberId: null});
   }
 
   const handleChangeDate = (date) => {
@@ -124,51 +132,42 @@ function ModalPage(props) {
     dispatch(sendRequest(requestData));
   }
 
-  const [snackOpen, setSnackOpen] = useState(false);
-
-  const handleCloseSnack = (e, reason) => {
-    console.log(e, 'clicked', reason)
-    setSnackOpen(false)
-    dispatch({type: "client/clearData"});
-  }
-
   const handleToAboutPage = () => {
     window.open(`/barber/${state.barberId}`, "_blank").focus();
   }
 
   const handleAboutSecondItem = () => {
-    const url = state.secondType === 'beards' ? `/beards/${state.beard._id}` : `/hairstyles/${state.hairstyle._id}`;
+    const item = types.secondItem;
+    const url = `/${item}s/` + state[item]._id;
     window.open(url, "_blank").focus();
   }
 
   useEffect(() => {
-    switch (state.secondType) {
-      case 'beards' :
+    switch (types.secondItem) {
+      case 'beard' :
           return dispatch(getAllBeards());
-      case 'hairstyles' :
+      case 'hairstyle' :
           return dispatch(getAllHairstyles());
       default :
         return;
     }
-  }, [state.secondType]);
+  }, [types.secondItem]);
 
+  //Loading all barbers, by opening this window
   useEffect(() => {
-    dispatch(getAllBarbers());
-
+      dispatch(getAllBarbers());
   }, []);
 
-  useEffect(() => {
-    if (success) {
-      handleReset()
-    }
-  }, [success])
-
+  //If we have an error or success, the snackbar has display
   useEffect( () => {
     if (error || success) {
       const message = error || success;
       const type = error ? "error" : "success";
 
       dispatch(setSnackbar(type, message));
+      if (success) {
+        handleReset();
+      }
       dispatch({type: "client/clearData"});
     }
 
@@ -183,21 +182,6 @@ function ModalPage(props) {
         closeAfterTransition
       >
       <div>
-        {/*<Snackbar*/}
-        {/*    disableWindowBlurListener*/}
-        {/*    open={snackOpen}*/}
-        {/*    autoHideDuration={3000}*/}
-        {/*    variant={error ? "error" : "success"}*/}
-        {/*    onClose={handleCloseSnack}*/}
-        {/*    message={*/}
-        {/*      <div>*/}
-        {/*      <span style={{ marginRight: "8px" }}>*/}
-        {/*        <Error fontSize="large" color={error ? "error" : "success"} />*/}
-        {/*      </span>*/}
-        {/*        <span> {error?.toString() || success?.toString()} </span>*/}
-        {/*      </div>*/}
-        {/*    }*/}
-        {/*/>*/}
 
         <Fade in={props.opened}>
           <Grid className={classes.container}>
@@ -229,11 +213,12 @@ function ModalPage(props) {
               </FormControl>
 
               {state.barberId &&
-              <Tooltip title={'Find out more'}>
-                <IconButton onClick={handleToAboutPage}>
-                  <ForwardRoundedIcon fontSize={"medium"}/>
-                </IconButton>
-              </Tooltip>}
+                <Tooltip title={'Find out more'}>
+                  <IconButton onClick={handleToAboutPage}>
+                    <ForwardRoundedIcon fontSize={"medium"}/>
+                  </IconButton>
+                </Tooltip>
+              }
             </Box>
 
             <Box display="flex" justifyContent="center" alignItems="center" mt="30px">
@@ -241,43 +226,27 @@ function ModalPage(props) {
                 <InputLabel id="demo-multiple-name-label">
                   Желаете дополнить заявку?
                 </InputLabel>
-
-                {
-                  state.secondType === 'beards' ?
-                      (<Select
-                          input={<OutlinedInput label="Желаете дополнить заявку?" />}
-                          onChange={handleChangeSecondItem}
-                          value={state.beard?._id || ""}
-                      >
-                        <MenuItem value={null}> - </MenuItem>
-                        {beardsLoading ? "Идёт загрузка..." :
-                            beards.map(item => (
-                                <MenuItem key={item._id} value={item._id} >
-                                  {item?.name}
-                                </MenuItem>
-                            ))
-                        }
-                      </Select>) :
-
-                      (<Select
-                          input={<OutlinedInput label="Желаете дополнить заявку?" />}
-                          onChange={handleChangeSecondItem}
-                          value={state.hairstyle?._id || ""}
-                      >
-                        <MenuItem value={null}> - </MenuItem>
-                        {hairstylesLoading ? "Идёт загрузка..." :
-                            hairstyles.map(item => (
-                                <MenuItem key={item._id} value={item._id} >
-                                  {item?.name}
-                                </MenuItem>
-                            ))
-                        }
-                      </Select>)
-                }
+                <Select
+                    input={<OutlinedInput label="Желаете дополнить заявку?" />}
+                    onChange={handleChangeSecondItem}
+                    value={state[types.secondItem]?._id || ""}
+                >
+                  <MenuItem value={""}> - </MenuItem>
+                  {
+                    (beardsLoading || hairstylesLoading) ?
+                        "Идёт загрузка..." :
+                      (types.secondItem === 'beard' ? beards : hairstyles)
+                          .map(item => (
+                              <MenuItem key={item._id} value={item._id}>
+                                {item?.name}
+                              </MenuItem>
+                      ))
+                  }
+              </Select>
               </FormControl>
 
               {
-                (state[props.secondType.slice(0, -1)]) &&
+                (state[types.secondItem]) &&
                 <Tooltip title={'Find out more'}>
                   <IconButton onClick={handleAboutSecondItem} sx={{top: 6}}>
                     <ForwardRoundedIcon fontSize={"medium"}/>
@@ -300,7 +269,7 @@ function ModalPage(props) {
             </Box>
 
             <Typography variant="h6" className={classes.total}>
-              Итого: {state.total || props.firstItem.price}$
+              Итого: {state.total}$
             </Typography>
 
             <Box className={classes.sendBtn}>
