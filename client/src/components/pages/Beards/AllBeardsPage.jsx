@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {forwardRef, useEffect, useState} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {NavLink, useHistory} from "react-router-dom";
 import {
@@ -19,6 +19,7 @@ import Header from "../Header";
 import Tab from "@mui/material/Tab";
 import {a11yProps} from "../Category/LeftTab";
 import RequestModal from "../Requests/RequestModal";
+import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Slide} from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   card: {
@@ -49,9 +50,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const Transition = forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 function AllBeardsPage(props) {
   const classes = useStyles();
 
+  const isLoggedIn = useSelector(store => store.auth.isLoggedIn);
   const { loading, beards } = useSelector((store) => store.beards);
 
   const [openModal, setOpenModal] = useState(false);
@@ -103,14 +109,38 @@ function AllBeardsPage(props) {
           </Grid>
         ) : (
             <>
-              {openModal &&
-              <RequestModal
-                  opened={openModal}
-                  handleClose={handleClose}
-                  secondType={'hairstyles'}
-                  firstType={'beard'}
-                  firstItem={selectedBeard}
-              />}
+              {openModal && (isLoggedIn ?
+                  <RequestModal
+                      opened={openModal}
+                      handleClose={handleClose}
+                      secondType={'hairstyles'}
+                      firstType={'beard'}
+                      firstItem={selectedBeard}
+                  /> :
+                  <Dialog
+                      open={openModal}
+                      TransitionComponent={Transition}
+                      keepMounted
+                      onClose={handleClose}
+                      aria-labelledby="alert-dialog-slide-title"
+                      aria-describedby="alert-dialog-slide-description"
+                  >
+                    <DialogTitle id="alert-dialog-slide-title">Вы не авторизованы!</DialogTitle>
+                    <DialogContent>
+                      <DialogContentText id="alert-dialog-slide-description">
+                        Упс.. Чтобы оставить заявку вам необходимо авторизоватсья
+                      </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                      <Button onClick={handleClose} color="primary">
+                        Закрыть
+                      </Button>
+                      <Button onClick={() => history.push("/login")} color="primary">
+                        Авторизоваться
+                      </Button>
+                    </DialogActions>
+                  </Dialog>)
+              }
 
               <Grid container justifyContent={'space-around'}
                 style={{ display: "flex", width: "90vw"}}
