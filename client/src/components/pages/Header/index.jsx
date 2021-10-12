@@ -22,6 +22,7 @@ import {
   Close as CloseIcon,
 } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
+import logo from "../../../image/BarberVillLogoInLine.png";
 
 const useStyles = makeStyles((theme) => ({
   headerInfo: {
@@ -111,7 +112,9 @@ function Header() {
 
   return (
     <Box className={classes.headerMain}>
-      <Box color="white">logo</Box>
+      <Box color="white" width={'10em'} height={'auto'}>
+        <img src={logo} alt={'Logo'} />
+      </Box>
       <Box
         width="120px"
         display="flex"
