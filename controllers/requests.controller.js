@@ -8,7 +8,7 @@ module.exports.requestsController = {
     try {
       const { role,personal } = req.user;
       const { barberId, hairstyle, beard, date } = req.body;
-      const client = await Client.findById(personal._id);
+      const client = await Client.findById(personal);
       const barber = await User.findById(barberId).populate("personal", "-password");
 
       if (role === 'Barber') {
@@ -29,7 +29,6 @@ module.exports.requestsController = {
       if (client.balance < totalPrice) {
         return res.status(400).json({error: "Недостаточно средств на балансе! Пожалуйста, пополните ваш счёт для оплаты"})
       }
-
 
       const newRequest = await Request.create({
         date,
