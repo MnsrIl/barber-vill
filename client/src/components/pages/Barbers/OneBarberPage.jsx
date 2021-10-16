@@ -76,7 +76,7 @@ function BarberModelPage(props) {
                           margin: "4px 0",
                         }}
                       >
-                            <p>{currentBarber?.personal.desc || "Описание отсутствует.."}</p>
+                            <p>{currentBarber?.personal.desc || text.noDescription }</p>
                       </h6>
                     </div>
                   </div>

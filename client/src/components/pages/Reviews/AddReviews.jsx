@@ -67,6 +67,8 @@ const AddReviews = () => {
 
   const { currentBarber } = useSelector((store) => store.barbers);
 
+  const { text } = useSelector((store) => store.languages);
+
   const [reviewInput, setReviewInput] = useState();
 
   const [open, setOpen] = React.useState(false);
@@ -90,9 +92,9 @@ const AddReviews = () => {
     <Box>
       <form className={classes.form}>
         <FormControl required margin="normal">
-          <InputLabel htmlFor="review">Отзывы</InputLabel>
+          <InputLabel htmlFor="review">{text.reviews}</InputLabel>
           <TextareaAutosize
-            placeholder={"Оставьте отзыв о парикмахере"}
+            placeholder={text.reviewsBarber}
             maxRows={2}
             value={reviewInput}
             name="review"

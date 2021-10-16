@@ -19,7 +19,7 @@ export default function HeaderPage(props) {
       <>
       <Header
       color="transparent"
-      brand={text.myProfile}
+     // brand={text.myProfile}
       rightLinks={<NavBar />}
       fixed
       changeColorOnScroll={{ height: 200, color: "white" }}

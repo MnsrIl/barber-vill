@@ -42,6 +42,8 @@ import { updateUserData } from "../../../redux/feautures/auth";
 
   const person = useSelector(store => store.auth.person);
 
+  const { text } = useSelector((store) => store.languages);
+
   const [open, setOpen] = React.useState(false);
     
   const [userState, setUserState] = useState({ name:"" })
@@ -81,7 +83,7 @@ import { updateUserData } from "../../../redux/feautures/auth";
         <div>
           <Header
               color="transparent"
-              brand="Мой профиль"
+              brand= {text.myProfile}
               rightLinks={<HeaderLinks />}
               fixed
               changeColorOnScroll={{
@@ -115,7 +117,7 @@ import { updateUserData } from "../../../redux/feautures/auth";
 
                       </div>
                       <h4 className={classes.title}>
-                        Ваш баланс: {person?.personal.balance}$  {/*Баланс*/}
+                        {text.yourBalance}: {person?.personal.balance}$  {/*Баланс*/}
                       </h4>
                     </div>
                   </GridItem>
@@ -159,14 +161,14 @@ import { updateUserData } from "../../../redux/feautures/auth";
                             ),
                           },
                           {
-                            tabButton: "Редактировать",
+                            tabButton: text.edit,
                             tabIcon: CreateOutlined,
                             tabContent: (
                                 <GridContainer justifyContent="center">
                                   <GridItem xs={12} sm={12} md={4}>
                                     <FormControl required fullWidth margin="normal">
                                     <InputLabel htmlFor="name" className={classes.labels}>
-                                      Имя
+                                      {text.name}
                                     </InputLabel>
                                     <Input
                                         value={userState.name}
@@ -181,7 +183,7 @@ import { updateUserData } from "../../../redux/feautures/auth";
                                     </FormControl>
                                     <FormControl required fullWidth margin="normal">
                                       <InputLabel htmlFor="number" className={classes.labels}>
-                                        Номер телефона
+                                        {text.numberPhone}
                                       </InputLabel>
                                       <Input
                                           value={userState.number}
@@ -196,9 +198,9 @@ import { updateUserData } from "../../../redux/feautures/auth";
                                     </FormControl>
                                     <Button simple color={"facebook"} onClick={handleChangeAbling}>
                                       {changeAbleData ?
-                                          <>Изменить данные <CreateIcon/> </>
+                                          <>{text.changeData} <CreateIcon/> </>
                                           :
-                                          <>Сохранить изменения <Save/> </>
+                                          <>{text.saveData} <Save/> </>
                                       }
                                     </Button>
                                     <Box>

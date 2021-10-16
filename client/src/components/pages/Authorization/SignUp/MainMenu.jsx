@@ -1,5 +1,6 @@
 import {Card, CardActionArea, CardContent, CardMedia, makeStyles, Typography} from "@material-ui/core";
 import {useFourThreeCardMediaStyles} from "@mui-treasury/styles/cardMedia/fourThree"
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles(() => ({
 
@@ -64,26 +65,28 @@ const MainMenu = ({setUserState}) => {
     const firstCard = useStyles({ color: '#203f52', shadowColor: 'rgba(39,106,150,0.51)' });
     const secondCard = useStyles({ color: '#34241e', shadowColor: '#cc520082' });
 
+    const { text } = useSelector((store) => store.languages);
+
     const handleChooseType = (type) => {
         setUserState(type);
     }
 
     return (
         <>
-            <Typography component={"div"} variant={"h4"}>Выберите тип аккаунта</Typography>
+            <Typography component={"div"} variant={"h4"}>{text.accountType}</Typography>
             <CustomCard
                 onClick={() => handleChooseType("Barber")}
                 classes={firstCard}
-                title={'Парикмахер'}
-                subtitle={'Хочешь начать работать парикмахером уже сейчас?'}
+                title={text.titleBarber}
+                subtitle={text.subtitleBarber}
                 image={'https://nagatinsky.com/upload/content/in_59005ef218137.jpg'}
             />
             <CustomCard
                 onClick={() => handleChooseType('Client')}
                 name="Client"
                 classes={secondCard}
-                title={'Клиент'}
-                subtitle={'Нужна стрижка от профессионалов своего дела?'}
+                title={text.titleClient}
+                subtitle={text.subtitleClient}
                 image={'https://i.pinimg.com/736x/97/c0/dc/97c0dcaaef5334a51d386ed232c67f21.jpg'}
             />
         </>

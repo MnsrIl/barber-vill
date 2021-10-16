@@ -74,6 +74,7 @@ function ModalPage(props) {
   const sending = useSelector(store => store.clients.sendingRequest);
   const success = useSelector(store => store.clients.success);
   const error = useSelector(store => store.clients.error);
+  const { text }= useSelector((store) => store.languages);
 
   const location = useLocation();
 
@@ -186,16 +187,16 @@ function ModalPage(props) {
         <Fade in={props.opened}>
           <Grid className={classes.container}>
             <Typography className={classes.balance}>
-              Баланс: {person?.personal?.balance}$
+              {text.balance}: {person?.personal?.balance}$
             </Typography>
             <Typography variant="h2" className={classes.title}>
-              Оформление заявки
+              {text.requestTitle}
             </Typography>
 
             <Box display="flex" justifyContent="center" alignItems="center" mt="30px">
               <FormControl sx={{ width: 260 }}>
                 <InputLabel id="demo-multiple-name-label">
-                  Выберите парикмахера
+                  {text.requestBarber}
                 </InputLabel>
 
                 <Select
@@ -224,7 +225,7 @@ function ModalPage(props) {
             <Box display="flex" justifyContent="center" alignItems="center" mt="30px">
               <FormControl sx={{ width: 260, mt: 1 }}>
                 <InputLabel id="demo-multiple-name-label">
-                  Желаете дополнить заявку?
+                  {text.supplement}
                 </InputLabel>
                 <Select
                     input={<OutlinedInput label="Желаете дополнить заявку?" />}
@@ -234,7 +235,7 @@ function ModalPage(props) {
                   <MenuItem value={""}> - </MenuItem>
                   {
                     (beardsLoading || hairstylesLoading) ?
-                        "Идёт загрузка..." :
+                        text.load :
                       (types.secondItem === 'beard' ? beards : hairstyles)
                           .map(item => (
                               <MenuItem key={item._id} value={item._id}>
@@ -256,12 +257,12 @@ function ModalPage(props) {
             </Box>
 
             <Typography variant="h6" className={classes.data}>
-              Дата
+              {text.date}
             </Typography>
             <Box display="flex" justifyContent="center">
               <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <DateTimePicker
-                    renderInput={(params) => <TextField placeholder={'Укажите дату'} {...params} />}
+                    renderInput={(params) => <TextField placeholder={text.specifyDate} {...params} />}
                     value={state.date}
                     onChange={handleChangeDate}
                 />
@@ -269,7 +270,7 @@ function ModalPage(props) {
             </Box>
 
             <Typography variant="h6" className={classes.total}>
-              Итого: {state.total}$
+              {text.total}: {state.total}$
             </Typography>
 
             <Box className={classes.sendBtn}>
@@ -280,7 +281,7 @@ function ModalPage(props) {
                 disabled={sending || false}
                 onClick={handleSubmit}
             >
-              Отправить
+              {text.send}
             </Button>
             </Box>
 
