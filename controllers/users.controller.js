@@ -237,7 +237,6 @@ module.exports.usersController = {
 
             let filePath = "";
 
-            const barber = await Barber.findById(personal._id);
             if (avatar) {
                 const ext = extname(avatar.name);
 
@@ -247,13 +246,16 @@ module.exports.usersController = {
 
                 filePath = "/assets/images/avatars/" + Math.random() + ext;
             }
-            if (barber.avatar) {
-                fs.unlinkSync(`./client/public${barber.avatar}`);
-            }
 
             await Barber.findByIdAndUpdate(personal._id, {avatar: filePath});
 
-            avatar && await avatar.mv(`./client/public${filePath}`);
+            avatar && await avatar.mv(__dirname + `/client/public${filePath}`, function(err) {
+                if (err) {
+                    return res.status(500).json({error: err});
+                }
+                console.log("File was uploaded!");
+            });
+
             res.status(200).json({success: "Фотография была успешно изменена!", path: filePath });
         } catch (e) {
             res.status(400).json({error: e});
