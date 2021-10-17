@@ -251,6 +251,7 @@ module.exports.usersController = {
 
             avatar && await avatar.mv(__dirname + `/client/public${filePath}`, function(err) {
                 if (err) {
+                    console.log(err);
                     return res.status(500).json({error: err});
                 }
                 console.log("File was uploaded!");
