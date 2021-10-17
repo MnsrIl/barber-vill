@@ -2,7 +2,6 @@ import React, {useCallback, useEffect, useRef, useState} from 'react';
 import ReactMapGL, {Marker, Popup} from "react-map-gl";
 import {Box, Card, CardActions, CardContent, IconButton, Tooltip, Typography} from "@mui/material";
 import {AddLocationAlt, Close, Delete, MyLocation, Save} from "@mui/icons-material";
-import Geocoder from "react-map-gl-geocoder";
 import styles from "./MapStyles"
 import mapboxgl from "mapbox-gl"; // This is a dependency of react-map-gl even if you didn't explicitly install it
 
@@ -14,7 +13,7 @@ const useStyles = styles;
 const BarberProfileMap = (location) => {
     location = location.location
 
-    const classes = useStyles()
+    const classes = useStyles();
     const mapApiToken = "pk.eyJ1Ijoib3dlbmxhbWIiLCJhIjoiY2lleWljcnF4MDBiOXQ0bHR0anRvamtucSJ9.t3YnHHqvQZ8Y0MTCNy0NNw";
     const mapRef = useRef();
 
@@ -24,7 +23,7 @@ const BarberProfileMap = (location) => {
         zoom: 4,
     });
 
-    const [markerData, setMarkerData] = useState({})
+    const [markerData, setMarkerData] = useState({});
 
     const [showPopup, toggleShowPopup] = useState(false);
 
@@ -32,7 +31,7 @@ const BarberProfileMap = (location) => {
         (newViewport) => setViewport(newViewport), []);
 
     const handleShowPopup = () => {
-        toggleShowPopup(true)
+        toggleShowPopup(true);
     }
 
     const handleGetLocation = async () => {
@@ -45,11 +44,11 @@ const BarberProfileMap = (location) => {
 
         json.features.forEach(key => {
             switch (key.place_type[0]) {
-                case 'address': addressData.address = `${key.text}${key.address ? `, ${key.address}` : ""}`; break
+                case 'address': addressData.address = `${key.text}${key.address ? `, ${key.address}` : ""}`; break;
 
-                case 'place': addressData.city = key.text; break
+                case 'place': addressData.city = key.text; break;
 
-                case 'region': addressData.republic = key.text; break
+                case 'region': addressData.republic = key.text; break;
 
                 case 'country': addressData.country = key.text; break;
 
