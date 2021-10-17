@@ -30,7 +30,7 @@ import work5 from "../../../image/clem-onojegaw.jpg";
 
 import styles from "./CustomProfileStyles";
 import {useDispatch, useSelector} from "react-redux";
-import {Input, InputLabel, Tooltip} from "@material-ui/core"
+import {Box, Input, InputLabel, Tooltip, Typography} from "@material-ui/core"
 import {GitHub, Telegram, Camera, Palette, Favorite, Create as CreateIcon, Facebook} from "@material-ui/icons";
 import {FormControl, FormControlLabel, Snackbar, TextField} from "@mui/material";
 import {
@@ -49,6 +49,11 @@ import BarberProfileMap from "../../Map/BarberProfileMap";
 
 
 const useStyles = styles;
+
+const correctTime = (time) =>
+    `${new Date(time).toLocaleDateString()}_${new Date(time)
+        .toTimeString()
+        .slice(0, 9)}`;
 
 const BarberProfile = (props) => {
     const person = useSelector(store => store.auth.person);
@@ -250,7 +255,7 @@ const BarberProfile = (props) => {
                                             ),
                                         },
                                         {
-                                            tabButton: "Work",
+                                            tabButton: "Settings",
                                             tabIcon: Palette,
                                             tabContent: (
                                                 <GridContainer justifyContent="center">
@@ -327,39 +332,27 @@ const BarberProfile = (props) => {
                                             ),
                                         },
                                         {
-                                            tabButton: "Favorite",
+                                            tabButton: "Reviews",
                                             tabIcon: Favorite,
                                             tabContent: (
                                                 <GridContainer justifyContent="center">
-                                                    <GridItem xs={12} sm={12} md={4}>
-                                                        <img
-                                                            alt="..."
-                                                            src={work4}
-                                                            className={navImageClasses}
-                                                        />
-                                                        <img
-                                                            alt="..."
-                                                            src={studio3}
-                                                            className={navImageClasses}
-                                                        />
-                                                    </GridItem>
-                                                    <GridItem xs={12} sm={12} md={4}>
-                                                        <img
-                                                            alt="..."
-                                                            src={work2}
-                                                            className={navImageClasses}
-                                                        />
-                                                        <img
-                                                            alt="..."
-                                                            src={work1}
-                                                            className={navImageClasses}
-                                                        />
-                                                        <img
-                                                            alt="..."
-                                                            src={studio1}
-                                                            className={navImageClasses}
-                                                        />
-                                                    </GridItem>
+                                                    <Box>
+                                                        <Box>
+                                                            {person?.personal.reviews?.map((item) => (
+                                                                <Box className={classes.reviews}>
+                                                                    <Box className={classes.author}>
+                                                                        <Typography>
+                                                                            <b>{item.userId?.name}</b>
+                                                                        </Typography>
+                                                                    </Box>
+                                                                    <Box p={1} mb={1}>
+                                                                        <Typography>{item.text}</Typography>
+                                                                    </Box>
+                                                                    <Box textAlign="end">{correctTime(item.createdAt)}</Box>
+                                                                </Box>
+                                                            ))}
+                                                        </Box>
+                                                    </Box>
                                                 </GridContainer>
                                             ),
                                         },
