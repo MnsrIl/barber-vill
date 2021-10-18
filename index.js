@@ -11,9 +11,10 @@ const app = express();
 const { PORT = 3010, MONGO_URI, NODE_ENV } = process.env;
 
 app.use(fileUpload({debug: true}));
+app.use(express.static(path.resolve(__dirname, "client", "public")));
 app.use(express.json());
 app.use(cors());
-app.use(express.static(path.resolve(__dirname, "client", NODE_ENV === "production" ? "build" : "public")));
+//app.use(express.static(path.resolve(__dirname, "client", NODE_ENV === "production" ? "build" : "public")));
 
 app.use("/api", require("./routes/index"));
 
