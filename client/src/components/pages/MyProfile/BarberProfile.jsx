@@ -36,12 +36,12 @@ import {FormControl, FormControlLabel, Snackbar, TextField} from "@mui/material"
 import {
     ArrowDownward,
     ArrowForward,
-    ArrowForwardIos,
+    ArrowForwardIos, Chat,
     Email,
     Error,
     KeyboardArrowDown,
     Map,
-    Save
+    Save, Settings
 } from "@mui/icons-material";
 import UpdateAvatar from "./Barber/UpdateAvatar";
 import {addDescription, updateUserData} from "../../../redux/feautures/auth";
@@ -190,9 +190,11 @@ const BarberProfile = (props) => {
                                             </Tooltip>}
                                         </h6>
 
-                                        <h4 className={classes.title}>
+                                        <p className={classes.title}>
+                                            Общее кол-во ваших заявок: {person?.personal.requests?.length}
+                                            <br />
                                             Ваш баланс: {person?.personal.balance}$  {/*Баланс*/}
-                                        </h4>
+                                        </p>
 
                                     </div>
                                 </div>
@@ -256,7 +258,7 @@ const BarberProfile = (props) => {
                                         },
                                         {
                                             tabButton: "Settings",
-                                            tabIcon: Palette,
+                                            tabIcon: Settings,
                                             tabContent: (
                                                 <GridContainer justifyContent="center">
                                                     <GridItem xs={12} sm={12} md={4}>
@@ -333,7 +335,7 @@ const BarberProfile = (props) => {
                                         },
                                         {
                                             tabButton: "Reviews",
-                                            tabIcon: Favorite,
+                                            tabIcon: Chat,
                                             tabContent: (
                                                 <GridContainer justifyContent="center">
                                                     <Box>
