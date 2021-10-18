@@ -14,7 +14,7 @@ Routes | point
 Взаимодействие   | Content from cell 2
 /login | Content in the second column -->
 
-## barber-vill  [Сайт](heroku-link) | [Код](github-link)
+## barber-vill  [сайт][heroku-link] | [код][github-link]
 
 Приложение для людей, кому надоели их причёски и хочется попробовать что-нибудь новое :)
 
@@ -97,5 +97,5 @@ cd .. npm run dev
 
   </p>
   
-[github-link]: https://github.com/TheZiggie/barber-vill
-[heroku-link]: https://barber-vill.herokuapp.com
+[github-link]: https://github.com/TheZiggie/barber-vill "Look around"
+[heroku-link]: https://barber-vill.herokuapp.com "Link to the demo-version"
