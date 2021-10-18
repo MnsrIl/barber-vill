@@ -190,9 +190,11 @@ const BarberProfile = (props) => {
                                             </Tooltip>}
                                         </h6>
 
-                                        <h4 className={classes.title}>
+                                        <p className={classes.title}>
+                                            Общее кол-во ваших заявок: {person?.personal.requests?.length}
+                                            <br />
                                             Ваш баланс: {person?.personal.balance}$  {/*Баланс*/}
-                                        </h4>
+                                        </p>
 
                                     </div>
                                 </div>
