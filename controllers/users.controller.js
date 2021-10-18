@@ -112,6 +112,8 @@ module.exports.usersController = {
 
                 //Сохранение аватарки пользователя
                 let filePath = '' //Сюда в будущем мы запишем путь к нашему файлу в Базе Данных
+                const mvPath = process.env.NODE_ENV === 'production' ? 'build' : 'public';
+
                 if (avatar) {
                     const ext = extname(avatar.name);
 
@@ -125,8 +127,7 @@ module.exports.usersController = {
                 user = await User.create({name, login, password: hashedPassword, role, personal: barber});
 
                 //Ниже всех, чтобы сохранять фотографию только тогда, когда пользователь успешно зарегистрирован
-                avatar && await avatar.mv(`./client/public${filePath}`);
-                //console.log("Этап 7");
+                avatar && await avatar.mv(`./client/${mvPath}${filePath}`);
             }
 
             const token = `Bearer ${generateNewToken({...user.toObject(), password: undefined })}`;
@@ -249,7 +250,7 @@ module.exports.usersController = {
 
             await Barber.findByIdAndUpdate(personal._id, {avatar: filePath});
 
-            const mvPath = process.env.NODE_ENV === 'production' ? 'build' : 'public'
+            const mvPath = process.env.NODE_ENV === 'production' ? 'build' : 'public';
 
             avatar && await avatar.mv(`./client/${mvPath}${filePath}`, function(err) {
                 if (err) {
