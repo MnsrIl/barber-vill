@@ -1,4 +1,4 @@
-<!-- ## barber-vill
+<!-- ## barber-vill   
 
 [Взглянуть вживую](https://barber-vill.herokuapp.com)
 
@@ -14,7 +14,7 @@ Routes | point
 Взаимодействие   | Content from cell 2
 /login | Content in the second column -->
 
-## barber-vill
+## barber-vill  [Сайт](heroku-link) | [Код](github-link)
 
 Приложение для людей, кому надоели их причёски и хочется попробовать что-нибудь новое :)
 
@@ -23,12 +23,11 @@ Routes | point
 - различные CRUD операции;
 - взаимодействие с 3d "моделями" причёсок/бород
 - взаимодействие клиента и парикмахера через: 
-- - возможность оставить отзыв парикмахеру клиентом
-- - возможность оставить заявку парикмахеру клиентом
-- - возможность парикмахера обработать оставленную клиентом заявку
+  - возможность оставить отзыв парикмахеру клиентом
+  - возможность оставить заявку парикмахеру клиентом
+  - возможность парикмахера обработать оставленную клиентом заявку
 
-[Демо](https://barber-vill.herokuapp.com) <br/>
-[Код](https://github.com/TheZiggie/barber-vill "Он перед вами..")
+
 
 <!-- ![gif](https://github.com/thebestdevelopering/quadcopter/blob/main/client/public/1.gif?raw=true)
  -->
@@ -97,3 +96,6 @@ cd .. npm run dev
     <img alt="MaterialUI" src="https://img.shields.io/badge/-MaterialUI-blue?style=for-the-badge&logo=MaterialUI&logoColor=white" />
 
   </p>
+  
+[github-link]: https://github.com/TheZiggie/barber-vill
+[heroku-link]: https://barber-vill.herokuapp.com
