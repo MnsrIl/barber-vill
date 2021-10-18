@@ -34,13 +34,14 @@ function GlobalSnackbar (props) {
     }
 
     return (
-        <div className={classes.root}>
-            <Snackbar open={open} disableWindowBlurListener autoHideDuration={3000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity={type} sx={{ width: '100%' }}>
-                    {message?.toString()}
-                </Alert>
-            </Snackbar>
-        </div>
+        open &&
+            <div className={classes.root}>
+                <Snackbar open={open} disableWindowBlurListener autoHideDuration={3000} onClose={handleClose}>
+                    <Alert onClose={handleClose} severity={type} sx={{ width: '100%' }}>
+                        {message?.toString()}
+                    </Alert>
+                </Snackbar>
+            </div>
     )
 }
 
