@@ -249,7 +249,9 @@ module.exports.usersController = {
 
             await Barber.findByIdAndUpdate(personal._id, {avatar: filePath});
 
-            avatar && await avatar.mv(`./client/public${filePath}`, function(err) {
+            const mvPath = process.env.NODE_ENV === 'production' ? 'build' : 'public'
+
+            avatar && await avatar.mv(`./client/${mvPath}${filePath}`, function(err) {
                 if (err) {
                     console.log(err);
                     return res.status(500).json({error: err});
