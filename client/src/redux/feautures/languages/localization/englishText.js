@@ -21,7 +21,10 @@ const en = {
     men:"Mens",
     woman:"Womens",
 
-    bntrequest:"",
+    beardsTitle:"Beards",
+    hairystylesTitle:"Hairystyles",
+
+    bntrequest:"Submit your application",
     load:"Loading in progress...",
     category:"Category:",
     price:"Price:",

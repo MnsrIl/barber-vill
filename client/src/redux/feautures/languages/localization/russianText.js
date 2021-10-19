@@ -21,7 +21,10 @@ const ru = {
     men:"Мужские",
     woman:"Женские",
 
-    bntrequest:"",
+    beardsTitle:"Бороды",
+    hairystylesTitle:"Стрижки",
+
+    bntrequest:"Оставить заявку",
     load:"Идет загрузка...",
     category:"Категория:",
     price:"Цена:",
