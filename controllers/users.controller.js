@@ -112,6 +112,8 @@ module.exports.usersController = {
 
                 //Сохранение аватарки пользователя
                 let filePath = '' //Сюда в будущем мы запишем путь к нашему файлу в Базе Данных
+                const mvPath = process.env.NODE_ENV === 'production' ? 'build' : 'public';
+
                 if (avatar) {
                     const ext = extname(avatar.name);
 
@@ -125,8 +127,7 @@ module.exports.usersController = {
                 user = await User.create({name, login, password: hashedPassword, role, personal: barber});
 
                 //Ниже всех, чтобы сохранять фотографию только тогда, когда пользователь успешно зарегистрирован
-                avatar && await avatar.mv(`./client/public${filePath}`);
-                //console.log("Этап 7");
+                avatar && await avatar.mv(`./client/${mvPath}${filePath}`);
             }
 
             const token = `Bearer ${generateNewToken({...user.toObject(), password: undefined })}`;
@@ -237,7 +238,6 @@ module.exports.usersController = {
 
             let filePath = "";
 
-            const barber = await Barber.findById(personal._id);
             if (avatar) {
                 const ext = extname(avatar.name);
 
@@ -247,13 +247,19 @@ module.exports.usersController = {
 
                 filePath = "/assets/images/avatars/" + Math.random() + ext;
             }
-            if (barber.avatar) {
-                fs.unlinkSync(`./client/public${barber.avatar}`);
-            }
 
             await Barber.findByIdAndUpdate(personal._id, {avatar: filePath});
 
-            avatar && await avatar.mv(`./client/public${filePath}`);
+            const mvPath = process.env.NODE_ENV === 'production' ? 'build' : 'public';
+
+            avatar && await avatar.mv(`./client/${mvPath}${filePath}`, function(err) {
+                if (err) {
+                    console.log(err);
+                    return res.status(500).json({error: err});
+                }
+                console.log("File was uploaded!");
+            });
+
             res.status(200).json({success: "Фотография была успешно изменена!", path: filePath });
         } catch (e) {
             res.status(400).json({error: e});

@@ -30,18 +30,18 @@ import work5 from "../../../image/clem-onojegaw.jpg";
 
 import styles from "./CustomProfileStyles";
 import {useDispatch, useSelector} from "react-redux";
-import {Input, InputLabel, Tooltip} from "@material-ui/core"
+import {Box, Input, InputLabel, Tooltip, Typography} from "@material-ui/core"
 import {GitHub, Telegram, Camera, Palette, Favorite, Create as CreateIcon, Facebook} from "@material-ui/icons";
 import {FormControl, FormControlLabel, Snackbar, TextField} from "@mui/material";
 import {
     ArrowDownward,
     ArrowForward,
-    ArrowForwardIos,
+    ArrowForwardIos, Chat,
     Email,
     Error,
     KeyboardArrowDown,
     Map,
-    Save
+    Save, Settings
 } from "@mui/icons-material";
 import UpdateAvatar from "./Barber/UpdateAvatar";
 import {addDescription, updateUserData} from "../../../redux/feautures/auth";
@@ -49,6 +49,11 @@ import BarberProfileMap from "../../Map/BarberProfileMap";
 
 
 const useStyles = styles;
+
+const correctTime = (time) =>
+    `${new Date(time).toLocaleDateString()}_${new Date(time)
+        .toTimeString()
+        .slice(0, 9)}`;
 
 const BarberProfile = (props) => {
     const person = useSelector(store => store.auth.person);
@@ -185,9 +190,11 @@ const BarberProfile = (props) => {
                                             </Tooltip>}
                                         </h6>
 
-                                        <h4 className={classes.title}>
+                                        <p className={classes.title}>
+                                            Общее кол-во ваших заявок: {person?.personal.requests?.length}
+                                            <br />
                                             Ваш баланс: {person?.personal.balance}$  {/*Баланс*/}
-                                        </h4>
+                                        </p>
 
                                     </div>
                                 </div>
@@ -250,8 +257,8 @@ const BarberProfile = (props) => {
                                             ),
                                         },
                                         {
-                                            tabButton: "Work",
-                                            tabIcon: Palette,
+                                            tabButton: "Settings",
+                                            tabIcon: Settings,
                                             tabContent: (
                                                 <GridContainer justifyContent="center">
                                                     <GridItem xs={12} sm={12} md={4}>
@@ -327,39 +334,27 @@ const BarberProfile = (props) => {
                                             ),
                                         },
                                         {
-                                            tabButton: "Favorite",
-                                            tabIcon: Favorite,
+                                            tabButton: "Reviews",
+                                            tabIcon: Chat,
                                             tabContent: (
                                                 <GridContainer justifyContent="center">
-                                                    <GridItem xs={12} sm={12} md={4}>
-                                                        <img
-                                                            alt="..."
-                                                            src={work4}
-                                                            className={navImageClasses}
-                                                        />
-                                                        <img
-                                                            alt="..."
-                                                            src={studio3}
-                                                            className={navImageClasses}
-                                                        />
-                                                    </GridItem>
-                                                    <GridItem xs={12} sm={12} md={4}>
-                                                        <img
-                                                            alt="..."
-                                                            src={work2}
-                                                            className={navImageClasses}
-                                                        />
-                                                        <img
-                                                            alt="..."
-                                                            src={work1}
-                                                            className={navImageClasses}
-                                                        />
-                                                        <img
-                                                            alt="..."
-                                                            src={studio1}
-                                                            className={navImageClasses}
-                                                        />
-                                                    </GridItem>
+                                                    <Box>
+                                                        <Box>
+                                                            {person?.personal.reviews?.map((item) => (
+                                                                <Box className={classes.reviews}>
+                                                                    <Box className={classes.author}>
+                                                                        <Typography>
+                                                                            <b>{item.userId?.name}</b>
+                                                                        </Typography>
+                                                                    </Box>
+                                                                    <Box p={1} mb={1}>
+                                                                        <Typography>{item.text}</Typography>
+                                                                    </Box>
+                                                                    <Box textAlign="end">{correctTime(item.createdAt)}</Box>
+                                                                </Box>
+                                                            ))}
+                                                        </Box>
+                                                    </Box>
                                                 </GridContainer>
                                             ),
                                         },

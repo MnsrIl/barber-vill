@@ -53,6 +53,7 @@ const en = {
     btnMore:"More details",
 
     noDescription:"No description..",
+    numberRequest:"Number of applications completed by him",
     description:"Unfortunately, the hairdresser did not provide his location.",
     saveChange:"Save changes",
     reviews:"Reviews",

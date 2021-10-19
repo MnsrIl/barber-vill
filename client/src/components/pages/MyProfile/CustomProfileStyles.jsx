@@ -100,7 +100,20 @@ const profilePageStyle = theme => ({
             background: "rgba(169,198,217,0.36457423) ",
         },
     },
-
+    reviews: {
+        padding: 8,
+        marginTop: 16,
+        width: "400px",
+        margin: "0 auto",
+        borderBottom: "1px solid #d9d5d5",
+    },
+    author: {
+        padding: 8,
+        marginBottom: 8,
+        display: "flex",
+        justifyContent: "space-between",
+        color: "#9c27b0",
+    },
 });
 
 export default makeStyles(profilePageStyle);
