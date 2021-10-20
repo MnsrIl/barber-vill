@@ -22,7 +22,7 @@ const styles = {
         height: "100vh"
     },
     container: {
-        width: "80%",
+        width: "600px",
         height: "400px",
         border: "1px solid #fafafa"
     }
