@@ -3,14 +3,18 @@ const express = require("express");
 const fileUpload = require("express-fileupload");
 const path = require("path");
 const cors = require("cors");
-// const bot = require("./utils/bot");
+const TelegramAPI = require("node-telegram-bot-api");
 
 require("dotenv").config();
 
+const { PORT = 3010, MONGO_URI, NODE_ENV, BOT_TOKEN } = process.env;
 const app = express();
-const { PORT = 3010, MONGO_URI, NODE_ENV } = process.env;
 
-app.use(fileUpload({debug: true}));
+
+const bot = new TelegramAPI(BOT_TOKEN, {polling: true});
+module.exports.MIO = bot;
+
+app.use(fileUpload({}));
 app.use(express.json());
 app.use(cors());
 app.use(express.static(path.resolve(__dirname, "client", NODE_ENV === "production" ? "build" : "public")));

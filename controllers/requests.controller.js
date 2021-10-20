@@ -2,6 +2,13 @@ const Request = require('../models/Request.model');
 const Client = require("../models/Client.model");
 const Barber = require("../models/Barber.model");
 const User = require("../models/User.model");
+const {MIO} = require("../index");
+
+const botMessage = (requestId, barberName, barberTelegramID, clientId, total) =>
+    (`📎 Заявка №${requestId}\n` +
+    `Парикмахер: [${barberName}](${barberTelegramID && ("https://t.me/" + barberTelegramID)})\n` +
+    `🆔 клиента: --> ${clientId}\n` +
+    `На сумму: ${total}$`);
 
 module.exports.requestsController = {
     createRequest: async (req, res) => {
@@ -42,8 +49,12 @@ module.exports.requestsController = {
       await Barber.findByIdAndUpdate(barber.personal._id, updateOptions);
       await Client.findByIdAndUpdate(client._id, {$inc: {balance: -totalPrice}});
 
-      // const requestsCount = await Request.find().count();
-      //console.log(requestsCount, barber.name, barber.personal?.telegram, client._id, totalPrice);
+      const requestsCount = await Request.find().count();
+      MIO.sendMessage(
+          process.env.BOT_ADMIN_ID,
+          botMessage(requestsCount, barber.name, barber.personal?.telegram, client._id, totalPrice),
+          {parse_mode: 'markdown'}
+      );
 
       return res.status(200).json({
         success: "Ваша запись успешно оформлена! Приходите вовремя :)",
