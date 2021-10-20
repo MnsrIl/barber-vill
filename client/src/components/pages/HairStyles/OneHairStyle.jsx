@@ -117,18 +117,18 @@ function OneHairStyle(props) {
                     aria-labelledby="alert-dialog-slide-title"
                     aria-describedby="alert-dialog-slide-description"
                 >
-                  <DialogTitle id="alert-dialog-slide-title">Вы не авторизованы!</DialogTitle>
+                  <DialogTitle id="alert-dialog-slide-title">{text.noSignIn}</DialogTitle>
                   <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                      Упс.. Чтобы оставить заявку вам необходимо авторизоватсья
+                     {text.errorAuthorisation}
                     </DialogContentText>
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={handleCloseModal} color="primary">
-                      Закрыть
+                      {text.close}
                     </Button>
                     <Button onClick={() => history.push("/login")} color="primary">
-                      Авторизоваться
+                      {text.LogIn}
                     </Button>
                   </DialogActions>
                 </Dialog>)
@@ -140,10 +140,10 @@ function OneHairStyle(props) {
                   {hairstyleId === 'kladka' ? 'Кладка' : currentHairstyle?.name}
                 </Typography>
                 <Typography gutterBottom variant="h5" style={{borderBottom:'1px solid grey'}}>
-                  Категория: {hairstyleId === 'kladka' ? 'Короткие' : currentHairstyle?.categoryId.name}
+                  {text.category} {hairstyleId === 'kladka' ? 'Короткие' : currentHairstyle?.categoryId.name}
                 </Typography>
                 <Typography gutterBottom variant="h5" style={{borderBottom:'1px solid grey'}}>
-                  Цена: {hairstyleId === 'kladka' ? '5000' : currentHairstyle?.price} ₽
+                  {text.price} {hairstyleId === 'kladka' ? '5000' : currentHairstyle?.price} ₽
                 </Typography>
 
                 <Fab
@@ -154,7 +154,7 @@ function OneHairStyle(props) {
                   style={{ position: "absolute", bottom: "2%" }}
                   onClick={handleOpenModal}
                 >
-                  Оставить заявку
+                 {text.request}
                 </Fab>
               </Grid>
               <Grid item xs={12} sm={6}>

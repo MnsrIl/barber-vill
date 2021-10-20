@@ -59,6 +59,7 @@ function AllBeardsPage(props) {
 
   const isLoggedIn = useSelector(store => store.auth.isLoggedIn);
   const { loading, beards } = useSelector((store) => store.beards);
+  const { text } = useSelector((store) => store.languages);
 
   const [openModal, setOpenModal] = useState(false);
   const [selectedBeard, setSelectedBeard] = useState({});
@@ -83,8 +84,8 @@ function AllBeardsPage(props) {
   return (
     <>
       <Box fullWidth sx={{mb: 4, background: "#1b2735"}}>
-        <Tab label="Бороды" {...a11yProps(0)} style={{color:"white"}} className={'Mui-selected'} />
-        <Tab label="Стрижки" {...a11yProps(1)} style={{color:"white"}} onClick={() => history.push('/hairstyles')}/>
+        <Tab label={text.beardsTitle} {...a11yProps(0)} style={{color:"white"}} className={'Mui-selected'} />
+        <Tab label={text.hairystylesTitle} {...a11yProps(1)} style={{color:"white"}} onClick={() => history.push('/hairstyles')}/>
 
       </Box>
       <Box display="flex" flexWrap="wrap" justifyContent="space-between">
@@ -125,18 +126,18 @@ function AllBeardsPage(props) {
                       aria-labelledby="alert-dialog-slide-title"
                       aria-describedby="alert-dialog-slide-description"
                   >
-                    <DialogTitle id="alert-dialog-slide-title">Вы не авторизованы!</DialogTitle>
+                    <DialogTitle id="alert-dialog-slide-title">{text.noSignIn}</DialogTitle>
                     <DialogContent>
                       <DialogContentText id="alert-dialog-slide-description">
-                        Упс.. Чтобы оставить заявку вам необходимо авторизоватсья
+                        {text.errorAuthorisation}
                       </DialogContentText>
                     </DialogContent>
                     <DialogActions>
                       <Button onClick={handleClose} color="primary">
-                        Закрыть
+                        {text.close}
                       </Button>
                       <Button onClick={() => history.push("/login")} color="primary">
-                        Авторизоваться
+                        {text.LogIn}
                       </Button>
                     </DialogActions>
                   </Dialog>)
@@ -163,7 +164,7 @@ function AllBeardsPage(props) {
                           </Typography>
                         </Box>
                         <Box>
-                          <NavLink title={"Подробнее"} to={`/beards/${item._id}`}>
+                          <NavLink title={text.btnMore} to={`/beards/${item._id}`}>
                             <InfoIcon fontSize="large" />
                           </NavLink>
                         </Box>
@@ -178,7 +179,7 @@ function AllBeardsPage(props) {
                             style={{ position: "absolute", bottom: "2%" }}
                             onClick={() => handleOpenModal(item)}
                         >
-                          Оставить заявку
+                          {text.bntrequest}
                         </Fab>
                       </CardActions>
                     </Card>

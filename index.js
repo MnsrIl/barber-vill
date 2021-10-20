@@ -10,9 +10,9 @@ require("dotenv").config();
 const { PORT = 3010, MONGO_URI, NODE_ENV, BOT_TOKEN } = process.env;
 const app = express();
 
-
 const bot = new TelegramAPI(BOT_TOKEN, {polling: true});
 module.exports.MIO = bot;
+
 
 app.use(fileUpload({}));
 app.use(express.json());

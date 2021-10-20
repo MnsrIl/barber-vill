@@ -3,6 +3,7 @@ const Client = require("../models/Client.model");
 const Barber = require("../models/Barber.model");
 const User = require("../models/User.model");
 const {MIO} = require("../index");
+const sendMail = require("../utils/nodemailer");
 
 const botMessage = (requestId, barberName, barberTelegramID, clientId, total) =>
     (`📎 Заявка №${requestId}\n` +
@@ -13,7 +14,7 @@ const botMessage = (requestId, barberName, barberTelegramID, clientId, total) =>
 module.exports.requestsController = {
     createRequest: async (req, res) => {
     try {
-      const { role,personal } = req.user;
+      const { role,personal, name: clientName } = req.user;
       const { barberId, hairstyle, beard, date } = req.body;
       const client = await Client.findById(personal);
       const barber = await User.findById(barberId).populate("personal", "-password");
@@ -49,12 +50,28 @@ module.exports.requestsController = {
       await Barber.findByIdAndUpdate(barber.personal._id, updateOptions);
       await Client.findByIdAndUpdate(client._id, {$inc: {balance: -totalPrice}});
 
-      const requestsCount = await Request.find().count();
+      const requestsCount = await Request.find().count(); //TELEGRAM MESSAGE
       MIO.sendMessage(
           process.env.BOT_ADMIN_ID,
           botMessage(requestsCount, barber.name, barber.personal?.telegram, client._id, totalPrice),
           {parse_mode: 'markdown'}
       );
+
+      sendMail({ //EMAIL MESSAGE
+        to: barber.personal.email,
+        subject: `Новая заявка от пользователя ${clientName}`,
+        html: `
+              <h2>Вам была оставлена новая заявка!</h2>
+              <p>
+                Здравствуйте! Вам была оставлена заявка от пользователя <b>${clientName}</b><br />
+                Заявка была на сумму: <i><b>${totalPrice}</b> руб.</i>  
+              </p>
+              <p>
+                Контакты для связи с клиентом: <br />
+                Номер телефона: <b>${client.number}</b>
+              </p>
+              `
+      });
 
       return res.status(200).json({
         success: "Ваша запись успешно оформлена! Приходите вовремя :)",

@@ -33,7 +33,7 @@ const ProfileIcon = () => {
 
     return (
         <>
-            <Tooltip title={"Мой профиль"}>
+            <Tooltip title={text.myProfile}>
                 <IconButton onClick={handleClick} size="small" sx={{ p: 0, ml: 2, color: '#fff' }}>
                     <img
                         src={profileIcon}
@@ -84,7 +84,7 @@ const ProfileIcon = () => {
                                 {person?.role === 'Barber' ? <Avatar src={person.personal?.avatar} /> :
                                     <FaceRetouchingNatural />}
                             </ListItemIcon>
-                            {person? `${text.name} ${(person.name || person.login)}` : null}
+                            {person? `${text.name}: ${(person.name || person.login)}` : null}
                         </MenuItem>
                         <MenuItem onClick={() => sendToAddress("/profile")}>
                             <ListItemIcon>

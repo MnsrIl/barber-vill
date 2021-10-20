@@ -50,6 +50,8 @@ const AsBarber = ({classes, userType, setUserType}) => {
 
     const {error, success, isSigningUp} = useSelector(store => store.auth);
 
+    const { text } = useSelector((store) => store.languages);
+
     const [state, setState] = useState({
         name: null,
         lastname: null,
@@ -174,7 +176,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
                 onChange={handleChangeFile}
             />
 
-            <Typography>Регистрация</Typography>
+            <Typography>{text.registration}</Typography>
 
             <form
                 className={classes.form}
@@ -182,7 +184,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
             >
                 <FormControl required margin="normal" style={{width: "160px"}}>
                     <InputLabel htmlFor="name" className={classes.labels}>
-                        имя
+                        {text.name}
                     </InputLabel>
                     <Input
                         name="name"
@@ -196,7 +198,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
 
                 <FormControl required margin="normal" style={{width: "160px"}}>
                     <InputLabel htmlFor="lastname" className={classes.labels}>
-                        фамилия
+                        {text.lastname}
                     </InputLabel>
                     <Input
                         name="lastname"
@@ -210,7 +212,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
 
                 <FormControl required fullWidth margin="normal">
                     <InputLabel htmlFor="email" className={classes.labels}>
-                        почта
+                        {text.mail}
                     </InputLabel>
                     <Input
                         name="email"
@@ -224,7 +226,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
 
                 <FormControl required fullWidth margin="normal">
                     <InputLabel htmlFor="login" className={classes.labels}>
-                        логин
+                        {text.login}
                     </InputLabel>
                     <Input
                         name="login"
@@ -238,7 +240,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
 
                 <FormControl required fullWidth margin="normal">
                     <InputLabel htmlFor="password" className={classes.labels}>
-                        пароль
+                        {text.password}
                     </InputLabel>
                     <Input
                         name="password"
@@ -268,7 +270,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
                 <Collapse in={hasTelegram}>
                     <FormControl fullWidth margin="normal">
                         <InputLabel htmlFor="telegram" className={classes.labels}>
-                            телеграмм
+                            {text.telegram}
                         </InputLabel>
                         <Input
                             value={state.telegram}
@@ -282,7 +284,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
                     </FormControl>
                 </Collapse>
 
-                <FormControlLabel label={!hasTelegram && "Есть телеграмм?"} style={{marginLeft: 0}} control={
+                <FormControlLabel label={!hasTelegram && text.hasTelegram} style={{marginLeft: 0}} control={
                     <Checkbox
                         className={classes.telegramCheckbox}
                         icon={<Telegram />}
@@ -302,7 +304,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
                     <SetBarberLocation handleCloseMap={handleOpenMap} handleSetLocation={handleSetLocation} location={state.location} />
                 </Dialog>
 
-                <FormControlLabel label={!hasLocation && "Укажите ваше расположение"} style={{marginLeft: 0, width: "100%"}} control={
+                <FormControlLabel label={!hasLocation && text.hasLocation} style={{marginLeft: 0, width: "100%"}} control={
                     <Checkbox
                         className={classes.telegramCheckbox}
                         icon={<Room />}
@@ -319,14 +321,14 @@ const AsBarber = ({classes, userType, setUserType}) => {
                     className={classes.haveAccount}
                     onClick={() => history.push("/login")}
                 >
-                    Уже есть аккаунт?
+                    {text.signInMessage}
                 </Typography>
 
                 <Typography
                     className={classes.haveAccount}
                     onClick={() => setUserType('Client')}
                 >
-                    Я - Клиент
+                   {text.iClient}
                 </Typography>
 
                 <Button
@@ -338,7 +340,7 @@ const AsBarber = ({classes, userType, setUserType}) => {
                     type="submit"
                     onClick={submitRegistration}
                 >
-                    Войти
+                    {text.LogIn}
                 </Button>
             </form>
         </>

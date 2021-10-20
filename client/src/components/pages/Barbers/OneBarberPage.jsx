@@ -75,7 +75,7 @@ function BarberModelPage(props) {
                                                 margin: "4px 0",
                                             }}
                                             >
-                                                Кол-во выполненных им заявок: {currentBarber?.personal.requests.length}
+                                                {text.numberRequest}: {currentBarber?.personal.requests.length}
                                             </h3>
                                             <h6
                                                 style={{
@@ -84,7 +84,8 @@ function BarberModelPage(props) {
                                                     margin: "4px 0",
                                                 }}
                                             >
-                                                <p>{currentBarber?.personal.desc || "Описание отсутствует.."}</p>
+                                                {/* <p>{currentBarber?.personal.desc || "Описание отсутствует.."}</p> */}
+                                                <p>{currentBarber?.personal.desc || text.noDescription }</p>
                                             </h6>
                                         </div>
                                     </div>
