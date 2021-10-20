@@ -31,9 +31,9 @@ const profilePageStyle = theme => ({
             color: "#999"
         }
     },
-    name: {
-        marginTop: "-80px",
-    },
+    // name: {
+    //     marginTop: "-50px",
+    // },
     ...imagesStyle,
     main: {
         background: "#FFFFFF",
@@ -48,9 +48,9 @@ const profilePageStyle = theme => ({
     },
     title: {
         ...title,
-        display: "inline-block",
+        // display: "inline-block",
         position: "relative",
-        marginTop: "30px",
+        marginTop: "-10px",
         minHeight: "32px",
         textDecoration: "none",
     },

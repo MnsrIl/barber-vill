@@ -11,30 +11,85 @@ const ru = {
     service:"О сервисе",
     language:"Язык",
 
+    accountType:"Выберите тип аккаунта",
+    titleBarber:"Парикмахер",
+    subtitleBarber:"Хочешь начать работать парикмахером уже сейчас?",
+    titleClient:"Клиент",
+    subtitleClient:"Нужна стрижка от профессионалов своего дела?",
+
     categoryAll:"Все",
     men:"Мужские",
     woman:"Женские",
 
-    bntrequest:"",
+    beardsTitle:"Бороды",
+    hairystylesTitle:"Стрижки",
+
+    bntrequest:"Оставить заявку",
     load:"Идет загрузка...",
     category:"Категория:",
     price:"Цена:",
 
     role:"Роль:",
-    name:"Имя:",
+    name:"Имя",
     profile:"Профиль",
     logOut:"Выйти",
     LogIn:"Войти",
     SignUp:"Зарегистрироваться",
 
+    authorisation:"Авторизация",
+    login:"логин",
+    password:"пароль",
+    signUpMessage:"У вас нет аккаунта?",
+
+    registration:"Регистрация",
+    lastname:"Фамилия",
+    mail:"Почта",
+    telegram:"Телеграмм",
+    hasTelegram:"Есть телеграмм?",
+    hasLocation:"Укажите ваше расположение",
+    signInMessage:"Уже есть аккаунт?",
+    iClient:" Я - Клиент",
+    iBarber:"Я - Парикмахер",
+
     myProfile:"Мой профиль",
     allBarbers:"Все парикмахеры",
     btnMore:"Подробнее",
 
-    notDescription:"Описание отсутствует..",
+    youNoDescription:"У вас, к сожалению, нет описания",
+    correction:"Давайте исправим это!",
+    addDescription:"Добавить описание",
+    numberYourRequest:"Общее кол-во ваших заявок",
+    mapPlace:"Здесь могла бы быть ваша карта",
+    changeAvatar:"Желаете изменить аватарку?",
+
+    noDescription:"Описание отсутствует..",
+    numberRequest:"Кол-во выполненных им заявок",
     description:"К сожалению, парикмахер не указал своё местоположение",
-    saveChange:"Сохранить изменения"
+    saveChange:"Сохранить изменения",
+    reviews:"Отзывы",
+    reviewsBarber:"Оставьте отзыв о парикмахере",
 
+    noSignIn:"Вы не авторизованы!",
+    errorAuthorisation:"Упс.. Чтобы оставить заявку вам необходимо авторизоваться",
+    close:"Закрыть",
+    request:"Записаться на причёску",
 
+    balance:"Баланс",
+    requestTitle:"Оформление заявки",
+    requestBarber:"Выберите парикмахера",
+    supplement:"Желаете дополнить заявку?",
+    date:"Дата",
+    specifyDate:"Укажите дату",
+    total:"Итого",
+    send:"Отправить",
+
+    yourBalance:"Ваш баланс",
+    edit:"Редактировать",
+    numberPhone:"Номер телефона",
+    changeData:"Изменить данные",
+    saveData:"Сохранить изменения",
+    possibilities:"Возможности",
+    balanceTop:"Пополнить баланс",
+    deleteAccount:"Удалить аккаунт"
 }
 export default ru;

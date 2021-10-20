@@ -66,6 +66,7 @@ const AllHairstylesPage = (props) => {
 
   const { loading, hairstyles } = useSelector((store) => store.hairstyles);
   const isLoggedIn = useSelector(store => store.auth.isLoggedIn);
+  const { text } = useSelector((store) => store.languages);
 
   const [opened, setOpen] = useState(false);
   const [selectedHairstyle, setSelectedHairstyle] = useState({})
@@ -123,18 +124,18 @@ const AllHairstylesPage = (props) => {
                     aria-labelledby="alert-dialog-slide-title"
                     aria-describedby="alert-dialog-slide-description"
                 >
-                  <DialogTitle id="alert-dialog-slide-title">Вы не авторизованы!</DialogTitle>
+                  <DialogTitle id="alert-dialog-slide-title">{text.noSignIn}</DialogTitle>
                   <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                      Упс.. Чтобы оставить заявку вам необходимо авторизоватсья
+                      {text.errorAuthorisation}
                     </DialogContentText>
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={handleClose} color="primary">
-                      Закрыть
+                      {text.close}
                     </Button>
                     <Button onClick={() => history.push("/login")} color="primary">
-                      Авторизоваться
+                      {text.LogIn}
                     </Button>
                   </DialogActions>
                 </Dialog>)
@@ -177,7 +178,7 @@ const AllHairstylesPage = (props) => {
                         style={{ position: "absolute", bottom: "2%" }}
                         onClick={() => handleOpenModal({name: 'Кладка', price: 5000, image: 'https://img1.cgtrader.com/items/2545492/142564a2a7/female-hair-bun-3d-model-obj-fbx-blend.jpg', })}
                     >
-                      Записаться на причёску
+                      {text.request}
                     </Fab>
                   </CardActions>
                 </Card>
@@ -200,7 +201,7 @@ const AllHairstylesPage = (props) => {
                         </Typography>
                       </Box>
                       <Box>
-                        <NavLink title={"Подробнее"}
+                        <NavLink title={text.btnMore}
                           to={`/hairstyles/${item._id}`}
                         >
                           <InfoIcon fontSize="large" />
@@ -215,7 +216,7 @@ const AllHairstylesPage = (props) => {
                         style={{ position: "absolute", bottom: "2%" }}
                         onClick={() => handleOpenModal(item)}
                     >
-                      Записаться на причёску
+                      {text.request}
                     </Fab>
                   </Card>
                 </Grid>

@@ -12,34 +12,16 @@ import HeaderLinks from "./CustomComponents/Header/HeaderLinks.js";
 import NavPills from "./CustomComponents/NavPills/NavPills.js";
 import Parallax from "./CustomComponents/Parallax/Parallax.js";
 
-import profile from "../../../image/christian.jpg";
-
-import studio1 from "../../../image/studio-1.jpg";
-import studio2 from "../../../image/studio-2.jpg";
-import studio3 from "../../../image/studio-3.jpg";
-import studio4 from "../../../image/studio-4.jpg";
-import studio5 from "../../../image/studio-5.jpg";
-
-import avatarImage from "../../../image/avatar-hello.jpg"
-
-import work1 from "../../../image/olu-eletu.jpg";
-import work2 from "../../../image/clem-onojeghuo.jpg";
-import work3 from "../../../image/cynthia-del-rio.jpg";
-import work4 from "../../../image/mariya-georgieva.jpg";
-import work5 from "../../../image/clem-onojegaw.jpg";
-
 import styles from "./CustomProfileStyles";
 import {useDispatch, useSelector} from "react-redux";
 import {Box, Input, InputLabel, Tooltip, Typography} from "@material-ui/core"
-import {GitHub, Telegram, Camera, Palette, Favorite, Create as CreateIcon, Facebook} from "@material-ui/icons";
-import {FormControl, FormControlLabel, Snackbar, TextField} from "@mui/material";
+import {Telegram, Create as CreateIcon} from "@material-ui/icons";
+import {FormControl, Snackbar, TextField} from "@mui/material";
 import {
     ArrowDownward,
-    ArrowForward,
-    ArrowForwardIos, Chat,
+    Chat,
     Email,
     Error,
-    KeyboardArrowDown,
     Map,
     Save, Settings
 } from "@mui/icons-material";
@@ -61,6 +43,7 @@ const BarberProfile = (props) => {
     const error = useSelector(store => store.auth.error);
     const userLoading = useSelector(store => store.auth.userLoading);
     const desc = useSelector(store => store.auth.personal?.desc);
+    const { text } = useSelector((store) => store.languages);
 
     const [changeAble, setChangeAble] = useState(false);
     const [state, setState] = useState({
@@ -143,7 +126,7 @@ const BarberProfile = (props) => {
         <div>
           <Header
               color="transparent"
-              brand="Мой профиль"
+              brand={text.myProfile}
               rightLinks={<HeaderLinks />}
               fixed
               changeColorOnScroll={{
@@ -157,7 +140,7 @@ const BarberProfile = (props) => {
               filter
               image={require("../../../image/profile-bg.jpg").default}
           />
-            { userLoading ? <div>Идёт загрузка...</div> :
+            { userLoading ? <div>{text.load}</div> :
 
             <div className={classNames(classes.main, classes.mainRaised)}>
                 <div>
@@ -165,9 +148,9 @@ const BarberProfile = (props) => {
                         <GridContainer justifyContent="center">
                             <GridItem xs={12} sm={12} md={6}>
                                 <div className={classes.profile}>
-                                    <div>
-                                        <UpdateAvatar person={person} useStyles={useStyles}/>
-                                    </div>
+                                   
+                                    <UpdateAvatar person={person} useStyles={useStyles}/>
+                                    
                                     <div className={classes.name}>
                                         <h3 className={classes.title}>
                                             {person?.name} {(person?.personal?.lastname)} {/*Имя*/}
@@ -191,9 +174,9 @@ const BarberProfile = (props) => {
                                         </h6>
 
                                         <p className={classes.title}>
-                                            Общее кол-во ваших заявок: {person?.personal.requests?.length}
+                                            {text.numberYourRequest}: {person?.personal.requests?.length}
                                             <br />
-                                            Ваш баланс: {person?.personal.balance}$  {/*Баланс*/}
+                                            {text.yourBalance}: {person?.personal.balance}$  {/*Баланс*/}
                                         </p>
 
                                     </div>
@@ -220,13 +203,13 @@ const BarberProfile = (props) => {
                                 <>
                                     {description ? <p>{description}</p> :
                                         <p>
-                                            У вас, к сожалению, нет описания
+                                            {text.youNoDescription}
                                             <br/>
-                                            Давайте исправим это!
+                                            {text.correction}
                                             <br/>
                                             <ArrowDownward sx={{mt: 3}}/>
                                         </p>}
-                                    <Tooltip title={"Добавить описание"}>
+                                    <Tooltip title={text.addDescription}>
                                         <Button justIcon className={classes.margin5} onClick={handleChange}>
                                             <CreateIcon />
                                         </Button>
@@ -250,7 +233,7 @@ const BarberProfile = (props) => {
 
                                                         {person?.personal.location ?
                                                             <BarberProfileMap location={person.personal.location}/> :
-                                                            "Здесь могла бы быть ваша карта"
+                                                            text.mapPlace
                                                         }
 
                                                 </GridContainer>
@@ -264,7 +247,7 @@ const BarberProfile = (props) => {
                                                     <GridItem xs={12} sm={12} md={4}>
                                                         <FormControl required fullWidth margin="normal">
                                                             <InputLabel className={classes.labels}>
-                                                                Имя
+                                                                {text.name}
                                                             </InputLabel>
                                                             <Input
                                                                 value={state.name}
@@ -279,7 +262,7 @@ const BarberProfile = (props) => {
                                                         </FormControl>
                                                         <FormControl required fullWidth margin="normal">
                                                             <InputLabel className={classes.labels}>
-                                                                Фамилия
+                                                                {text.lastname}
                                                             </InputLabel>
                                                             <Input
                                                                 value={state.lastname}
@@ -294,7 +277,7 @@ const BarberProfile = (props) => {
                                                         </FormControl>
                                                         <FormControl required fullWidth margin="normal">
                                                             <InputLabel className={classes.labels}>
-                                                                Почта
+                                                                {text.mail}
                                                             </InputLabel>
                                                             <Input
                                                                 value={state.email}
@@ -309,7 +292,7 @@ const BarberProfile = (props) => {
                                                         </FormControl>
                                                         <FormControl required fullWidth margin="normal">
                                                             <InputLabel className={classes.labels}>
-                                                                Телеграмм
+                                                                {text.telegram}
                                                             </InputLabel>
                                                             <Input
                                                                 value={state.telegram}
@@ -324,9 +307,9 @@ const BarberProfile = (props) => {
                                                         </FormControl>
                                                         <Button simple color={"facebook"} onClick={handleChangeAbling}>
                                                             {changeAbleData ?
-                                                                <>Изменить данные <CreateIcon/> </>
+                                                                <>{text.changeData} <CreateIcon/> </>
                                                                 :
-                                                                <>Сохранить изменения <Save/> </>
+                                                                <>{text.saveData} <Save/> </>
                                                             }
                                                         </Button>
                                                     </GridItem>

@@ -18,6 +18,8 @@ const AsClient = ({classes, setUserType, userType}) => {
 
     const { success, error, isSigningUp } = useSelector(store => store.auth);
 
+    const { text } = useSelector((store) => store.languages);
+
     const dispatch = useDispatch();
     const history = useHistory();
 
@@ -96,7 +98,7 @@ const AsClient = ({classes, setUserType, userType}) => {
                 />
             </Snackbar>
 
-            <Typography>Регистрация</Typography>
+            <Typography>{text.registration}</Typography>
 
             <form
                 className={classes.form}
@@ -104,7 +106,7 @@ const AsClient = ({classes, setUserType, userType}) => {
             >
                 <FormControl required margin="normal" style={{width: "160px"}}>
                     <InputLabel htmlFor="name" className={classes.labels}>
-                        имя
+                        {text.name}
                     </InputLabel>
                     <Input
                         name="name"
@@ -117,7 +119,7 @@ const AsClient = ({classes, setUserType, userType}) => {
                 </FormControl>
                 <FormControl required margin="normal" style={{width: "160px"}}>
                     <InputLabel htmlFor="number" className={classes.labels}>
-                        телефон
+                        {text.numberPhone}
                     </InputLabel>
                     <Input
                         name="number"
@@ -131,7 +133,7 @@ const AsClient = ({classes, setUserType, userType}) => {
 
                 <FormControl required fullWidth margin="normal">
                     <InputLabel htmlFor="login" className={classes.labels}>
-                        логин
+                        {text.login}
                     </InputLabel>
                     <Input
                         name="login"
@@ -144,7 +146,7 @@ const AsClient = ({classes, setUserType, userType}) => {
                 </FormControl>
                 <FormControl required fullWidth margin="normal">
                     <InputLabel htmlFor="password" className={classes.labels}>
-                        пароль
+                        {text.password}
                     </InputLabel>
                     <Input
                         name="password"
@@ -178,13 +180,13 @@ const AsClient = ({classes, setUserType, userType}) => {
                     className={classes.haveAccount}
                     onClick={() => history.push("/login")}
                 >
-                    Уже есть аккаунт?
+                    {text.signInMessage}
                 </Typography>
                 <Typography
                     className={classes.haveAccount}
                     onClick={() => setUserType('Barber')}
                 >
-                    Я - Парикмахер
+                    {text.iBarber}
                 </Typography>
 
                 <Button
@@ -196,7 +198,7 @@ const AsClient = ({classes, setUserType, userType}) => {
                     type="submit"
                     onClick={submitRegistration}
                 >
-                    Войти
+                    {text.LogIn}
                 </Button>
             </form>
         </>

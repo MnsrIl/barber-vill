@@ -16,6 +16,8 @@ export default function HeaderLinks(props) {
     const dispatch = useDispatch();
     const person = useSelector(store => store.auth.person)
 
+    const { text } = useSelector((store) => store.languages);
+
     const handleLogOut = () => {
       dispatch({type: "auth/logout"});
     }
@@ -34,7 +36,7 @@ export default function HeaderLinks(props) {
         <List className={classes.list}>
           <ListItem className={classes.listItem}>
             <Tooltip
-                title="Главная"
+                title={text.home}
                 placement={window.innerWidth > 959 ? "top" : "left"}
                 classes={{ tooltip: classes.tooltip }}
             >
@@ -50,7 +52,7 @@ export default function HeaderLinks(props) {
           <ListItem className={classes.listItem}>
               <CustomDropdown
                   noLiPadding
-                  buttonText="Возможности"
+                  buttonText={text.possibilities}
                   buttonProps={{
                       className: classes.navLink,
                       color: "transparent",
@@ -59,17 +61,17 @@ export default function HeaderLinks(props) {
                   dropdownList={person?.role === "Client" ? [
                     <button className={classes.dropdownLink} onClick={handleOpen}>
                         <CashIcon color={"success"} sx={{mr: "5px"}} />
-                            Пополнить баланс
+                            {text.balanceTop}
                     </button>,
                       <Link to="/" onClick = {handleDelete}
                       className={classes.dropdownLink}>
                           <DeleteIcon color={"error"} />
-                          Удалить аккаунт
+                          {text.deleteAccount}
                       </Link>,
                   ] : [
                     <Link to="/" onClick = {handleDelete} className={classes.dropdownLink}>
                       <DeleteIcon color={"error"} />
-                      Удалить аккаунт
+                      {text.deleteAccount}
                     </Link>
                   ]}
               />
@@ -77,7 +79,7 @@ export default function HeaderLinks(props) {
 
           <ListItem className={classes.listItem} style={{marginLeft: "30px"}} onClick={handleLogOut} >
               <Tooltip
-                  title="Выйти"
+                  title={text.logOut}
                   placement={window.innerWidth > 959 ? "top" : "left"}
                   classes={{ tooltip: classes.tooltip }}
               >

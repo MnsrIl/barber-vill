@@ -85,18 +85,18 @@ function OneBeard(props) {
                     aria-labelledby="alert-dialog-slide-title"
                     aria-describedby="alert-dialog-slide-description"
                 >
-                  <DialogTitle id="alert-dialog-slide-title">Вы не авторизованы!</DialogTitle>
+                  <DialogTitle id="alert-dialog-slide-title">{text.noSignIn}</DialogTitle>
                   <DialogContent>
                     <DialogContentText id="alert-dialog-slide-description">
-                      Упс.. Чтобы оставить заявку вам необходимо авторизоватсья
+                     {text.errorAuthorisation}
                     </DialogContentText>
                   </DialogContent>
                   <DialogActions>
                     <Button onClick={handleClose} color="primary">
-                      Закрыть
+                      {text.close}
                     </Button>
                     <Button onClick={() => history.push("/login")} color="primary">
-                      Авторизоваться
+                      {text.LogIn}
                     </Button>
                   </DialogActions>
                 </Dialog>)
@@ -108,7 +108,7 @@ function OneBeard(props) {
                   {currentBeards?.name}
                 </Typography>
                 <Typography gutterBottom variant="h5" style={{borderBottom:'1px solid grey'}}>
-                  Категория: {currentBeards?.categoryId.name}
+                 {text.category} {currentBeards?.categoryId.name}
                 </Typography>
                 <Typography
                   gutterBottom
@@ -126,7 +126,7 @@ function OneBeard(props) {
                   style={{ position: "absolute", bottom: "2%" }}
                   onClick={handleOpenModal}
                 >
-                  Оставить заявку
+                  {text.bntrequest}
                 </Fab>
               </Grid>
               <Grid item xs={12} sm={6}>
