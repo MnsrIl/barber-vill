@@ -84,7 +84,7 @@ const ProfileIcon = () => {
                                 {person?.role === 'Barber' ? <Avatar src={person.personal?.avatar} /> :
                                     <FaceRetouchingNatural />}
                             </ListItemIcon>
-                            {person? `${text.name} ${(person.name || person.login)}` : null}
+                            {person? `${text.name}: ${(person.name || person.login)}` : null}
                         </MenuItem>
                         <MenuItem onClick={() => sendToAddress("/profile")}>
                             <ListItemIcon>

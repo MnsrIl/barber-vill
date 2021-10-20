@@ -30,7 +30,7 @@ const en = {
     price:"Price:",
 
     role:"Role:",
-    name:"Name:",
+    name:"Name",
     profile:"Profile",
     logOut:"Log out",
     LogIn:"Log in",
@@ -54,6 +54,13 @@ const en = {
     myProfile:"My profile",
     allBarbers:"All barbers",
     btnMore:"More details",
+
+    youNoDescription:"Unfortunately, you have no description",
+    correction:"Let's fix it!",
+    addDescription:"Add description",
+    numberYourRequest:"The total number of your applications",
+    mapPlace:"Your card could be here",
+    changeAvatar:"Want to change your avatar?",
 
     noDescription:"No description..",
     numberRequest:"Number of applications completed by him",

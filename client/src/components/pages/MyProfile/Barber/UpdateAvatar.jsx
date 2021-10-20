@@ -42,7 +42,7 @@ const UpdateAvatar = ({person, useStyles}) => {
               </Tooltip>)
               :
               (<Tooltip
-                  title={"Желаете изменить аватарку?"}
+                  title={text.changeAvatar}
                   placement={"top"}
                   classes={{tooltip: classes.tooltip}}
               >

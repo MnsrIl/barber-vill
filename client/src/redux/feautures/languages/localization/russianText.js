@@ -30,7 +30,7 @@ const ru = {
     price:"Цена:",
 
     role:"Роль:",
-    name:"Имя:",
+    name:"Имя",
     profile:"Профиль",
     logOut:"Выйти",
     LogIn:"Войти",
@@ -42,9 +42,9 @@ const ru = {
     signUpMessage:"У вас нет аккаунта?",
 
     registration:"Регистрация",
-    lastname:"фамилия",
-    mail:"почта",
-    telegram:"телеграмм",
+    lastname:"Фамилия",
+    mail:"Почта",
+    telegram:"Телеграмм",
     hasTelegram:"Есть телеграмм?",
     hasLocation:"Укажите ваше расположение",
     signInMessage:"Уже есть аккаунт?",
@@ -54,6 +54,13 @@ const ru = {
     myProfile:"Мой профиль",
     allBarbers:"Все парикмахеры",
     btnMore:"Подробнее",
+
+    youNoDescription:"У вас, к сожалению, нет описания",
+    correction:"Давайте исправим это!",
+    addDescription:"Добавить описание",
+    numberYourRequest:"Общее кол-во ваших заявок",
+    mapPlace:"Здесь могла бы быть ваша карта",
+    changeAvatar:"Желаете изменить аватарку?",
 
     noDescription:"Описание отсутствует..",
     numberRequest:"Кол-во выполненных им заявок",
