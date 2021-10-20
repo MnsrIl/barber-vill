@@ -7,12 +7,18 @@ const TelegramAPI = require("node-telegram-bot-api");
 
 require("dotenv").config();
 
-const { PORT = 3010, MONGO_URI, NODE_ENV, BOT_TOKEN } = process.env;
+const { PORT = 3010, MONGO_URI, NODE_ENV, BOT_TOKEN, BOT_ADMIN_ID } = process.env;
 const app = express();
 
 const bot = new TelegramAPI(BOT_TOKEN, {polling: true});
 module.exports.MIO = bot;
 
+bot.on('message', msg => {
+  if (msg.chat.id !== BOT_ADMIN_ID) {
+    bot.sendMessage(msg.chat.id, "Извините, но я принимаю сообщения только от [него](https://t.me/Mnsr_Il)",
+        {parse_mode : 'markdown'});
+  }
+});
 
 app.use(fileUpload({}));
 app.use(express.json());
