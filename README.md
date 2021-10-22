@@ -14,11 +14,30 @@ Routes | point
 Взаимодействие   | Content from cell 2
 /login | Content in the second column -->
 
-## barber-vill  [сайт][heroku-link] | [код][github-link]
+## barber-vill ✂️ [LINK][heroku-link] | [CODE][github-link]
 
-Приложение для людей, кому надоели их причёски и хочется попробовать что-нибудь новое :)
+App was developed by [people](#team) for people, who doesn't like their hairstyle's and would like to try something new :)
 
-Основной список возможностей:
+> * [About](#about)
+> * [Feautures](#feautures)
+> * [Technologies](#technologies)
+> * [Business logic](#business-logic)
+> * [Team](#team)
+
+<div align='center'><img width="800" height="800" src="src.gif" alt="Demo View"></div>
+
+<h2 align="center">About</h2>
+
+<p align="center" fontSize="20">
+  This project was build for people, who doesn't like standing in queue, like me <img alt="Busy" src="busyman.jpg" title="Busy Man">
+  <br />
+  Here you can choose the hairstyle, you'd like to wear and take the order on it right there
+  <br />
+  Just take a look, by following <a href="https://barber-vill.herokuapp.com">for the link</a>
+</p>
+
+<p>
+  <h3> Основной список возможностей: </h3> <img align="right" width="500" height="auto" src="rotating-gif" alt="3d model gif">
 
 - различные CRUD операции;
 - взаимодействие с 3d "моделями" причёсок/бород
@@ -26,7 +45,7 @@ Routes | point
   - возможность оставить отзыв парикмахеру клиентом
   - возможность оставить заявку парикмахеру клиентом
   - возможность парикмахера обработать оставленную клиентом заявку
-
+</p>
 
 
 <!-- ![gif](https://github.com/thebestdevelopering/quadcopter/blob/main/client/public/1.gif?raw=true)
@@ -76,6 +95,29 @@ cd client npm i
 ```javascript
 cd .. npm run dev
 ```
+
+## 💻 Project Concepts and Technologies: 
+
+### Front: 
+
+> - React, React-router-dom         (main "framework")
+> - Redux, redux thunk (state manager)
+> - Material UI   (UI/UX library)
+> - Mapbox GL     (Map)
+> - react-3d-viewer (For 3d models)
+> - Luxon, date fns (For date)
+> - Classnames, color, JS Cookie (other stuff)
+
+---
+
+### Back: 
+
+> - Node.js
+> - Express.js, express-fileupload
+> - MongoDB (mongoose)
+> - JWT, bcrypt (authorization system)
+> - cors, dotenv (for server)
+> - node-telegram-bot-api, nodemailer (other stuff)
 
 ## Технологии проекта
 
